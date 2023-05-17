@@ -44,14 +44,11 @@ void NBodySimulatorSSBO::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProj
     shader.use();
     shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix);
     shader.setFloat("u_deltaTime", deltaTime);
-    shader.setVec3("u_attractorPosition", attractorPosition);
     shader.setFloat("u_damping", damping);
-    shader.setFloat("u_isAttracting", isAttracting);
-    shader.setFloat("u_isRunning", static_cast<float>(!isPaused));
-    shader.setFloat("u_attractorMass", attractorMass);
     shader.setFloat("u_particleMass", particleMass);
     shader.setFloat("u_gravity", gravity);
-    shader.setFloat("u_distanceOffset", distanceOffset);
+    shader.setFloat("u_softening", distanceOffset);
+    shader.setFloat("u_isRunning", static_cast<float>(!isPaused));
 
     // Bind the VAO
     glBindVertexArray(VAO);

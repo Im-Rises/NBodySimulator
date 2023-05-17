@@ -37,7 +37,7 @@ private:
     float attractorDistance = 10.0F;
     glm::vec3 mousePositionWorld;
 
-    static constexpr int MAX_PARTICLES_COUNT = 10000000;
+    static constexpr int MAX_PARTICLES_COUNT = 1000000;
 
 #ifndef __EMSCRIPTEN__
     bool isFullscreen = false;
