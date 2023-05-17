@@ -12,8 +12,8 @@ struct GLFWwindow;
 class NBodySimulatorLauncher {
 public:
     static constexpr std::string_view PROJECT_NAME = "N-Body Simulator 3D";
-    static constexpr std::string_view PROJECT_VERSION = "2.1.1";
-    static constexpr std::string_view PROJECT_LINK = "https://github.com/Im-Rises/ParticleSimulator";
+    static constexpr std::string_view PROJECT_VERSION = "0.0.1";
+    static constexpr std::string_view PROJECT_LINK = "https://github.com/Im-Rises/NBodySimulator";
     static constexpr std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
 
 private:
@@ -38,6 +38,8 @@ private:
     glm::vec3 mousePositionWorld;
 
     static constexpr int MAX_PARTICLES_COUNT = 1000000;
+
+    float pointSize = 4.0F;
 
 #ifndef __EMSCRIPTEN__
     bool isFullscreen = false;

@@ -124,7 +124,7 @@ void NBodySimulatorTF::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjec
     shader.setFloat("u_attractorMass", attractorMass);
     shader.setFloat("u_particleMass", particleMass);
     shader.setFloat("u_gravity", gravity);
-    shader.setFloat("u_distanceOffset", distanceOffset);
+    shader.setFloat("u_distanceOffset", softening);
 
     glBindVertexArray(currentVAO);
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, currentTFBO);

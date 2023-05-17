@@ -9,21 +9,19 @@
 
 ## Description
 
-This is a simple particle simulator made with OpenGL and C++ with the help of the ImGui library for the UI.
+This is a simple nbody simulator made with OpenGL and C++ with the help of the ImGui library for the UI.
 
-## 🚀🚀[you can try the webgl build online by clicking here](https://im-rises.github.io/particle-simulator-webgl/) 🚀🚀
+## 🚀🚀[you can try the webgl build online by clicking here](https://im-rises.github.io/nbody-simulator-webgl/) 🚀🚀
 
 The source code of the WebGL can be found at the following link:  
-<https://github.com/Im-Rises/particle-simulator-webgl>
+<https://github.com/Im-Rises/nbody-simulator-webgl>
 
 > **Note:**   
 > The tests are running at 144Hz with 10 000 000 particles on a Windows 11 machine with an Nvidia RTX 2070 6GB.
 
 ## Images
 
-
 ## Videos
-
 
 ## Features
 
@@ -33,15 +31,6 @@ The source code of the WebGL can be found at the following link:
 - [x] Mouse drag of the particles
 - [x] Fullscreen toggle
 - [x] Pause simulation
-
-## Todo
-
-Major:
-
-- [ ] Correct fixed updated linked to the render function in the NBodySimulatorSSBO
-- [ ] Adjust the particles movement settings
-- [ ] Correct mouse drag of the particles (add lerp function ?)
-- [ ] Copy a lot of code from the webgl version to the desktop version
 
 ## Dependencies
 
@@ -120,6 +109,7 @@ Then you can start by double-clicking the executable of typing the following com
 ```
 
 ## Controls
+
 <!--
 The speed and some parameters can be modified directly in the ImGui windows.
 
@@ -137,6 +127,7 @@ The speed and some parameters can be modified directly in the ImGui windows.
 > You can the inputs by changing their attribution in the `InputManager.cpp` file,
 > if so you'll need to compile the project.
 -->
+
 ## Compilation
 
 To compile the app, the first thing you need to do is install a C++ compiler:

@@ -152,6 +152,8 @@ NBodySimulatorLauncher::NBodySimulatorLauncher() {
               << "Glad version: " << getGladVersion() << std::endl
               << "ImGui version: " << getImGuiVersion() << std::endl
               << "GLM version: " << getGLMVersion() << std::endl;
+
+    glPointSize(pointSize);
 }
 
 NBodySimulatorLauncher::~NBodySimulatorLauncher() {
@@ -249,7 +251,7 @@ void NBodySimulatorLauncher::handleInputs() {
     bool const isAttracting = InputManager::isKeyMouseSetAttractorPressed(window);
     scene->nbodySimulator.setIsAttracting(isAttracting);
     mousePositionWorld = projectMouse(posX, posY);
-    scene->nbodySimulator.setAttractorPosition(mousePositionWorld);
+    //    scene->nbodySimulator.setAttractorPosition(mousePositionWorld);
 }
 
 void NBodySimulatorLauncher::handleUi(float deltaTime) {
@@ -443,11 +445,19 @@ void NBodySimulatorLauncher::handleUi(float deltaTime) {
             ImGui::NewLine();
 
             ImGui::Text("Distance offset:");
-            ImGui::DragFloat("##distanceOffset", &scene->nbodySimulator.distanceOffset, 0.1F, 0.1F, 100.0F);
+            ImGui::DragFloat("##distanceOffset", &scene->nbodySimulator.softening, 0.1F, 0.1F, 100.0F);
             ImGui::NewLine();
 
             ImGui::Text("Damping:");
             ImGui::DragFloat("##damping", &scene->nbodySimulator.damping, 0.0F, 0.0F, 1.0F);
+
+            ImGui::Text("Visual Particle size:");
+            ImGui::DragFloat("##visualParticleSize", &this->pointSize, 0.1F, 0.1F, 100.0F);
+            ImGui::Button("Validate##VisualParticleSizeSetterButton");
+            if (ImGui::IsItemClicked())
+            {
+                glPointSize(this->pointSize);
+            }
 
             ImGui::End();
         }
