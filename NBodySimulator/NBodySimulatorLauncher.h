@@ -1,5 +1,5 @@
-#ifndef PARTICLE_EMISSION_H
-#define PARTICLE_EMISSION_H
+#ifndef NBODY_LAUNCHER_H
+#define NBODY_LAUNCHER_H
 
 #include <memory>
 #include <string_view>
@@ -9,9 +9,9 @@ class Scene;
 
 struct GLFWwindow;
 
-class NBodyParticleSimulatorLauncher {
+class NBodySimulatorLauncher {
 public:
-    static constexpr std::string_view PROJECT_NAME = "Particle Simulator 3D";
+    static constexpr std::string_view PROJECT_NAME = "N-Body Simulator 3D";
     static constexpr std::string_view PROJECT_VERSION = "2.1.1";
     static constexpr std::string_view PROJECT_LINK = "https://github.com/Im-Rises/ParticleSimulator";
     static constexpr std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
@@ -46,17 +46,17 @@ private:
     static constexpr int FRAME_PER_SECOND = 60;
 
 public:
-    NBodyParticleSimulatorLauncher();
+    NBodySimulatorLauncher();
 
-    NBodyParticleSimulatorLauncher(const NBodyParticleSimulatorLauncher&) = delete;
+    NBodySimulatorLauncher(const NBodySimulatorLauncher&) = delete;
 
-    auto operator=(const NBodyParticleSimulatorLauncher&) -> NBodyParticleSimulatorLauncher& = delete;
+    auto operator=(const NBodySimulatorLauncher&) -> NBodySimulatorLauncher& = delete;
 
-    NBodyParticleSimulatorLauncher(NBodyParticleSimulatorLauncher&&) = delete;
+    NBodySimulatorLauncher(NBodySimulatorLauncher&&) = delete;
 
-    auto operator=(NBodyParticleSimulatorLauncher&&) -> NBodyParticleSimulatorLauncher& = delete;
+    auto operator=(NBodySimulatorLauncher&&) -> NBodySimulatorLauncher& = delete;
 
-    ~NBodyParticleSimulatorLauncher();
+    ~NBodySimulatorLauncher();
 
 public:
     void start();
@@ -106,4 +106,4 @@ private:
     static auto getGLMVersion() -> std::string;
 };
 
-#endif // PARTICLE_EMISSION_H
+#endif // NBODY_LAUNCHER_H

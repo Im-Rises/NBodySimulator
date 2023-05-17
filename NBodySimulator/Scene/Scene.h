@@ -6,8 +6,8 @@
 #ifdef __EMSCRIPTEN__
 #include "Entity/ParticleSimulatorTF/ParticleSimulatorTF.h"
 #else
-#include "Entity/ParticleSimulatorSSBO/NBodySimulatorSSBO.h"
-#include "Entity/ParticleSimulatorTF/NBodySimulatorTF.h"
+#include "Entity/NBodySimulatorSSBO/NBodySimulatorSSBO.h"
+#include "Entity/NBodySimulatorTF/NBodySimulatorTF.h"
 
 #endif
 
@@ -19,9 +19,9 @@ public:
     Camera camera;
 
 #ifdef __EMSCRIPTEN__
-    ParticleSimulatorTF particleSimulator;
+    ParticleSimulatorTF nbodySimulator;
 #else
-    NBodySimulatorSSBO particleSimulator;
+    NBodySimulatorSSBO nbodySimulator;
 #endif
 
     //    std::vector<Entity*> entities;

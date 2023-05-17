@@ -1,7 +1,7 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "cppcoreguidelines-pro-type-vararg"
 
-#include "NBodyParticleSimulatorLauncher.h"
+#include "NBodySimulatorLauncher.h"
 
 #include "InputManager.h"
 
@@ -35,7 +35,7 @@ static void glfw_error_callback(int error, const char* description) {
     std::cerr << "GLFW Error " << error << ": " << description << std::endl;
 }
 
-NBodyParticleSimulatorLauncher::NBodyParticleSimulatorLauncher() {
+NBodySimulatorLauncher::NBodySimulatorLauncher() {
     glfwSetErrorCallback(glfw_error_callback);
     if (glfwInit() == 0)
         exit(1);
@@ -77,7 +77,7 @@ NBodyParticleSimulatorLauncher::NBodyParticleSimulatorLauncher() {
     glfwMakeContextCurrent(window);
     //    glfwSwapInterval(1); // Enable vsync
     //    glfwSwapInterval(0); // Disable vsync
-    glfwWindowHint(GLFW_REFRESH_RATE, NBodyParticleSimulatorLauncher::FRAME_PER_SECOND);
+    glfwWindowHint(GLFW_REFRESH_RATE, NBodySimulatorLauncher::FRAME_PER_SECOND);
 
     // Callbacks
     glfwSetWindowUserPointer(window, this);
@@ -154,7 +154,7 @@ NBodyParticleSimulatorLauncher::NBodyParticleSimulatorLauncher() {
               << "GLM version: " << getGLMVersion() << std::endl;
 }
 
-NBodyParticleSimulatorLauncher::~NBodyParticleSimulatorLauncher() {
+NBodySimulatorLauncher::~NBodySimulatorLauncher() {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
@@ -163,7 +163,7 @@ NBodyParticleSimulatorLauncher::~NBodyParticleSimulatorLauncher() {
     glfwTerminate();
 }
 
-void NBodyParticleSimulatorLauncher::start() {
+void NBodySimulatorLauncher::start() {
     // Create the scene
     scene = std::make_unique<Scene>(displayWidth, displayHeight);
 
@@ -196,7 +196,7 @@ void NBodyParticleSimulatorLauncher::start() {
 #endif
 }
 
-void NBodyParticleSimulatorLauncher::handleInputs() {
+void NBodySimulatorLauncher::handleInputs() {
     glfwPollEvents();
 
     /* Read keyboard inputs and update states (buffers) */
@@ -247,12 +247,12 @@ void NBodyParticleSimulatorLauncher::handleInputs() {
 
     // Update particle simulator attractor if mouse is pressed or dragging
     bool const isAttracting = InputManager::isKeyMouseSetAttractorPressed(window);
-    scene->particleSimulator.setIsAttracting(isAttracting);
+    scene->nbodySimulator.setIsAttracting(isAttracting);
     mousePositionWorld = projectMouse(posX, posY);
-    scene->particleSimulator.setAttractorPosition(mousePositionWorld);
+    scene->nbodySimulator.setAttractorPosition(mousePositionWorld);
 }
 
-void NBodyParticleSimulatorLauncher::handleUi(float deltaTime) {
+void NBodySimulatorLauncher::handleUi(float deltaTime) {
 
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
@@ -396,13 +396,13 @@ void NBodyParticleSimulatorLauncher::handleUi(float deltaTime) {
 #endif
             ImGui::Begin("Particle simulator settings");
 
-            ImGui::Text("Particle count: %s", std::to_string(scene->particleSimulator.getParticlesCount()).c_str());
-            static int particlesCount = static_cast<int>(scene->particleSimulator.getParticlesCount());
+            ImGui::Text("Particle count: %s", std::to_string(scene->nbodySimulator.getParticlesCount()).c_str());
+            static int particlesCount = static_cast<int>(scene->nbodySimulator.getParticlesCount());
             ImGui::DragInt("##particlesCount", &particlesCount, 1, 1, MAX_PARTICLES_COUNT);
             ImGui::Button("Validate##ParticlesCountSetterButton");
             if (ImGui::IsItemClicked())
             {
-                scene->particleSimulator.setParticlesCount(particlesCount);
+                scene->nbodySimulator.setParticlesCount(particlesCount);
             }
             ImGui::NewLine();
 
@@ -423,31 +423,31 @@ void NBodyParticleSimulatorLauncher::handleUi(float deltaTime) {
             ImGui::NewLine();
 
             ImGui::Text("Spawn position:");
-            ImGui::DragFloat3("##spawnPosition", reinterpret_cast<float*>(&scene->particleSimulator.position));
+            ImGui::DragFloat3("##spawnPosition", reinterpret_cast<float*>(&scene->nbodySimulator.position));
             ImGui::NewLine();
 
             ImGui::Text("Spawn radius:");
-            ImGui::DragFloat("##spawnRadius", &scene->particleSimulator.spawnRadius, 0.1F, 0.1F, 100.0F);
+            ImGui::DragFloat("##spawnRadius", &scene->nbodySimulator.spawnRadius, 0.1F, 0.1F, 100.0F);
             ImGui::NewLine();
 
             ImGui::Text("Particle mass:");
-            ImGui::DragFloat("##particleMass", &scene->particleSimulator.particleMass, 0.1F, 0.1F, 100.0F);
+            ImGui::DragFloat("##particleMass", &scene->nbodySimulator.particleMass, 0.1F, 0.1F, 100.0F);
             ImGui::NewLine();
 
             ImGui::Text("Attractor mass:");
-            ImGui::DragFloat("##attractorMass", &scene->particleSimulator.attractorMass, 0.1F, 0.1F, 100.0F);
+            ImGui::DragFloat("##attractorMass", &scene->nbodySimulator.attractorMass, 0.1F, 0.1F, 100.0F);
             ImGui::NewLine();
 
             ImGui::Text("Gravity:");
-            ImGui::DragFloat("##gravity", &scene->particleSimulator.gravity, 0.1F, 0.1F, 100.0F);
+            ImGui::DragFloat("##gravity", &scene->nbodySimulator.gravity, 0.1F, 0.1F, 100.0F);
             ImGui::NewLine();
 
             ImGui::Text("Distance offset:");
-            ImGui::DragFloat("##distanceOffset", &scene->particleSimulator.distanceOffset, 0.1F, 0.1F, 100.0F);
+            ImGui::DragFloat("##distanceOffset", &scene->nbodySimulator.distanceOffset, 0.1F, 0.1F, 100.0F);
             ImGui::NewLine();
 
             ImGui::Text("Damping:");
-            ImGui::DragFloat("##damping", &scene->particleSimulator.damping, 0.0F, 0.0F, 1.0F);
+            ImGui::DragFloat("##damping", &scene->nbodySimulator.damping, 0.0F, 0.0F, 1.0F);
 
             ImGui::End();
         }
@@ -460,7 +460,7 @@ void NBodyParticleSimulatorLauncher::handleUi(float deltaTime) {
 #endif
             ImGui::Begin("Mouse controls");
 
-            ImGui::Text("Is attracting: %s", scene->particleSimulator.getIsAttracting() ? "true" : "false");
+            ImGui::Text("Is attracting: %s", scene->nbodySimulator.getIsAttracting() ? "true" : "false");
 
             ImGui::Text("Mouse position world:");
             ImGui::Text("X: %f", mousePositionWorld.x);
@@ -489,11 +489,11 @@ void NBodyParticleSimulatorLauncher::handleUi(float deltaTime) {
     }
 }
 
-void NBodyParticleSimulatorLauncher::updateGame(float deltaTime) {
+void NBodySimulatorLauncher::updateGame(float deltaTime) {
     scene->update(deltaTime);
 }
 
-void NBodyParticleSimulatorLauncher::updateScreen() {
+void NBodySimulatorLauncher::updateScreen() {
     if (!isMinimized())
         updateViewport();
 
@@ -514,15 +514,15 @@ void NBodyParticleSimulatorLauncher::updateScreen() {
     glfwSwapBuffers(window);
 }
 
-void NBodyParticleSimulatorLauncher::resetScene() {
+void NBodySimulatorLauncher::resetScene() {
     scene->reset();
 }
 
-void NBodyParticleSimulatorLauncher::toggleScenePause() {
+void NBodySimulatorLauncher::toggleScenePause() {
     scene->togglePause();
 }
 
-void NBodyParticleSimulatorLauncher::updateViewport() {
+void NBodySimulatorLauncher::updateViewport() {
 #ifdef __EMSCRIPTEN__
     emscripten_get_canvas_element_size("#canvas", &displayWidth, &displayHeight);
 #else
@@ -539,7 +539,7 @@ void NBodyParticleSimulatorLauncher::updateViewport() {
 }
 
 
-void NBodyParticleSimulatorLauncher::centerWindow() {
+void NBodySimulatorLauncher::centerWindow() {
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
     const GLFWvidmode* mode = glfwGetVideoMode(monitor);
     windowPosX = (mode->width - displayWidth) / 2;
@@ -547,7 +547,7 @@ void NBodyParticleSimulatorLauncher::centerWindow() {
     glfwSetWindowPos(window, windowPosX, windowPosY);
 }
 
-void NBodyParticleSimulatorLauncher::toggleFullscreen() {
+void NBodySimulatorLauncher::toggleFullscreen() {
 #ifndef __EMSCRIPTEN__
     if (isFullscreen)
     {
@@ -569,17 +569,17 @@ void NBodyParticleSimulatorLauncher::toggleFullscreen() {
 }
 
 
-void NBodyParticleSimulatorLauncher::clearScreen() const {
+void NBodySimulatorLauncher::clearScreen() const {
     glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w,
         clear_color.w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-auto NBodyParticleSimulatorLauncher::isMinimized() const -> bool {
+auto NBodySimulatorLauncher::isMinimized() const -> bool {
     return glfwGetWindowAttrib(window, GLFW_ICONIFIED) != 0;
 }
 
-void NBodyParticleSimulatorLauncher::calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement,
+void NBodySimulatorLauncher::calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement,
     double& yMovement) {
     static double lastMouseX = 0.0;
     static double lastMouseY = 0.0;
@@ -591,7 +591,7 @@ void NBodyParticleSimulatorLauncher::calculateMouseMovement(const double& xMouse
     lastMouseY = yMouse;
 }
 
-auto NBodyParticleSimulatorLauncher::projectMouse(const double& xMouse, const double& yMouse) -> glm::vec3 {
+auto NBodySimulatorLauncher::projectMouse(const double& xMouse, const double& yMouse) -> glm::vec3 {
     // Convert the mouse coordinates from screen space to NDC space
     float const normalized_x = (2.0F * static_cast<float>(xMouse)) / static_cast<float>(displayWidth) - 1.0F;
     float const normalized_y = 1.0F - (2.0F * static_cast<float>(yMouse)) / static_cast<float>(displayHeight);
@@ -613,32 +613,32 @@ auto NBodyParticleSimulatorLauncher::projectMouse(const double& xMouse, const do
     return scene->camera.position + camera_to_mouse * attractorDistance;
 }
 
-auto NBodyParticleSimulatorLauncher::getOpenGLVendor() -> std::string_view {
+auto NBodySimulatorLauncher::getOpenGLVendor() -> std::string_view {
     return reinterpret_cast<const char*>(glGetString(GL_RENDERER));
 }
 
-auto NBodyParticleSimulatorLauncher::getOpenGLVersion() -> std::string_view {
+auto NBodySimulatorLauncher::getOpenGLVersion() -> std::string_view {
     return reinterpret_cast<const char*>(glGetString(GL_VERSION));
 }
 
-auto NBodyParticleSimulatorLauncher::getGLSLVersion() -> std::string_view {
+auto NBodySimulatorLauncher::getGLSLVersion() -> std::string_view {
     return reinterpret_cast<const char*>(glGetString(GL_SHADING_LANGUAGE_VERSION));
 }
 
-auto NBodyParticleSimulatorLauncher::getGLFWVersion() -> std::string {
+auto NBodySimulatorLauncher::getGLFWVersion() -> std::string {
     return std::to_string(GLFW_VERSION_MAJOR) + "." + std::to_string(GLFW_VERSION_MINOR) + "." +
            std::to_string(GLFW_VERSION_REVISION);
 }
 
-auto NBodyParticleSimulatorLauncher::getGladVersion() -> std::string_view {
+auto NBodySimulatorLauncher::getGladVersion() -> std::string_view {
     return "0.1.36";
 }
 
-auto NBodyParticleSimulatorLauncher::getImGuiVersion() -> std::string {
+auto NBodySimulatorLauncher::getImGuiVersion() -> std::string {
     return IMGUI_VERSION;
 }
 
-auto NBodyParticleSimulatorLauncher::getGLMVersion() -> std::string {
+auto NBodySimulatorLauncher::getGLMVersion() -> std::string {
     return std::to_string(GLM_VERSION_MAJOR) + "." + std::to_string(GLM_VERSION_MINOR) + "." +
            std::to_string(GLM_VERSION_PATCH);
 }
