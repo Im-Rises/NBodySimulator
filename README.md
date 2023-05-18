@@ -19,6 +19,10 @@ The source code of the WebGL can be found at the following link:
 > **Note:**   
 > The tests are running at 144Hz with 10 000 000 particles on a Windows 11 machine with an Nvidia RTX 2070 6GB.
 
+## TODO
+
+- [ ] Use OpenCL to compute the particles for better performance
+
 ## Images
 
 ## Videos
@@ -41,6 +45,7 @@ The source code of the WebGL can be found at the following link:
 - ImGui version: 1.89.4 WIP
 - GLM version: 0.9.8
 
+<!--
 ## Quickstart
 
 To download the app, you can click one of the icons below (depending on your operating system). You can also click the
@@ -110,7 +115,6 @@ Then you can start by double-clicking the executable of typing the following com
 
 ## Controls
 
-<!--
 The speed and some parameters can be modified directly in the ImGui windows.
 
 | Action              | Key                                 |
@@ -126,7 +130,6 @@ The speed and some parameters can be modified directly in the ImGui windows.
 > **Note**
 > You can the inputs by changing their attribution in the `InputManager.cpp` file,
 > if so you'll need to compile the project.
--->
 
 ## Compilation
 
@@ -221,6 +224,8 @@ then
 ```bash
 cmake --build . --config Release
 ```
+
+-->
 
 ## Github-Actions
 
