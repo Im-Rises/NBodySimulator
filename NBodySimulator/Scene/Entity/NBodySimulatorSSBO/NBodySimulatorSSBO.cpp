@@ -5,8 +5,8 @@
 #include <random>
 #include <iostream>
 
-NBodySimulatorSSBO::NBodySimulatorSSBO(int particlesCount) : shader("shaders/ParticleSimulator.vert",
-                                                                       "shaders/ParticleSimulator.frag") {
+NBodySimulatorSSBO::NBodySimulatorSSBO(int particlesCount) : shader("shaders/NbodySimulator.vert",
+                                                                       "shaders/NbodySimulator.frag") {
     // Set the particles count
     this->particlesCount = particlesCount;
     std::vector<Particle> particles(particlesCount);
