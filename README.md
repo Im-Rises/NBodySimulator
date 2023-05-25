@@ -270,18 +270,15 @@ OpenGL:
 OpenCL:  
 <https://www.khronos.org/blog/your-opencl-developer-experience-just-got-upgraded>  
 <https://github.com/KhronosGroup/OpenCL-Guide>  
-<https://github.com/KhronosGroup/OpenCL-SDK>  
+<https://github.com/KhronosGroup/OpenCL-SDK>
 
 ## Documentation
 
 learnopengl (OpenGL tutorial):  
 <https://learnopengl.com/In-Practice/2D-Game/Particles>
 
-unrealistic.dev (Change CMake working directory):  
-<https://unrealistic.dev/posts/setting-debug-parameters-with-cmake-tools-for-visual-studio>
-
-BobBaykiller (Newtonian Particle Simulator):  
-<https://github.com/BoyBaykiller/Newtonian-Particle-Simulator>
+OpenCL NBody example:  
+<https://github.com/KhronosGroup/OpenCL-SDK/tree/f510201a092363b66969888df49c68721ca2c4fb/samples/extensions/khr/nbody>  
 
 ## Contributors
 
