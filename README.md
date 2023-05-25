@@ -29,12 +29,17 @@ The source code of the WebGL can be found at the following link:
 
 ## Features
 
-- [x] ImGui UI
-- [x] Camera movement
-- [x] Camera settings
-- [x] Mouse drag of the particles
-- [x] Fullscreen toggle
-- [x] Pause simulation
+[//]: # (- [x] ImGui UI)
+
+[//]: # (- [x] Camera movement)
+
+[//]: # (- [x] Camera settings)
+
+[//]: # (- [x] Mouse drag of the particles)
+
+[//]: # (- [x] Fullscreen toggle)
+
+[//]: # (- [x] Pause simulation)
 
 ## Dependencies
 
@@ -256,14 +261,16 @@ glm:
 glad:  
 <https://glad.dav1d.de/>
 
-stb (stb_image):  
-<https://github.com/nothings/stb/blob/master/stb_image.h>
-
 Dear ImGui:  
 <https://github.com/ocornut/imgui>
 
 OpenGL:  
 <https://www.opengl.org/>
+
+OpenCL:  
+<https://www.khronos.org/blog/your-opencl-developer-experience-just-got-upgraded>  
+<https://github.com/KhronosGroup/OpenCL-Guide>  
+<https://github.com/KhronosGroup/OpenCL-SDK>  
 
 ## Documentation
 
