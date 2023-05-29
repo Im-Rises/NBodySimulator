@@ -4,7 +4,7 @@
 #include "Camera/Camera.h"
 
 #ifdef __EMSCRIPTEN__
-#include "Entity/ParticleSimulatorTF/ParticleSimulatorTF.h"
+#include "Entity/NBodySimulatorTF/ParticleSimulatorTF.h"
 #else
 #include "Entity/NBodySimulatorSSBO/NBodySimulatorSSBO.h"
 #endif
@@ -17,7 +17,7 @@ public:
     Camera camera;
 
 #ifdef __EMSCRIPTEN__
-    ParticleSimulatorTF nbodySimulator;
+    NBodySimulatorTF nbodySimulator;
 #else
     NBodySimulatorSSBO nbodySimulator;
 #endif
