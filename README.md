@@ -238,7 +238,6 @@ cmake --build . --config Release
 [![CMake](https://github.com/Im-Rises/NBodySimulator/actions/workflows/cmake.yml/badge.svg?branch=main)](https://github.com/Im-Rises/NBodySimulator/actions/workflows/cmake.yml)
 [![Cpp Cmake Publish](https://github.com/Im-Rises/NBodySimulator/actions/workflows/cpp-cmake-publish.yml/badge.svg?branch=main)](https://github.com/Im-Rises/NBodySimulator/actions/workflows/cpp-cmake-publish.yml)
 [![flawfinder](https://github.com/Im-Rises/NBodySimulator/actions/workflows/flawfinder.yml/badge.svg?branch=main)](https://github.com/Im-Rises/NBodySimulator/actions/workflows/flawfinder.yml)
-[![Microsoft C++ Code Analysis](https://github.com/Im-Rises/NBodySimulator/actions/workflows/msvc.yml/badge.svg?branch=main)](https://github.com/Im-Rises/NBodySimulator/actions/workflows/msvc.yml)
 [![cpp-linter](https://github.com/Im-Rises/NBodySimulator/actions/workflows/cpp-linter.yml/badge.svg?branch=main)](https://github.com/Im-Rises/NBodySimulator/actions/workflows/cpp-linter.yml)
 
 The project is set with a set of different scripts:
@@ -247,7 +246,6 @@ The project is set with a set of different scripts:
 - CMake: This script is used to build the project.
 - Cpp Cmake Publish: This script is used to publish the project on GitHub.
 - Flawfinder: This script is used to check the code for security issues.
-- Microsoft C++ Code Analysis: This script is used to check the code for security issues.
 - Cpp Linter: This script is used to check the code for security issues.
 
 ## Libraries
@@ -278,7 +276,7 @@ learnopengl (OpenGL tutorial):
 <https://learnopengl.com/In-Practice/2D-Game/Particles>
 
 OpenCL NBody example:  
-<https://github.com/KhronosGroup/OpenCL-SDK/tree/f510201a092363b66969888df49c68721ca2c4fb/samples/extensions/khr/nbody>  
+<https://github.com/KhronosGroup/OpenCL-SDK/tree/f510201a092363b66969888df49c68721ca2c4fb/samples/extensions/khr/nbody>
 
 ## Contributors
 
