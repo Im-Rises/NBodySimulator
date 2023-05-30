@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-Scene::Scene(int display_w, int display_h) : camera(display_w, display_h), nbodySimulator(10) {
+Scene::Scene(int display_w, int display_h) : camera(display_w, display_h), nbodySimulator(1000) {
 }
 
 // void Scene::fixedUpdate(float deltaTime) {

@@ -4,11 +4,9 @@
 #include "Camera/Camera.h"
 
 #ifdef __EMSCRIPTEN__
-#include "Entity/NbodySimulatorTF/NbodySimulatorTF.h"
+#include "Entity/NbodySimulator/NbodySimulator.h"
 #else
-#include "Entity/NbodySimulatorTF/NbodySimulatorTF.h"
-// #include "Entity/NbodySimulatorSSBO/NbodySimulatorSSBO.h"
-// #include "Entity/NbodySimulator/NbodySimulator.h"
+#include "Entity/NbodySimulatorSSBO/NbodySimulatorSSBO.h"
 #endif
 
 class Scene {
@@ -19,10 +17,9 @@ public:
     Camera camera;
 
 #ifdef __EMSCRIPTEN__
-    NBodySimulatorTF nbodySimulator;
+    NBodySimulator nbodySimulator;
 #else
-    //    NBodySimulatorSSBO nbodySimulator;
-    NBodySimulatorTF nbodySimulator;
+    NBodySimulatorSSBO nbodySimulator;
 #endif
 
     //    std::vector<Entity*> entities;
