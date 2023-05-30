@@ -6,8 +6,9 @@
 #ifdef __EMSCRIPTEN__
 #include "Entity/NbodySimulatorTF/NbodySimulatorTF.h"
 #else
+#include "Entity/NbodySimulatorTF/NbodySimulatorTF.h"
 // #include "Entity/NbodySimulatorSSBO/NbodySimulatorSSBO.h"
-#include "Entity/NbodySimulator/NbodySimulator.h"
+// #include "Entity/NbodySimulator/NbodySimulator.h"
 #endif
 
 class Scene {
@@ -21,7 +22,7 @@ public:
     NBodySimulatorTF nbodySimulator;
 #else
     //    NBodySimulatorSSBO nbodySimulator;
-    NBodySimulator nbodySimulator;
+    NBodySimulatorTF nbodySimulator;
 #endif
 
     //    std::vector<Entity*> entities;
