@@ -7,5 +7,3 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 project("NBodySimulator" VERSION 1.0.0)
 
 add_subdirectory(${PROJECT_NAME})
-
-message(STATUS "CMAKE_CXX_COMPILER_ID: ${CMAKE_CXX_COMPILER_ID}")

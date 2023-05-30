@@ -19,18 +19,27 @@ The source code of the WebGL can be found at the following link:
 > **Note:**   
 > The tests are running at 144Hz with 10 000 000 particles on a Windows 11 machine with an Nvidia RTX 2070 6GB.
 
+## TODO
+
+- [ ] Use OpenCL to compute the particles for better performance
+
 ## Images
 
 ## Videos
 
 ## Features
 
-- [x] ImGui UI
-- [x] Camera movement
-- [x] Camera settings
-- [x] Mouse drag of the particles
-- [x] Fullscreen toggle
-- [x] Pause simulation
+[//]: # (- [x] ImGui UI)
+
+[//]: # (- [x] Camera movement)
+
+[//]: # (- [x] Camera settings)
+
+[//]: # (- [x] Mouse drag of the particles)
+
+[//]: # (- [x] Fullscreen toggle)
+
+[//]: # (- [x] Pause simulation)
 
 ## Dependencies
 
@@ -41,6 +50,7 @@ The source code of the WebGL can be found at the following link:
 - ImGui version: 1.89.4 WIP
 - GLM version: 0.9.8
 
+<!--
 ## Quickstart
 
 To download the app, you can click one of the icons below (depending on your operating system). You can also click the
@@ -110,7 +120,6 @@ Then you can start by double-clicking the executable of typing the following com
 
 ## Controls
 
-<!--
 The speed and some parameters can be modified directly in the ImGui windows.
 
 | Action              | Key                                 |
@@ -126,7 +135,6 @@ The speed and some parameters can be modified directly in the ImGui windows.
 > **Note**
 > You can the inputs by changing their attribution in the `InputManager.cpp` file,
 > if so you'll need to compile the project.
--->
 
 ## Compilation
 
@@ -222,13 +230,14 @@ then
 cmake --build . --config Release
 ```
 
+-->
+
 ## Github-Actions
 
 [![CodeQL](https://github.com/Im-Rises/NBodySimulator/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/Im-Rises/NBodySimulator/actions/workflows/codeql.yml)
 [![CMake](https://github.com/Im-Rises/NBodySimulator/actions/workflows/cmake.yml/badge.svg?branch=main)](https://github.com/Im-Rises/NBodySimulator/actions/workflows/cmake.yml)
 [![Cpp Cmake Publish](https://github.com/Im-Rises/NBodySimulator/actions/workflows/cpp-cmake-publish.yml/badge.svg?branch=main)](https://github.com/Im-Rises/NBodySimulator/actions/workflows/cpp-cmake-publish.yml)
 [![flawfinder](https://github.com/Im-Rises/NBodySimulator/actions/workflows/flawfinder.yml/badge.svg?branch=main)](https://github.com/Im-Rises/NBodySimulator/actions/workflows/flawfinder.yml)
-[![Microsoft C++ Code Analysis](https://github.com/Im-Rises/NBodySimulator/actions/workflows/msvc.yml/badge.svg?branch=main)](https://github.com/Im-Rises/NBodySimulator/actions/workflows/msvc.yml)
 [![cpp-linter](https://github.com/Im-Rises/NBodySimulator/actions/workflows/cpp-linter.yml/badge.svg?branch=main)](https://github.com/Im-Rises/NBodySimulator/actions/workflows/cpp-linter.yml)
 
 The project is set with a set of different scripts:
@@ -237,7 +246,6 @@ The project is set with a set of different scripts:
 - CMake: This script is used to build the project.
 - Cpp Cmake Publish: This script is used to publish the project on GitHub.
 - Flawfinder: This script is used to check the code for security issues.
-- Microsoft C++ Code Analysis: This script is used to check the code for security issues.
 - Cpp Linter: This script is used to check the code for security issues.
 
 ## Libraries
@@ -251,25 +259,24 @@ glm:
 glad:  
 <https://glad.dav1d.de/>
 
-stb (stb_image):  
-<https://github.com/nothings/stb/blob/master/stb_image.h>
-
 Dear ImGui:  
 <https://github.com/ocornut/imgui>
 
 OpenGL:  
 <https://www.opengl.org/>
 
+OpenCL:  
+<https://www.khronos.org/blog/your-opencl-developer-experience-just-got-upgraded>  
+<https://github.com/KhronosGroup/OpenCL-Guide>  
+<https://github.com/KhronosGroup/OpenCL-SDK>
+
 ## Documentation
 
 learnopengl (OpenGL tutorial):  
 <https://learnopengl.com/In-Practice/2D-Game/Particles>
 
-unrealistic.dev (Change CMake working directory):  
-<https://unrealistic.dev/posts/setting-debug-parameters-with-cmake-tools-for-visual-studio>
-
-BobBaykiller (Newtonian Particle Simulator):  
-<https://github.com/BoyBaykiller/Newtonian-Particle-Simulator>
+OpenCL NBody example:  
+<https://github.com/KhronosGroup/OpenCL-SDK/tree/f510201a092363b66969888df49c68721ca2c4fb/samples/extensions/khr/nbody>
 
 ## Contributors
 

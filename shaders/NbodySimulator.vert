@@ -18,8 +18,8 @@ uniform float u_particleMass;
 uniform float u_gravity;
 uniform float u_softening;
 uniform float u_isRunning;
-uniform float u_attractorMass;
-uniform vec3 u_attractorPosition;
+//uniform float u_attractorMass;
+//uniform vec3 u_attractorPosition;
 
 out vec3 v_vel;
 
@@ -39,9 +39,9 @@ void main()
         sumForces += normalize(r) * (u_gravity * u_particleMass * u_particleMass) / rSquared;
     }
 
-    vec3 r = u_attractorPosition - particle.position;
-    float rSquared = dot(r, r) + u_softening;
-    vec3 attractorForce = normalize(r) * (u_gravity * u_particleMass * u_particleMass) / rSquared;
+//    vec3 r = u_attractorPosition - particle.position;
+//    float rSquared = dot(r, r) + u_softening;
+//    vec3 attractorForce = normalize(r) * (u_gravity * u_particleMass * u_particleMass) / rSquared;
 
     vec3 acceleration = sumForces / u_particleMass;
 
