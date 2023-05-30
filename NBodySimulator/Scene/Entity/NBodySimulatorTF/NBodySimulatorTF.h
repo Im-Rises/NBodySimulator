@@ -62,12 +62,12 @@ public:
 private:
     void randomizeParticles(std::vector<Particle>& particles);
 
-public:
-    void setAttractorPosition(const glm::vec3& pos);
-
-    void setIsAttracting(const bool& value);
-
-    [[nodiscard]] auto getIsAttracting() const -> bool;
+    // public:
+    //     void setAttractorPosition(const glm::vec3& pos);
+    //
+    //     void setIsAttracting(const bool& value);
+    //
+    //     [[nodiscard]] auto getIsAttracting() const -> bool;
 
     void setParticlesCount(const int& value);
 

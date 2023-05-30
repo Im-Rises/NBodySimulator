@@ -6,7 +6,7 @@
 #include <iostream>
 
 NBodySimulatorSSBO::NBodySimulatorSSBO(int particlesCount) : shader("shaders/NbodySimulator.vert",
-                                                                       "shaders/NbodySimulator.frag") {
+                                                                 "shaders/NbodySimulator.frag") {
     // Set the particles count
     this->particlesCount = particlesCount;
     std::vector<Particle> particles(particlesCount);
@@ -103,17 +103,17 @@ void NBodySimulatorSSBO::randomizeParticles(std::vector<Particle>& particles) {
     }
 }
 
-void NBodySimulatorSSBO::setAttractorPosition(const glm::vec3& pos) {
-    attractorPosition = pos;
-}
-
-void NBodySimulatorSSBO::setIsAttracting(const bool& value) {
-    isAttracting = static_cast<float>(value);
-}
-
-auto NBodySimulatorSSBO::getIsAttracting() const -> bool {
-    return isAttracting != 0.0F;
-}
+// void NBodySimulatorSSBO::setAttractorPosition(const glm::vec3& pos) {
+//     attractorPosition = pos;
+// }
+//
+// void NBodySimulatorSSBO::setIsAttracting(const bool& value) {
+//     isAttracting = static_cast<float>(value);
+// }
+//
+// auto NBodySimulatorSSBO::getIsAttracting() const -> bool {
+//     return isAttracting != 0.0F;
+// }
 
 void NBodySimulatorSSBO::setParticlesCount(const int& value) {
     particlesCount = value;

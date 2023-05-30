@@ -24,18 +24,16 @@ private:
 
     std::vector<Particle> particles;
 
-    glm::vec3 attractorPosition;
-
     float isAttracting = 0.0F;
 
 public:
-    float spawnRadius = 2.0F;
-
-    float damping = 0.99F;
-    float particleMass = 50.0F;
-    float attractorMass = 250.0F;
+    float spawnRadius = 3.0F;
     float gravity = 1.0F;
+    float particleMass = 50.0F;
     float softening = 10.0F;
+    float damping = 0.99F;
+    //    float attractorMass = 500.0F;
+    //    glm::vec3 attractorPosition = glm::vec3(0.0F, 0.0F, 0.0F);
 
 public:
     explicit NBodySimulator(int particleCount = 100000);
@@ -57,13 +55,13 @@ public:
 private:
     void randomizeParticles();
 
-public:
-    void setAttractorPosition(const glm::vec3& pos);
-
-    void setIsAttracting(const bool& value);
-
-    [[nodiscard]] auto getIsAttracting() const -> bool;
-
+    // public:
+    //     void setAttractorPosition(const glm::vec3& pos);
+    //
+    //     void setIsAttracting(const bool& value);
+    //
+    //     [[nodiscard]] auto getIsAttracting() const -> bool;
+    //
     void setParticlesCount(const size_t& count);
 
     [[nodiscard]] auto getParticlesCount() const -> size_t;

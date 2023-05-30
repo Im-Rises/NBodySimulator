@@ -190,17 +190,17 @@ void NBodySimulatorTF::randomizeParticles(std::vector<Particle>& particles) {
     }
 }
 
-void NBodySimulatorTF::setAttractorPosition(const glm::vec3& pos) {
-    attractorPosition = pos;
-}
-
-void NBodySimulatorTF::setIsAttracting(const bool& value) {
-    isAttracting = static_cast<float>(value);
-}
-
-auto NBodySimulatorTF::getIsAttracting() const -> bool {
-    return isAttracting != 0.0F;
-}
+// void NBodySimulatorTF::setAttractorPosition(const glm::vec3& pos) {
+//     attractorPosition = pos;
+// }
+//
+// void NBodySimulatorTF::setIsAttracting(const bool& value) {
+//     isAttracting = static_cast<float>(value);
+// }
+//
+// auto NBodySimulatorTF::getIsAttracting() const -> bool {
+//     return isAttracting != 0.0F;
+// }
 
 void NBodySimulatorTF::setParticlesCount(const int& value) {
     particlesCount = value;
