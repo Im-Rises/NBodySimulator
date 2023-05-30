@@ -85,15 +85,22 @@ void NBodySimulator::update(const float& deltaTime) {
 
     for (auto& particle : particles)
     {
-        // Calculate the distance between the particle and the point of gravity
-        const glm::vec3 r = attractorPosition - particle.position;
-        const float rSquared = glm::dot(r, r) + softening;
+        glm::vec3 sumForces = glm::vec3(0.0F, 0.0F, 0.0F);
+        for (auto& otherParticle : particles)
+        {
+            if (&particle == &otherParticle)
+                continue;
 
-        // Calculate the force
-        const glm::vec3 force = ((gravity * particleMass * attractorMass * glm::normalize(r)) / rSquared) * isAttracting;
+            // Calculate the distance between the particle and the point of gravity
+            const glm::vec3 r = otherParticle.position - particle.position;
+            const float rSquared = glm::dot(r, r) + softening;
+
+            // Calculate the force
+            sumForces += ((gravity * particleMass * particleMass * glm::normalize(r)) / rSquared) * isAttracting;
+        }
 
         // Calculate the acceleration
-        const glm::vec3 acceleration = force / particleMass;
+        const glm::vec3 acceleration = sumForces / particleMass;
 
         // Calculate the position
         particle.position += particle.velocity * deltaTime + 0.5F * acceleration * deltaTime * deltaTime;
