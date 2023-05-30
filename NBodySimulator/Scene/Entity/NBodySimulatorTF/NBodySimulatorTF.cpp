@@ -1,54 +1,57 @@
 #include "NBodySimulatorTF.h"
 
 #include <random>
+#include <iostream>
 
 #include "../../../Utility/piDeclaration.h"
 
 const char* const NBodySimulatorTF::VertexShaderSource =
     R"(#version 300 es
 
-precision highp float;
+        precision highp float;
 
-in vec3 a_pos;
-in vec3 a_vel;
+        in vec3 a_pos;
+        in vec3 a_vel;
 
-out vec3 out_pos;
-out vec3 out_vel;
+        out vec3 out_pos;
+        out vec3 out_vel;
 
-out vec3 v_vel;
+        out vec3 v_vel;
 
-uniform mat4 u_mvp;
-uniform float u_deltaTime;
-uniform float u_damping;
-uniform float u_particleMass;
-uniform float u_gravity;
-uniform float u_distanceOffset;
-uniform float u_isRunning;
-uniform int u_particlesCount;
+        uniform mat4 u_mvp;
+        uniform float u_deltaTime;
+        uniform float u_damping;
+        uniform float u_particleMass;
+        uniform float u_gravity;
+        uniform float u_softening;
+        uniform float u_isRunning;
+        uniform int u_particlesCount;
 
-void main()
-{
-    vec3 acceleration = vec3(0.0);
+        void main()
+        {
+            vec3 sumForces = vec3(0.0);
 
-    for (int i = 0; i < u_particlesCount; ++i) {
-        if (i == gl_VertexID) continue;
+            for (int i = 0; i < u_particlesCount; ++i) {
+                if (i == gl_VertexID) continue;
 
-        vec3 otherPosition = a_pos;
-        vec3 r = otherPosition - a_pos;
-        float rSquared = dot(r, r) + u_distanceOffset;
-        acceleration += normalize(r) * (u_gravity * u_particleMass * u_particleMass) / rSquared;
-    }
+                vec3 otherPosition = a_pos;
+                vec3 r = otherPosition -
+                float rSquared = dot(r, r) + u_softening;
+                sumForces += normalize(r) * (u_gravity * u_particleMass * u_particleMass) / rSquared;
+            }
 
-    vec3 position = a_pos + (a_vel * u_deltaTime + 0.5 * acceleration * u_deltaTime * u_deltaTime) * u_isRunning;
-    vec3 velocity = a_vel + acceleration * u_deltaTime;
+            vec3 acceleration = sumForces / u_particleMass;
 
-    out_pos = position;
-    out_vel = velocity * u_damping;
+            vec3 position = a_pos + (a_vel * u_deltaTime + 0.5 * acceleration * u_deltaTime * u_deltaTime) * u_isRunning;
+            vec3 velocity = a_vel + acceleration * u_deltaTime;
 
-    gl_Position = u_mvp * vec4(position, 1.0);
+            out_pos = position;
+            out_vel = velocity * u_damping;
 
-    v_vel = velocity;
-}
+            gl_Position = u_mvp * vec4(position, 1.0);
+
+            v_vel = velocity;
+        }
 )";
 
 const char* const NBodySimulatorTF::FragmentShaderSource =
@@ -124,8 +127,6 @@ void NBodySimulatorTF::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjec
     shader.setFloat("u_softening", softening);
     shader.setFloat("u_isRunning", static_cast<float>(!isPaused));
     shader.setInt("u_particlesCount", particlesCount);
-    //    shader.setFloat("u_attractorMass", attractorMass);
-    //    shader.setVec3("u_attractorPosition", attractorPosition);
 
     glBindVertexArray(currentVAO);
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, currentTFBO);

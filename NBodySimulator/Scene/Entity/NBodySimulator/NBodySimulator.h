@@ -32,8 +32,6 @@ public:
     float particleMass = 50.0F;
     float softening = 10.0F;
     float damping = 0.99F;
-    //    float attractorMass = 500.0F;
-    //    glm::vec3 attractorPosition = glm::vec3(0.0F, 0.0F, 0.0F);
 
 public:
     explicit NBodySimulator(int particleCount = 100000);

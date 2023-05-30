@@ -3,7 +3,6 @@
 #include "../../../Utility/piDeclaration.h"
 
 #include <random>
-#include <iostream>
 
 NBodySimulatorSSBO::NBodySimulatorSSBO(int particlesCount) : shader("shaders/NbodySimulator.vert",
                                                                  "shaders/NbodySimulator.frag") {
