@@ -12,7 +12,7 @@ struct GLFWwindow;
 class NBodySimulatorLauncher {
 public:
     static constexpr std::string_view PROJECT_NAME = "Nbody Simulator 3D";
-    static constexpr std::string_view PROJECT_VERSION = "2.2.0";
+    static constexpr std::string_view PROJECT_VERSION = "1.0.0";
     static constexpr std::string_view PROJECT_LINK = "https://github.com/Im-Rises/NbodySimulator";
     static constexpr std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
 
@@ -68,7 +68,7 @@ private:
 
     void handleUi(float deltaTime);
 
-//    void fixedUpdateGame(float deltaTime);
+    //    void fixedUpdateGame(float deltaTime);
     void updateGame(float deltaTime);
 
     void updateScreen();
