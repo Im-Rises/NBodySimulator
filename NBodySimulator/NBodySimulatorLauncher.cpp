@@ -277,11 +277,11 @@ void NBodySimulatorLauncher::handleInputs() {
         scene->camera.processMouseMovement(static_cast<float>(mouseDeltaX), static_cast<float>(mouseDeltaY));
     }
 
-    // Update particle simulator attractor if mouse is pressed or dragging
-    bool const isAttracting = InputManager::isKeyMouseSetAttractorPressed(window);
-    scene->nbodySimulator.setIsAttracting(isAttracting);
-    mousePositionWorld = projectMouse(posX, posY);
-    scene->nbodySimulator.setAttractorPosition(mousePositionWorld);
+//    // Update particle simulator attractor if mouse is pressed or dragging
+//    bool const isAttracting = InputManager::isKeyMouseSetAttractorPressed(window);
+//    scene->nbodySimulator.setIsAttracting(isAttracting);
+//    mousePositionWorld = projectMouse(posX, posY);
+//    scene->nbodySimulator.setAttractorPosition(mousePositionWorld);
 }
 
 void NBodySimulatorLauncher::handleUi(float deltaTime) {
@@ -494,26 +494,26 @@ void NBodySimulatorLauncher::handleUi(float deltaTime) {
         }
 
         {
-#ifdef __EMSCRIPTEN__
-            static bool isCollapsed = true;
-            ImGui::SetNextWindowPos(ImVec2(5, 65), ImGuiCond_Once);
-            ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
-#endif
-            ImGui::Begin("Mouse controls");
-
-            ImGui::Text("Is attracting: %s", scene->nbodySimulator.getIsAttracting() ? "true" : "false");
-
-            ImGui::Text("Mouse position world:");
-            ImGui::Text("X: %f", mousePositionWorld.x);
-            ImGui::SameLine();
-            ImGui::Text("Y: %f", mousePositionWorld.y);
-            ImGui::SameLine();
-            ImGui::Text("Z: %f", mousePositionWorld.z);
-
-            ImGui::Text("Attractor distance from camera:");
-            ImGui::DragFloat("##attractorDistance", &attractorDistance, 0.1F, 0.0F, 100.0F);
-
-            ImGui::End();
+//#ifdef __EMSCRIPTEN__
+//            static bool isCollapsed = true;
+//            ImGui::SetNextWindowPos(ImVec2(5, 65), ImGuiCond_Once);
+//            ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+//#endif
+//            ImGui::Begin("Mouse controls");
+//
+//            ImGui::Text("Is attracting: %s", scene->nbodySimulator.getIsAttracting() ? "true" : "false");
+//
+//            ImGui::Text("Mouse position world:");
+//            ImGui::Text("X: %f", mousePositionWorld.x);
+//            ImGui::SameLine();
+//            ImGui::Text("Y: %f", mousePositionWorld.y);
+//            ImGui::SameLine();
+//            ImGui::Text("Z: %f", mousePositionWorld.z);
+//
+//            ImGui::Text("Attractor distance from camera:");
+//            ImGui::DragFloat("##attractorDistance", &attractorDistance, 0.1F, 0.0F, 100.0F);
+//
+//            ImGui::End();
         }
 #ifndef __EMSCRIPTEN__
     }
