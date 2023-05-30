@@ -1,6 +1,7 @@
 #include "NBodySimulator.h"
 
 #include <random>
+#include <iostream>
 
 #include "../../../Utility/piDeclaration.h"
 
@@ -89,7 +90,9 @@ void NBodySimulator::update(const float& deltaTime) {
         for (auto& otherParticle : particles)
         {
             if (&particle == &otherParticle)
+            {
                 continue;
+            }
 
             // Calculate the distance between the particle and the point of gravity
             const glm::vec3 r = otherParticle.position - particle.position;
