@@ -4,9 +4,9 @@
 #include "Camera/Camera.h"
 
 #ifdef __EMSCRIPTEN__
-#include "Entity/NBodySimulatorTF/ParticleSimulatorTF.h"
+#include "Entity/NbodySimulatorTF/NbodySimulatorTF.h"
 #else
-#include "Entity/NBodySimulatorSSBO/NBodySimulatorSSBO.h"
+#include "Entity/NbodySimulatorSSBO/NbodySimulatorSSBO.h"
 #endif
 
 class Scene {
@@ -27,6 +27,7 @@ public:
 public:
     Scene(int display_w, int display_h);
 
+    //    void fixedUpdate(float deltaTime);
     void update(float deltaTime);
 
     void render();

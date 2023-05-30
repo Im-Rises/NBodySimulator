@@ -1,5 +1,5 @@
-#ifndef PARTICLE_SIMULATOR_SSBO_H
-#define PARTICLE_SIMULATOR_SSBO_H
+#ifndef NBODY_SIMULATOR_SSBO_H
+#define NBODY_SIMULATOR_SSBO_H
 
 #include <array>
 
@@ -70,4 +70,4 @@ public:
     [[nodiscard]] auto getParticlesCount() const -> size_t;
 };
 
-#endif // PARTICLE_SIMULATOR_SSBO_H
+#endif // NBODY_SIMULATOR_SSBO_H

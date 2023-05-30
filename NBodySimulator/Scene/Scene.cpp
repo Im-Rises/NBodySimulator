@@ -3,6 +3,9 @@
 Scene::Scene(int display_w, int display_h) : camera(display_w, display_h), nbodySimulator(10) {
 }
 
+// void Scene::fixedUpdate(float deltaTime) {
+// }
+
 void Scene::update(float deltaTime) {
     camera.update(deltaTime);
     if (isPaused)

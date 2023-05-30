@@ -1,5 +1,5 @@
-#ifndef PARTICLE_SIMULATOR_TF_H
-#define PARTICLE_SIMULATOR_TF_H
+#ifndef NBODY_SIMULATOR_TF_H
+#define NBODY_SIMULATOR_TF_H
 
 #include <array>
 
@@ -75,4 +75,4 @@ public:
 };
 
 
-#endif // PARTICLE_SIMULATOR_TF_H
+#endif // NBODY_SIMULATOR_TF_H

@@ -20,6 +20,7 @@ target_link_libraries(${PROJECT_NAME} OpenGL::GL)
 #target_link_libraries(${PROJECT_NAME} PRIVATE OpenCL::OpenCL)
 
 if (WIN32)
+    target_link_libraries(${PROJECT_NAME} winmm.lib)
     if (MSVC)
         target_link_libraries(${PROJECT_NAME} "${CMAKE_SOURCE_DIR}/dependencies/glfw/lib-vc2019/glfw3.lib")
     elseif (MINGW)
