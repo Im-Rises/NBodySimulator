@@ -5,41 +5,20 @@
       <img src="https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="cppLogo" style="height:60px;"/>
       <img src="https://img.shields.io/badge/OpenGL-FFFFFF?style=for-the-badge&logo=opengl" alt="openglLogo" style="height:60px;"/>
       <img src="https://user-images.githubusercontent.com/59691442/190315147-ec9dc33f-0090-4f0d-98ab-514eb1463e01.png" alt="glfwLogo" style="height:60px;"/>
+   <img src="https://user-images.githubusercontent.com/59691442/206360390-76940955-0a28-43b5-83fb-46409c4324f7.png" alt="openclLogo" style="height:60px;"/>
 </p>
 
 ## Description
 
-This is a simple nbody simulator made with OpenGL and C++ with the help of the ImGui library for the UI.
-
-## 🚀🚀[you can try the webgl build online by clicking here](https://im-rises.github.io/nbody-simulator-webgl/) 🚀🚀
-
-The source code of the WebGL can be found at the following link:  
-<https://github.com/Im-Rises/nbody-simulator-webgl>
-
-> **Note:**   
-> The tests are running at 144Hz with 10 000 000 particles on a Windows 11 machine with an Nvidia RTX 2070 6GB.
-
-## TODO
-
-- [ ] Use OpenCL to compute the particles for better performance
+This is a simple nbody simulator made with OpenGL, OpenCL and C++ with the help of the ImGui library for the UI.
 
 ## Images
 
+PLACEHOLDER
+
 ## Videos
 
-## Features
-
-[//]: # (- [x] ImGui UI)
-
-[//]: # (- [x] Camera movement)
-
-[//]: # (- [x] Camera settings)
-
-[//]: # (- [x] Mouse drag of the particles)
-
-[//]: # (- [x] Fullscreen toggle)
-
-[//]: # (- [x] Pause simulation)
+PLACEHOLDER
 
 ## Dependencies
 
@@ -49,9 +28,9 @@ The source code of the WebGL can be found at the following link:
 - Glad version: 0.1.36
 - ImGui version: 1.89.4 WIP
 - GLM version: 0.9.8
+- OpenCL version: 3.0.14
 
-<!--
-## Quickstart
+## How to use
 
 To download the app, you can click one of the icons below (depending on your operating system). You can also click the
 release section of the GitHub page.
@@ -74,7 +53,7 @@ The controls are described in the section `Controls`.
 For Windows users you don't need to install the libs. You can just download the app and run it.
 
 ```bash
-.\NBodySimulatorSSBO.exe
+.\NBodySimulator.exe
 ```
 
 ### Linux
@@ -117,24 +96,6 @@ Then you can start by double-clicking the executable of typing the following com
 ```bash
 ./NBodySimulatorLauncher
 ```
-
-## Controls
-
-The speed and some parameters can be modified directly in the ImGui windows.
-
-| Action              | Key                                 |
-|---------------------|-------------------------------------|
-| Translate camera    | WASD (← → ↑ ↓)                      |
-| Pause/Resume        | P                                   |
-| Move up/down camera | SPACE/SHIFT                         |
-| Rotate camera       | Right Mouse Button + Mouse movement |
-| Fullscreen          | F11                                 |
-| Exit app            | ESC                                 |
-| Drag particles      | Left Mouse Button + Mouse movement  |
-
-> **Note**
-> You can the inputs by changing their attribution in the `InputManager.cpp` file,
-> if so you'll need to compile the project.
 
 ## Compilation
 
@@ -189,6 +150,12 @@ You also need to install the GLFW lib. Type the following command at the project
 sudo apt-get install libglfw3-dev
 ```
 
+and the OpenCL lib:
+
+```bash
+sudo apt-get install ocl-icd-opencl-dev
+```
+
 You are now able to compile the project. Go to the project root and type the following command:
 
 ```bash
@@ -218,6 +185,13 @@ and this one to install GLFW
 brew install glfw
 ```
 
+and the OpenCL lib:
+
+```bash
+brew install opencl
+brew install opencl-headers
+```
+
 You are now able to compile the project. Go to the project root and type the following command:
 
 ```bash
@@ -230,7 +204,22 @@ then
 cmake --build . --config Release
 ```
 
--->
+## Controls
+
+The speed and some parameters can be modified directly in the ImGui windows.
+
+| Action              | Key                                 |
+|---------------------|-------------------------------------|
+| Translate camera    | WASD (← → ↑ ↓)                      |
+| Pause/Resume        | P                                   |
+| Move up/down camera | SPACE/SHIFT                         |
+| Rotate camera       | Right Mouse Button + Mouse movement |
+| Fullscreen          | F11                                 |
+| Exit app            | ESC                                 |
+
+> **Note**
+> You can the inputs by changing their attribution in the `InputManager.cpp` file,
+> if so you'll need to compile the project.
 
 ## Github-Actions
 
@@ -266,9 +255,12 @@ OpenGL:
 <https://www.opengl.org/>
 
 OpenCL:  
-<https://www.khronos.org/blog/your-opencl-developer-experience-just-got-upgraded>  
-<https://github.com/KhronosGroup/OpenCL-Guide>  
+<https://www.khronos.org/blog/your-opencl-developer-experience-just-got-upgraded>
+
 <https://github.com/KhronosGroup/OpenCL-SDK>
+
+glm:  
+<https://glm.g-truc.net/0.9.9/index.html>
 
 ## Documentation
 
@@ -279,7 +271,7 @@ OpenCL NBody example:
 <https://github.com/KhronosGroup/OpenCL-SDK/tree/f510201a092363b66969888df49c68721ca2c4fb/samples/extensions/khr/nbody>
 
 OpenCL SDK:  
-<https://github.com/KhronosGroup/OpenCL-SDK>
+<https://github.com/KhronosGroup/OpenCL-Guide>
 
 ## Contributors
 
