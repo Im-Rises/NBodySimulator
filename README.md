@@ -256,8 +256,8 @@ OpenGL:
 
 OpenCL:  
 <https://www.khronos.org/blog/your-opencl-developer-experience-just-got-upgraded>
-
 <https://github.com/KhronosGroup/OpenCL-SDK>
+<https://github.com/KhronosGroup/OpenCL-Guide>
 
 glm:  
 <https://glm.g-truc.net/0.9.9/index.html>
@@ -269,9 +269,6 @@ learnopengl (OpenGL tutorial):
 
 OpenCL NBody example:  
 <https://github.com/KhronosGroup/OpenCL-SDK/tree/f510201a092363b66969888df49c68721ca2c4fb/samples/extensions/khr/nbody>
-
-OpenCL SDK:  
-<https://github.com/KhronosGroup/OpenCL-Guide>
 
 ## Contributors
 
