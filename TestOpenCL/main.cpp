@@ -6,9 +6,10 @@
 
 #define CL_TARGET_OPENCL_VERSION 300
 #ifdef __APPLE__
-#include <OpenCL/opencl.h>
+//#include <OpenCL/opencl.h>
 #else
 #include <CL/cl.h>
+//#include <CL/cl.hpp>
 #endif
 
 #include <cstdio>
