@@ -255,9 +255,10 @@ OpenGL:
 <https://www.opengl.org/>
 
 OpenCL:  
-<https://www.khronos.org/blog/your-opencl-developer-experience-just-got-upgraded>
-<https://github.com/KhronosGroup/OpenCL-SDK>
-<https://github.com/KhronosGroup/OpenCL-Guide>
+<https://www.khronos.org/blog/your-opencl-developer-experience-just-got-upgraded>  
+<https://github.com/KhronosGroup/OpenCL-SDK>  
+<https://github.com/KhronosGroup/OpenCL-Guide>  
+<https://github.khronos.org/OpenCL-CLHPP/>  
 
 glm:  
 <https://glm.g-truc.net/0.9.9/index.html>
