@@ -105,14 +105,14 @@ void NBodySimulator::update(const float& deltaTime) {
         // Calculate the acceleration
         const glm::vec3 acceleration = sumForces / particleMass;
 
-        // Calculate the position
-        particle.position += particle.velocity * deltaTime + 0.5F * acceleration * deltaTime * deltaTime;
-
         // Calculate the velocity
         particle.velocity += acceleration * deltaTime;
 
         // Damp the velocity
         particle.velocity *= damping;
+
+        // Calculate the position
+        particle.position += particle.velocity * deltaTime + 0.5F * acceleration * deltaTime * deltaTime;
     }
 }
 

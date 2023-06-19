@@ -49,8 +49,6 @@ void NBodySimulatorSSBO::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProj
     shader.setFloat("u_gravity", gravity);
     shader.setFloat("u_softening", softening);
     shader.setFloat("u_isRunning", static_cast<float>(!isPaused));
-    //    shader.setFloat("u_attractorMass", attractorMass);
-    //    shader.setVec3("u_attractorPosition", attractorPosition);
 
     // Bind the VAO
     glBindVertexArray(VAO);
@@ -101,18 +99,6 @@ void NBodySimulatorSSBO::randomizeParticles(std::vector<Particle>& particles) {
         particle.velocity = glm::vec3(0.0F, 0.0F, 0.0F);
     }
 }
-
-// void NBodySimulatorSSBO::setAttractorPosition(const glm::vec3& pos) {
-//     attractorPosition = pos;
-// }
-//
-// void NBodySimulatorSSBO::setIsAttracting(const bool& value) {
-//     isAttracting = static_cast<float>(value);
-// }
-//
-// auto NBodySimulatorSSBO::getIsAttracting() const -> bool {
-//     return isAttracting != 0.0F;
-// }
 
 void NBodySimulatorSSBO::setParticlesCount(const int& value) {
     particlesCount = value;

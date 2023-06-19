@@ -12,6 +12,12 @@
 
 This is a simple nbody simulator made with OpenGL, OpenCL and C++ with the help of the ImGui library for the UI.
 
+## Todo
+
+- [ ] Add OpenCL NBody simulation
+- [ ] Add Texture NBody simulation
+- [ ] Update the webgl version with the Texture version
+
 ## Images
 
 PLACEHOLDER

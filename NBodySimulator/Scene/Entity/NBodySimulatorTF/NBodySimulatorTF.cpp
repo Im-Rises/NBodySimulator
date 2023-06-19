@@ -1,7 +1,6 @@
 #include "NBodySimulatorTF.h"
 
 #include <random>
-#include <iostream>
 
 #include "../../../Utility/piDeclaration.h"
 
@@ -41,12 +40,11 @@ const char* const NBodySimulatorTF::VertexShaderSource =
             }
 
             vec3 acceleration = sumForces / u_particleMass;
-
+            vec3 velocity = (a_vel + acceleration * u_deltaTime) * u_damping;
             vec3 position = a_pos + (a_vel * u_deltaTime + 0.5 * acceleration * u_deltaTime * u_deltaTime) * u_isRunning;
-            vec3 velocity = a_vel + acceleration * u_deltaTime;
 
             out_pos = position;
-            out_vel = velocity * u_damping;
+            out_vel = velocity;
 
             gl_Position = u_mvp * vec4(position, 1.0);
 

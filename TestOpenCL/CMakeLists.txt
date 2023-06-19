@@ -7,8 +7,6 @@ if (WIN32)
     include_directories(${CMAKE_SOURCE_DIR}/dependencies/OpenCL/include)
 endif ()
 
-message(STATUS "CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}")
-
 # Find and configure OpenCL package
 if (WIN32)
     find_package(OpenCL CONFIG REQUIRED COMPONENTS Headers HeadersCpp)
