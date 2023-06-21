@@ -1,12 +1,12 @@
 #include "InputManager.h"
 
-#include "NBodySimulatorLauncher.h"
+#include "ParticleSimulatorLauncher.h"
 #include <GLFW/glfw3.h>
 
 void InputManager::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     (void)scancode;
     (void)mods;
-    auto* engine = static_cast<NBodySimulatorLauncher*>(glfwGetWindowUserPointer(window));
+    auto* engine = static_cast<ParticleSimulatorLauncher*>(glfwGetWindowUserPointer(window));
 
     switch (key)
     {

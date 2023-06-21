@@ -11,9 +11,9 @@ struct GLFWwindow;
 
 class NBodySimulatorLauncher {
 public:
-    static constexpr std::string_view PROJECT_NAME = "Nbody Simulator 3D";
-    static constexpr std::string_view PROJECT_VERSION = "1.0.0";
-    static constexpr std::string_view PROJECT_LINK = "https://github.com/Im-Rises/NbodySimulator";
+    static constexpr std::string_view PROJECT_NAME = "NBody Simulator 3D";
+    static constexpr std::string_view PROJECT_VERSION = "2.2.0";
+    static constexpr std::string_view PROJECT_LINK = "https://github.com/Im-Rises/NBodySimulator";
     static constexpr std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
 
 private:
@@ -39,9 +39,7 @@ private:
     float attractorDistance = 10.0F;
     glm::vec3 mousePositionWorld;
 
-    static constexpr int MAX_PARTICLES_COUNT = 10000000;
-
-    float pointSize = 1.0F;
+    static constexpr int MAX_NBodyS_COUNT = 10000000;
 
 #ifndef __EMSCRIPTEN__
     bool isFullscreen = false;
@@ -68,7 +66,7 @@ private:
 
     void handleUi(float deltaTime);
 
-    //    void fixedUpdateGame(float deltaTime);
+    void fixedUpdateGame(float deltaTime);
     void updateGame(float deltaTime);
 
     void updateScreen();
