@@ -38,8 +38,10 @@ void main()
     }
 
     vec3 acceleration = sumForces / u_particleMass;
-    vec3 velocity = (particle.velocity + acceleration * u_deltaTime) * u_damping;
     vec3 position = particle.position + (particle.velocity * u_deltaTime + 0.5 * acceleration * u_deltaTime * u_deltaTime) * u_isRunning;
+    vec3 velocity = particle.velocity + acceleration * u_deltaTime;
+
+    velocity = mix(velocity, velocity * u_damping, u_isRunning);
 
     particle.position = position;
     particle.velocity = velocity;

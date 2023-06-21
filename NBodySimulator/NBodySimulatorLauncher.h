@@ -36,8 +36,8 @@ private:
         float w = 1.0F;
     } clear_color;
 
-    float attractorDistance = 10.0F;
-    glm::vec3 mousePositionWorld;
+//    float attractorDistance = 10.0F;
+//    glm::vec3 mousePositionWorld;
 
     static constexpr int MAX_NBodyS_COUNT = 10000000;
 

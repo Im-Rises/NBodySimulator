@@ -1,5 +1,5 @@
 #include <iostream>
-#include "ParticleSimulatorLauncher.h"
+#include "NBodySimulatorLauncher.h"
 
 // This is a workaround for the Nvidia and AMD drivers to force the use of the GPU instead of the integrated GPU
 // This is not a good practice, but it's the only way to force the use of the GPU
@@ -22,11 +22,11 @@ __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
 auto main(int argc, char* argv[]) -> int {
     (void)argc;
     (void)argv;
-    std::cout << ParticleSimulatorLauncher::PROJECT_NAME << " " << ParticleSimulatorLauncher::PROJECT_VERSION << std::endl
-              << ParticleSimulatorLauncher::PROJECT_LINK << std::endl
-              << ParticleSimulatorLauncher::PROJECT_AUTHOR << "\n"
+    std::cout << NBodySimulatorLauncher::PROJECT_NAME << " " << NBodySimulatorLauncher::PROJECT_VERSION << std::endl
+              << NBodySimulatorLauncher::PROJECT_LINK << std::endl
+              << NBodySimulatorLauncher::PROJECT_AUTHOR << "\n"
               << std::endl;
-    ParticleSimulatorLauncher particleEmissionLauncher;
+    NBodySimulatorLauncher particleEmissionLauncher;
     particleEmissionLauncher.start();
     return 0;
 }

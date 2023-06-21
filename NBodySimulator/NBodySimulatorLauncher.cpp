@@ -275,11 +275,11 @@ void NBodySimulatorLauncher::handleInputs() {
         scene->camera.processMouseMovement(static_cast<float>(mouseDeltaX), static_cast<float>(mouseDeltaY));
     }
 
-    // Update NBody simulator attractor if mouse is pressed or dragging
-    bool const isAttracting = InputManager::isKeyMouseSetAttractorPressed(window);
-    scene->NBodySimulator.setIsAttracting(isAttracting);
-    mousePositionWorld = projectMouse(posX, posY);
-    scene->NBodySimulator.setAttractorPosition(mousePositionWorld);
+//    // Update NBody simulator attractor if mouse is pressed or dragging
+//    bool const isAttracting = InputManager::isKeyMouseSetAttractorPressed(window);
+//    scene->nbodySimulator.setIsAttracting(isAttracting);
+//    mousePositionWorld = projectMouse(posX, posY);
+//    scene->nbodySimulator.setAttractorPosition(mousePositionWorld);
 }
 
 void NBodySimulatorLauncher::handleUi(float deltaTime) {
@@ -358,10 +358,10 @@ void NBodySimulatorLauncher::handleUi(float deltaTime) {
 
             ImGui::NewLine();
             ImGui::Text("Near plane:");
-            ImGui::DragFloat("##near", &scene->camera.nearPlane, 0.1F, 0.1F, 100.0F);
+            ImGui::DragFloat("##near", &scene->camera.nearPlane, 0.1F);
 
             ImGui::Text("Far plane:");
-            ImGui::DragFloat("##far", &scene->camera.farPlane, 0.1F, 0.1F, 100.0F);
+            ImGui::DragFloat("##far", &scene->camera.farPlane, 0.1F);
 
             ImGui::NewLine();
             ImGui::Text("Speed:");
@@ -381,13 +381,13 @@ void NBodySimulatorLauncher::handleUi(float deltaTime) {
 #endif
             ImGui::Begin("NBody simulator settings");
 
-            ImGui::Text("NBody count: %s", std::to_string(scene->NBodySimulator.getNBodysCount()).c_str());
-            static int NBodysCount = static_cast<int>(scene->NBodySimulator.getNBodysCount());
+            ImGui::Text("NBody count: %s", std::to_string(scene->nbodySimulator.getParticlesCount()).c_str());
+            static int NBodysCount = static_cast<int>(scene->nbodySimulator.getParticlesCount());
             ImGui::DragInt("##NBodysCount", &NBodysCount, 1, 1, MAX_NBodyS_COUNT);
             ImGui::Button("Validate##NBodysCountSetterButton");
             if (ImGui::IsItemClicked())
             {
-                scene->NBodySimulator.setNBodysCount(NBodysCount);
+                scene->nbodySimulator.setParticlesCount(NBodysCount);
             }
             ImGui::NewLine();
 
@@ -408,56 +408,56 @@ void NBodySimulatorLauncher::handleUi(float deltaTime) {
             ImGui::NewLine();
 
             ImGui::Text("Spawn position:");
-            ImGui::DragFloat3("##spawnPosition", reinterpret_cast<float*>(&scene->NBodySimulator.position));
+            ImGui::DragFloat3("##spawnPosition", reinterpret_cast<float*>(&scene->nbodySimulator.position));
             ImGui::NewLine();
 
             ImGui::Text("Spawn radius:");
-            ImGui::DragFloat("##spawnRadius", &scene->NBodySimulator.spawnRadius, 0.1F, 0.1F, 100.0F);
+            ImGui::DragFloat("##spawnRadius", &scene->nbodySimulator.spawnRadius, 0.1F, 0.1F, 100.0F);
             ImGui::NewLine();
 
             ImGui::Text("NBody mass:");
-            ImGui::DragFloat("##NBodyMass", &scene->NBodySimulator.NBodyMass, 0.1F, 0.1F, 100.0F);
+            ImGui::DragFloat("##NBodyMass", &scene->nbodySimulator.particleMass, 0.1F, 0.1F, 100.0F);
             ImGui::NewLine();
 
-            ImGui::Text("Attractor mass:");
-            ImGui::DragFloat("##attractorMass", &scene->NBodySimulator.attractorMass, 0.1F, 0.1F, 100.0F);
-            ImGui::NewLine();
+//            ImGui::Text("Attractor mass:");
+//            ImGui::DragFloat("##attractorMass", &scene->nbodySimulator.p, 0.1F, 0.1F, 100.0F);
+//            ImGui::NewLine();
 
             ImGui::Text("Gravity:");
-            ImGui::DragFloat("##gravity", &scene->NBodySimulator.gravity, 0.1F, 0.1F, 100.0F);
+            ImGui::DragFloat("##gravity", &scene->nbodySimulator.gravity, 0.1F, 0.1F, 100.0F);
             ImGui::NewLine();
 
             ImGui::Text("Softening:");
-            ImGui::DragFloat("##softening", &scene->NBodySimulator.softening, 0.1F, 0.1F, 100.0F);
+            ImGui::DragFloat("##softening", &scene->nbodySimulator.softening, 0.1F, 0.1F, 100.0F);
             ImGui::NewLine();
 
             ImGui::Text("Damping:");
-            ImGui::DragFloat("##damping", &scene->NBodySimulator.damping, 0.0F, 0.0F, 1.0F);
+            ImGui::DragFloat("##damping", &scene->nbodySimulator.damping, 0.0F, 0.0F, 1.0F);
 
             ImGui::End();
         }
 
         {
-#ifdef __EMSCRIPTEN__
-            static bool isCollapsed = true;
-            ImGui::SetNextWindowPos(ImVec2(5, 65), ImGuiCond_Once);
-            ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
-#endif
-            ImGui::Begin("Mouse controls");
-
-            ImGui::Text("Is attracting: %s", scene->NBodySimulator.getIsAttracting() ? "true" : "false");
-
-            ImGui::Text("Mouse position world:");
-            ImGui::Text("X: %f", mousePositionWorld.x);
-            ImGui::SameLine();
-            ImGui::Text("Y: %f", mousePositionWorld.y);
-            ImGui::SameLine();
-            ImGui::Text("Z: %f", mousePositionWorld.z);
-
-            ImGui::Text("Attractor distance from camera:");
-            ImGui::DragFloat("##attractorDistance", &attractorDistance, 0.1F, 0.0F, 100.0F);
-
-            ImGui::End();
+//#ifdef __EMSCRIPTEN__
+//            static bool isCollapsed = true;
+//            ImGui::SetNextWindowPos(ImVec2(5, 65), ImGuiCond_Once);
+//            ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+//#endif
+//            ImGui::Begin("Mouse controls");
+//
+//            ImGui::Text("Is attracting: %s", scene->nbodySimulator.getIsAttracting() ? "true" : "false");
+//
+//            ImGui::Text("Mouse position world:");
+//            ImGui::Text("X: %f", mousePositionWorld.x);
+//            ImGui::SameLine();
+//            ImGui::Text("Y: %f", mousePositionWorld.y);
+//            ImGui::SameLine();
+//            ImGui::Text("Z: %f", mousePositionWorld.z);
+//
+//            ImGui::Text("Attractor distance from camera:");
+//            ImGui::DragFloat("##attractorDistance", &attractorDistance, 0.1F, 0.0F, 100.0F);
+//
+//            ImGui::End();
         }
 #ifndef __EMSCRIPTEN__
     }
@@ -580,27 +580,27 @@ void NBodySimulatorLauncher::calculateMouseMovement(const double& xMouse, const 
     lastMouseY = yMouse;
 }
 
-auto NBodySimulatorLauncher::projectMouse(const double& xMouse, const double& yMouse) -> glm::vec3 {
-    // Convert the mouse coordinates from screen space to NDC space
-    float const normalized_x = (2.0F * static_cast<float>(xMouse)) / static_cast<float>(displayWidth) - 1.0F;
-    float const normalized_y = 1.0F - (2.0F * static_cast<float>(yMouse)) / static_cast<float>(displayHeight);
-
-    // Create a vector representing the mouse coordinates in NDC space
-    glm::vec4 const mouse_ndc(normalized_x, normalized_y, -1.0F, 1.0F);
-
-    // Convert the mouse coordinates from NDC space to world space
-    glm::mat4 const inverse_projection = glm::inverse(scene->camera.getProjectionMatrix());
-    glm::mat4 const inverse_view = glm::inverse(scene->camera.getViewMatrix());
-    glm::vec4 mouse_world = inverse_projection * mouse_ndc;
-    mouse_world = mouse_world / mouse_world.w;
-    mouse_world = inverse_view * mouse_world;
-
-    // Calculate the direction from the camera position to the mouse position
-    glm::vec3 const camera_to_mouse = glm::normalize(glm::vec3(mouse_world) - scene->camera.position);
-
-    // Use the direction to update the position of an object in the 3D environment
-    return scene->camera.position + camera_to_mouse * attractorDistance;
-}
+//auto NBodySimulatorLauncher::projectMouse(const double& xMouse, const double& yMouse) -> glm::vec3 {
+//    // Convert the mouse coordinates from screen space to NDC space
+//    float const normalized_x = (2.0F * static_cast<float>(xMouse)) / static_cast<float>(displayWidth) - 1.0F;
+//    float const normalized_y = 1.0F - (2.0F * static_cast<float>(yMouse)) / static_cast<float>(displayHeight);
+//
+//    // Create a vector representing the mouse coordinates in NDC space
+//    glm::vec4 const mouse_ndc(normalized_x, normalized_y, -1.0F, 1.0F);
+//
+//    // Convert the mouse coordinates from NDC space to world space
+//    glm::mat4 const inverse_projection = glm::inverse(scene->camera.getProjectionMatrix());
+//    glm::mat4 const inverse_view = glm::inverse(scene->camera.getViewMatrix());
+//    glm::vec4 mouse_world = inverse_projection * mouse_ndc;
+//    mouse_world = mouse_world / mouse_world.w;
+//    mouse_world = inverse_view * mouse_world;
+//
+//    // Calculate the direction from the camera position to the mouse position
+//    glm::vec3 const camera_to_mouse = glm::normalize(glm::vec3(mouse_world) - scene->camera.position);
+//
+//    // Use the direction to update the position of an object in the 3D environment
+//    return scene->camera.position + camera_to_mouse * attractorDistance;
+//}
 
 auto NBodySimulatorLauncher::getOpenGLVendor() -> std::string_view {
     return reinterpret_cast<const char*>(glGetString(GL_RENDERER));
