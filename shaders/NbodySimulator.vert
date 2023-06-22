@@ -20,7 +20,6 @@ uniform float u_gravity;
 uniform float u_softening;
 uniform float u_isRunning;
 
-//out vec3 v_vel;
 out vec3 v_color;
 
 void main()
@@ -47,11 +46,12 @@ void main()
 
     particle.position = position;
     particle.velocity = velocity;
+    
+    memoryBarrierBuffer();
 
     particlesSsboData.particles[gl_VertexID] = particle;
 
     gl_Position = u_mvp * vec4(particle.position, 1.0);
 
-    //    v_vel = particle.velocity;
     v_color = particle.color;
 }
