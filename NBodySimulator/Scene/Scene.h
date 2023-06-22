@@ -4,7 +4,7 @@
 #include "Camera/Camera.h"
 
 #ifdef __EMSCRIPTEN__
-#include "Entity/NBodySimulator/NBodySimulator.h"
+#include "Entity/NBodySimulator/NBodySimulatorTexture.h"
 #else
 #include "Entity/NBodySimulatorSSBO/NBodySimulatorSSBO.h"
 #endif
@@ -17,7 +17,7 @@ public:
     Camera camera;
 
 #ifdef __EMSCRIPTEN__
-    NBodySimulator nbodySimulator;
+    NBodySimulatorTexture nbodySimulator;
 #else
     NBodySimulatorSSBO nbodySimulator;
 #endif

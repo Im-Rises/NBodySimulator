@@ -14,10 +14,9 @@ This is a simple nbody simulator made with OpenGL, OpenCL and C++ with the help 
 
 ## Todo
 
-- [ ] Add OpenCL NBody simulation
 - [ ] Add Texture NBody simulation
-- [ ] Update the webgl version with the Texture version
-
+- [ ] Add mass to the Particle Struct to use it in the shader
+ 
 ## Images
 
 PLACEHOLDER
@@ -34,7 +33,6 @@ PLACEHOLDER
 - Glad version: 0.1.36
 - ImGui version: 1.89.4 WIP
 - GLM version: 0.9.8
-- OpenCL version: 3.0.14
 
 ## How to use
 

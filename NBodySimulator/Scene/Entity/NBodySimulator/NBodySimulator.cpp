@@ -1,7 +1,6 @@
 #include "NBodySimulator.h"
 
 #include <random>
-#include <iostream>
 
 #include "../../../Utility/piDeclaration.h"
 
@@ -163,18 +162,6 @@ void NBodySimulator::randomizeParticles() {
         particle.velocity = glm::vec3(0.0F, 0.0F, 0.0F);
     }
 }
-
-// void NBodySimulator::setAttractorPosition(const glm::vec3& pos) {
-//     attractorPosition = pos;
-// }
-//
-// void NBodySimulator::setIsAttracting(const bool& value) {
-//     isAttracting = value ? 1.0F : 0.0F;
-// }
-//
-// auto NBodySimulator::getIsAttracting() const -> bool {
-//     return isAttracting == 1.0F;
-// }
 
 void NBodySimulator::setParticlesCount(const size_t& count) {
     particles.resize(count);

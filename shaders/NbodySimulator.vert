@@ -19,7 +19,8 @@ uniform float u_gravity;
 uniform float u_softening;
 uniform float u_isRunning;
 
-out vec3 v_vel;
+//out vec3 v_vel;
+out vec3 v_color;
 
 void main()
 {
@@ -50,5 +51,6 @@ void main()
 
     gl_Position = u_mvp * vec4(particle.position, 1.0);
 
-    v_vel = particle.velocity;
+    //    v_vel = particle.velocity;
+    v_color = vec3(0.0, 1.0, 0.0);
 }

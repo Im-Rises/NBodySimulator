@@ -54,12 +54,6 @@ private:
     void randomizeParticles();
 
 public:
-    //     void setAttractorPosition(const glm::vec3& pos);
-    //
-    //     void setIsAttracting(const bool& value);
-    //
-    //     [[nodiscard]] auto getIsAttracting() const -> bool;
-    //
     void setParticlesCount(const size_t& count);
 
     [[nodiscard]] auto getParticlesCount() const -> size_t;
