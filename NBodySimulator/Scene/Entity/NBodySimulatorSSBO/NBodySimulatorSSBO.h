@@ -20,8 +20,10 @@ private:
         [[maybe_unused]] float mass;
         glm::vec3 velocity;
         [[maybe_unused]] float offset{};
+        glm::vec3 color;
+        [[maybe_unused]] float offset2{};
 
-        Particle() : position(glm::vec3(0.0F)), velocity(glm::vec3(0.0F)),mass(1.0F) {}
+        Particle() : position(glm::vec3(0.0F)), velocity(glm::vec3(0.0F)), color(glm::vec3(1.0F, 1.0F, 1.0F)), mass(1) {}
     };
 
     int particlesCount;

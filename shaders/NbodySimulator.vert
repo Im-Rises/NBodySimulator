@@ -2,8 +2,10 @@
 
 struct Particle {
     vec3 position;
-    float offset1;
+    float mass;
     vec3 velocity;
+    float offset1;
+    vec3 color;
     float offset2;
 };
 
@@ -14,7 +16,6 @@ layout (std430, binding = 0) buffer ParticlesSsbo {
 uniform mat4 u_mvp;
 uniform float u_deltaTime;
 uniform float u_damping;
-uniform float u_particleMass;
 uniform float u_gravity;
 uniform float u_softening;
 uniform float u_isRunning;
@@ -35,10 +36,10 @@ void main()
 
         vec3 r = otherParticle.position - particle.position;
         float rSquared = dot(r, r) + u_softening;
-        sumForces += normalize(r) * (u_gravity * u_particleMass * u_particleMass) / rSquared;
+        sumForces += normalize(r) * (u_gravity * particle.mass * otherParticle.mass) / rSquared;
     }
 
-    vec3 acceleration = sumForces / u_particleMass;
+    vec3 acceleration = sumForces / particle.mass;
     vec3 position = particle.position + (particle.velocity * u_deltaTime + 0.5 * acceleration * u_deltaTime * u_deltaTime) * u_isRunning;
     vec3 velocity = particle.velocity + acceleration * u_deltaTime;
 
@@ -52,5 +53,5 @@ void main()
     gl_Position = u_mvp * vec4(particle.position, 1.0);
 
     //    v_vel = particle.velocity;
-    v_color = vec3(0.0, 1.0, 0.0);
+    v_color = particle.color;
 }
