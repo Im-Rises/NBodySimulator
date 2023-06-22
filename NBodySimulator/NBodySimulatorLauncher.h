@@ -1,5 +1,5 @@
-#ifndef NBODY_SIMULATOR_LAUNCHER_H
-#define NBODY_SIMULATOR_LAUNCHER_H
+#ifndef PARTICLE_SIMULATOR_LAUNCHER_H
+#define PARTICLE_SIMULATOR_LAUNCHER_H
 
 #include <memory>
 #include <string_view>
@@ -12,7 +12,7 @@ struct GLFWwindow;
 class NBodySimulatorLauncher {
 public:
     static constexpr std::string_view PROJECT_NAME = "NBody Simulator 3D";
-    static constexpr std::string_view PROJECT_VERSION = "2.2.0";
+    static constexpr std::string_view PROJECT_VERSION = "1.0.0";
     static constexpr std::string_view PROJECT_LINK = "https://github.com/Im-Rises/NBodySimulator";
     static constexpr std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
 
@@ -36,14 +36,17 @@ private:
         float w = 1.0F;
     } clear_color;
 
-//    float attractorDistance = 10.0F;
-//    glm::vec3 mousePositionWorld;
+    float attractorDistance = 10.0F;
+    glm::vec3 mousePositionWorld;
 
-    static constexpr int MAX_NBodyS_COUNT = 10000000;
+    static constexpr int MAX_PARTICLES_COUNT = 10000000;
+
 
 #ifndef __EMSCRIPTEN__
+    float pointSize = 1.0F;
     bool isFullscreen = false;
 #endif
+    bool isUiVisible = true;
 
 public:
     NBodySimulatorLauncher();
@@ -66,7 +69,6 @@ private:
 
     void handleUi(float deltaTime);
 
-    void fixedUpdateGame(float deltaTime);
     void updateGame(float deltaTime);
 
     void updateScreen();
@@ -81,6 +83,8 @@ public:
     void centerWindow();
 
     void toggleFullscreen();
+
+    void toggleUiVisibility();
 
     void clearScreen() const;
 
@@ -107,4 +111,4 @@ private:
     static auto getGLMVersion() -> std::string;
 };
 
-#endif // NBODY_SIMULATOR_LAUNCHER_H
+#endif // PARTICLE_SIMULATOR_LAUNCHER_H
