@@ -276,11 +276,11 @@ void NBodySimulatorLauncher::handleInputs() {
         scene->camera.processMouseMovement(static_cast<float>(mouseDeltaX), static_cast<float>(mouseDeltaY));
     }
 
-//    // Update particle simulator attractor if mouse is pressed or dragging
-//    bool const isAttracting = InputManager::isKeyMouseSetAttractorPressed(window);
-//    scene->NBodySimulator.setIsAttracting(isAttracting);
-//    mousePositionWorld = projectMouse(posX, posY);
-//    scene->NBodySimulator.setAttractorPosition(mousePositionWorld);
+    //    // Update particle simulator attractor if mouse is pressed or dragging
+    //    bool const isAttracting = InputManager::isKeyMouseSetAttractorPressed(window);
+    //    scene->NBodySimulator.setIsAttracting(isAttracting);
+    //    mousePositionWorld = projectMouse(posX, posY);
+    //    scene->NBodySimulator.setAttractorPosition(mousePositionWorld);
 }
 
 void NBodySimulatorLauncher::handleUi(float deltaTime) {
@@ -412,12 +412,12 @@ void NBodySimulatorLauncher::handleUi(float deltaTime) {
             ImGui::NewLine();
 
             ImGui::Text("Particle mass:");
-            ImGui::DragFloat("##particleMass", &scene->nbodySimulator.particleMass, 0.1F, 0.1F, 100.0F);
-            ImGui::NewLine();
+            //            ImGui::DragFloat("##particleMass", &scene->nbodySimulator.particleMass, 0.1F, 0.1F, 100.0F);
+            //            ImGui::NewLine();
 
-//            ImGui::Text("Attractor mass:");
-//            ImGui::DragFloat("##attractorMass", &scene->nbodySimulator.attractorMass, 0.1F, 0.1F, 100.0F);
-//            ImGui::NewLine();
+            //            ImGui::Text("Attractor mass:");
+            //            ImGui::DragFloat("##attractorMass", &scene->nbodySimulator.attractorMass, 0.1F, 0.1F, 100.0F);
+            //            ImGui::NewLine();
 
             ImGui::Text("Gravity:");
             ImGui::DragFloat("##gravity", &scene->nbodySimulator.gravity, 0.1F, 0.1F, 100.0F);
@@ -441,7 +441,7 @@ void NBodySimulatorLauncher::handleUi(float deltaTime) {
             // #endif
             ImGui::Begin("Mouse controls");
 
-//            ImGui::Text("Is attracting: %s", scene->nbodySimulator.getIsAttracting() ? "true" : "false");
+            //            ImGui::Text("Is attracting: %s", scene->nbodySimulator.getIsAttracting() ? "true" : "false");
 
             ImGui::Text("Mouse position world:");
             ImGui::Text("X: %f", mousePositionWorld.x);
