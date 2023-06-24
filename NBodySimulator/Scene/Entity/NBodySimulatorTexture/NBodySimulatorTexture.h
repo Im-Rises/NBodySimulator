@@ -8,23 +8,24 @@
 
 class NBodySimulatorTexture : public Entity {
 private:
-    static const char* const VertexShaderSource;
-    static const char* const FragmentShaderSource;
+    static const char* const VertexShaderPhysicSource;
+    static const char* const FragmentShaderPhysicSource;
 
-    Shader shader;
+    static const char* const VertexShaderRenderSource;
+    static const char* const FragmentShaderRenderSource;
 
     GLuint VAO, VBO;
+    Shader physicShader;
+    Shader renderShader;
 
-    struct Particle {
-        glm::vec3 position;
-        glm::vec3 velocity;
+    GLuint texturePositionBuffer[2];
+    GLuint textureVelocityBuffer[2];
 
-        Particle() : position(glm::vec3(0.0F)), velocity(glm::vec3(1.0F, 1.0F, 1.0F)) {}
-    };
+    GLuint FBO;
 
-    std::vector<Particle> particles;
+    GLuint pingPongIndex = 0;
 
-    float isAttracting = 1.0F;
+    size_t particlesCount = 0;
 
 public:
     float spawnRadius = 3.0F;
@@ -57,6 +58,9 @@ public:
     void setParticlesCount(const size_t& count);
 
     [[nodiscard]] auto getParticlesCount() const -> size_t;
+
+private:
+    void initTexture(GLuint& texture, const size_t& count, const glm::vec4& color);
 };
 
 #endif // NBODY_SIMULATOR_TEXTURE_H

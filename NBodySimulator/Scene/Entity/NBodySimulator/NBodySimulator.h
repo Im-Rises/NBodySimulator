@@ -24,8 +24,6 @@ private:
 
     std::vector<Particle> particles;
 
-    float isAttracting = 1.0F;
-
 public:
     float spawnRadius = 3.0F;
     float gravity = 1.0F;

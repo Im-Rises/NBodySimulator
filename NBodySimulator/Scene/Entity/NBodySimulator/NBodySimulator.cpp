@@ -98,7 +98,7 @@ void NBodySimulator::update(const float& deltaTime) {
             const float rSquared = glm::dot(r, r) + softening;
 
             // Calculate the force
-            sumForces += ((gravity * particleMass * particleMass * glm::normalize(r)) / rSquared) * isAttracting;
+            sumForces += ((gravity * particleMass * particleMass * glm::normalize(r)) / rSquared);
         }
 
         // Calculate the acceleration

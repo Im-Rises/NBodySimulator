@@ -61,6 +61,8 @@ public:
     [[maybe_unused]] void setMat3(const std::string& name, const glm::mat3& mat) const;
 
     [[maybe_unused]] void setMat4(const std::string& name, const glm::mat4& mat) const;
+
+    [[maybe_unused]] [[nodiscard]] auto getAttribLocation(const std::string& name) const -> unsigned int;
 };
 
 
