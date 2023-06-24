@@ -19,7 +19,8 @@ private:
     GLuint VAO, VBO;
     Shader shader;
 
-    GLuint texture;
+    GLuint texture1;
+    GLuint texture2;
     //    Shader physicShader;
     //    Shader renderShader;
 

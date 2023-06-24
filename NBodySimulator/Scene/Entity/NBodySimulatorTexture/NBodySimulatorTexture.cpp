@@ -27,46 +27,18 @@ const char* const NBodySimulatorTexture::FragmentShaderPhysicSource =
 
     precision highp float;
 
-    uniform sampler2D u_texture;
+    uniform sampler2D u_texture1;
+    uniform sampler2D u_texture2;
 
     in vec2 v_texCoord;
 
     out vec4 o_color;
 
-    void main() {
-        o_color = texture(u_texture, v_texCoord);
+    void main()
+    {
+        o_color = mix(texture(u_texture1, v_texCoord), texture(u_texture2, v_texCoord), 0.5);
     }
 )";
-
-// const char* const NBodySimulatorTexture::VertexShaderRenderSource =
-//     R"(#version 300 es
-//
-//         precision highp float;
-//
-//         uniform sampler2D texturePositionBuffer;
-//         uniform sampler2D textureVelocityBuffer;
-//
-//         uniform mat4 u_mvp;
-//
-//         void main() {
-//             vec2 texelSize = vec2(1.0 / float(particleCount), 1.0);
-//
-//             vec3 position = texture(texturePositionBuffer, gl_VertexID * texelSize).xyz;
-//             vec3 velocity = texture(textureVelocityBuffer, gl_VertexID * texelSize).xyz;
-//
-//             gl_Position = u_mvp * vec4(position, 1.0);
-//         }
-//)";
-//
-// const char* const NBodySimulatorTexture::FragmentShaderRenderSource =
-//     R"(#version 300 es
-//
-//         precision highp float;
-//
-//         void main() {
-//             gl_FragColor = vec4(1.0);
-//         }
-//)";
 
 constexpr float QuadVertices[18] = {
     -1.0F,
@@ -112,8 +84,8 @@ NBodySimulatorTexture::NBodySimulatorTexture(int particleCount) : shader(VertexS
     glEnableVertexAttribArray(0);
 
     // Load image, create texture and generate mipmaps
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
+    glGenTextures(1, &texture1);
+    glBindTexture(GL_TEXTURE_2D, texture1);
     // set the texture wrapping/filtering options (on the currently bound texture object)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -132,6 +104,32 @@ NBodySimulatorTexture::NBodySimulatorTexture(int particleCount) : shader(VertexS
         std::cout << "Failed to load texture" << std::endl;
     }
     stbi_image_free(data);
+
+    // Load image 2, create texture and generate mipmaps
+    glGenTextures(1, &texture2);
+    glBindTexture(GL_TEXTURE_2D, texture2);
+    // set the texture wrapping/filtering options (on the currently bound texture object)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    // load and generate the texture
+    data = stbi_load("awesomeface.png", &width, &height, &nrChannels, 0);
+    if (data)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {
+        std::cout << "Failed to load texture" << std::endl;
+    }
+    stbi_image_free(data);
+
+    // Set texture uniforms
+    shader.use();
+    shader.setInt("u_texture1", 0);
+    shader.setInt("u_texture2", 1);
 
     // Unbind the VAO
     glBindVertexArray(0);
@@ -159,16 +157,16 @@ void NBodySimulatorTexture::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraP
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
     // bind Texture
-    glBindTexture(GL_TEXTURE_2D, texture);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture1);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, texture2);
 
     // Bind the shader
     shader.use();
 
     // Draw the quad
     glDrawArrays(GL_TRIANGLES, 0, 6);
-
-    // Unbind the framebuffer
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     // Unbind the VAO
     glBindVertexArray(0);
