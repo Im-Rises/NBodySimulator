@@ -1,4 +1,4 @@
-#include "NBodySimulator.h"
+#include "NBodySimulatorUBO.h"
 
 #include <random>
 
@@ -8,7 +8,7 @@
 #include <pthread.h>
 #endif
 
-const char* const NBodySimulator::VertexShaderSource =
+const char* const NBodySimulatorUBO::VertexShaderSource =
     R"(#version 300 es
 
         precision highp float;
@@ -29,7 +29,7 @@ const char* const NBodySimulator::VertexShaderSource =
         }
 )";
 
-const char* const NBodySimulator::FragmentShaderSource =
+const char* const NBodySimulatorUBO::FragmentShaderSource =
     R"(#version 300 es
 
         precision highp float;
@@ -45,7 +45,7 @@ const char* const NBodySimulator::FragmentShaderSource =
         }
 )";
 
-NBodySimulator::NBodySimulator(int particleCount) : shader(VertexShaderSource, FragmentShaderSource, false) {
+NBodySimulatorUBO::NBodySimulatorUBO(int particleCount) : shader(VertexShaderSource, FragmentShaderSource, false) {
     // Resize the particles vector
     particles.resize(particleCount);
     sumForces.resize(particleCount);
@@ -83,108 +83,18 @@ NBodySimulator::NBodySimulator(int particleCount) : shader(VertexShaderSource, F
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-NBodySimulator::~NBodySimulator() {
+NBodySimulatorUBO::~NBodySimulatorUBO() {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
 }
 
 struct ThreadData {
-    NBodySimulator* simulator;
+    NBodySimulatorUBO* simulator;
     size_t start;
     size_t end;
 };
 
-#ifdef __EMSCRIPTEN_PTHREADS__
-#include <pthread.h>
-
-struct ThreadData {
-    NBodySimulator* simulator;
-    size_t start;
-    size_t end;
-};
-
-void* calculateSumForces(void* arg) {
-    ThreadData* data = static_cast<ThreadData*>(arg);
-    NBodySimulator* simulator = data->simulator;
-
-    for (size_t i = data->start; i < data->end; ++i)
-    {
-        for (size_t j = 0; j < simulator->particles.size(); ++j)
-        {
-            if (i == j)
-                continue;
-
-            glm::vec3 const direction = simulator->particles[j].position - simulator->particles[i].position;
-            float const distance = glm::length(direction);
-            float const magnitude = (simulator->gravity * simulator->particleMass * simulator->particleMass) /
-                                    ((distance * distance) + simulator->softening);
-            simulator->sumForces[i] += magnitude * glm::normalize(direction);
-        }
-    }
-
-    pthread_exit(NULL);
-}
-
-void* updateParticles(void* arg) {
-    ThreadData* data = static_cast<ThreadData*>(arg);
-    NBodySimulator* simulator = data->simulator;
-
-    for (size_t i = data->start; i < data->end; ++i)
-    {
-        simulator->particles[i].position += simulator->deltaTime * simulator->particles[i].velocity +
-                                            0.5F * simulator->deltaTime * simulator->deltaTime * simulator->sumForces[i];
-        simulator->particles[i].velocity += simulator->deltaTime * simulator->sumForces[i];
-        simulator->particles[i].velocity *= simulator->damping;
-        simulator->sumForces[i] = glm::vec3(0.0F);
-    }
-
-    pthread_exit(NULL);
-}
-
-void NBodySimulator::update(const float& deltaTime) {
-    if (isPaused)
-        return;
-
-    const size_t numThreads = 4; // Number of threads to use
-    const size_t particlesPerThread = particles.size() / numThreads;
-
-    pthread_t threads[numThreads];
-    ThreadData threadData[numThreads];
-
-    // Create threads for sum forces calculation
-    for (size_t i = 0; i < numThreads; ++i)
-    {
-        threadData[i].simulator = this;
-        threadData[i].start = i * particlesPerThread;
-        threadData[i].end = (i == numThreads - 1) ? particles.size() : (i + 1) * particlesPerThread;
-
-        pthread_create(&threads[i], NULL, calculateSumForces, &threadData[i]);
-    }
-
-    // Wait for sum forces calculation threads to complete
-    for (size_t i = 0; i < numThreads; ++i)
-    {
-        pthread_join(threads[i], NULL);
-    }
-
-    // Create threads for position update and sum forces reset
-    for (size_t i = 0; i < numThreads; ++i)
-    {
-        threadData[i].simulator = this;
-        threadData[i].start = i * particlesPerThread;
-        threadData[i].end = (i == numThreads - 1) ? particles.size() : (i + 1) * particlesPerThread;
-
-        pthread_create(&threads[i], NULL, updateParticles, &threadData[i]);
-    }
-
-    // Wait for position update and sum forces reset threads to complete
-    for (size_t i = 0; i < numThreads; ++i)
-    {
-        pthread_join(threads[i], NULL);
-    }
-}
-#else
-void NBodySimulator::update(const float& deltaTime) {
+void NBodySimulatorUBO::update(const float& deltaTime) {
     if (isPaused)
         return;
 
@@ -216,9 +126,8 @@ void NBodySimulator::update(const float& deltaTime) {
     // Reset the sum forces
     std::fill(sumForces.begin(), sumForces.end(), glm::vec3(0.0F));
 }
-#endif
 
-void NBodySimulator::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) {
+void NBodySimulatorUBO::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) {
     // Bind the VAO
     glBindVertexArray(VAO);
 
@@ -244,11 +153,11 @@ void NBodySimulator::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjecti
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void NBodySimulator::reset() {
+void NBodySimulatorUBO::reset() {
     randomizeParticles();
 }
 
-void NBodySimulator::randomizeParticles() {
+void NBodySimulatorUBO::randomizeParticles() {
     // Init the random engine
     std::mt19937 randomEngine;
     std::uniform_real_distribution<float> randomAngle(0.0F, static_cast<float>(2.0F * M_PI));
@@ -268,11 +177,11 @@ void NBodySimulator::randomizeParticles() {
     }
 }
 
-void NBodySimulator::setParticlesCount(const size_t& count) {
+void NBodySimulatorUBO::setParticlesCount(const size_t& count) {
     particles.resize(count);
     randomizeParticles();
 }
 
-auto NBodySimulator::getParticlesCount() const -> size_t {
+auto NBodySimulatorUBO::getParticlesCount() const -> size_t {
     return particles.size();
 }
