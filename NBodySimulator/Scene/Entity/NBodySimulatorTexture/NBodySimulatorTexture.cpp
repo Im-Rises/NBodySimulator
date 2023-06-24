@@ -131,6 +131,20 @@ NBodySimulatorTexture::NBodySimulatorTexture(int particleCount) : shader(VertexS
     shader.setInt("u_texture1", 0);
     shader.setInt("u_texture2", 1);
 
+    // set the FBO
+    glCreateFramebuffers(1, &FBO);
+    glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+    glDrawBuffers(1, &FBO);
+
+    // Create the render texture
+    glGenTextures(1, &renderTexture);
+    glBindTexture(GL_TEXTURE_2D, renderTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1280, 720, 0, GL_RGBA, GL_FLOAT, nullptr);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderTexture, 0);
+
+    // Unbind the FBO
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
     // Unbind the VAO
     glBindVertexArray(0);
 
@@ -156,6 +170,9 @@ void NBodySimulatorTexture::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraP
     // Bind the VBO
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
+    // Bind the FBO
+    glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+
     // bind Texture
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture1);
@@ -167,6 +184,9 @@ void NBodySimulatorTexture::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraP
 
     // Draw the quad
     glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    // Unbind the FBO
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     // Unbind the VAO
     glBindVertexArray(0);

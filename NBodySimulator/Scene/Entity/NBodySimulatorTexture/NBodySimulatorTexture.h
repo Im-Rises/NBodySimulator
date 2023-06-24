@@ -21,6 +21,10 @@ private:
 
     GLuint texture1;
     GLuint texture2;
+
+    GLuint FBO;
+    GLuint renderTexture;
+
     //    Shader physicShader;
     //    Shader renderShader;
 
