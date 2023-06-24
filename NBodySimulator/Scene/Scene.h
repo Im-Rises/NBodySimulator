@@ -3,11 +3,11 @@
 
 #include "Camera/Camera.h"
 
-#ifdef __EMSCRIPTEN__
-#include "Entity/NBodySimulator/NBodySimulatorTexture.h"
-#else
-#include "Entity/NBodySimulatorSSBO/NBodySimulatorSSBO.h"
-#endif
+// #ifdef __EMSCRIPTEN__
+#include "Entity/NBodySimulatorTexture/NBodySimulatorTexture.h"
+// #else
+// #include "Entity/NBodySimulatorSSBO/NBodySimulatorSSBO.h"
+// #endif
 
 class Scene {
 private:
@@ -16,11 +16,11 @@ private:
 public:
     Camera camera;
 
-#ifdef __EMSCRIPTEN__
+    // #ifdef __EMSCRIPTEN__
     NBodySimulatorTexture nbodySimulator;
-#else
-    NBodySimulatorSSBO nbodySimulator;
-#endif
+    // #else
+    //     NBodySimulatorSSBO nbodySimulator;
+    // #endif
 
     //    std::vector<Entity*> entities;
 

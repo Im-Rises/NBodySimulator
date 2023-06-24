@@ -2,6 +2,8 @@
 
 #include <random>
 #include <iostream>
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
 
 #include "../../../Utility/piDeclaration.h"
 
@@ -10,8 +12,13 @@ const char* const NBodySimulatorTexture::VertexShaderPhysicSource =
 
     precision highp float;
 
+    in vec3 a_position;
+
+    out vec2 v_texCoord;
+
     void main() {
-        gl_Position = vec4(0.0);
+        gl_Position = vec4(a_position, 1.0);
+        v_texCoord = a_position.xy;
     }
 )";
 
@@ -20,79 +27,70 @@ const char* const NBodySimulatorTexture::FragmentShaderPhysicSource =
 
     precision highp float;
 
-    uniform sampler2D texturePositionBuffer;
-    uniform sampler2D textureVelocityBuffer;
+    uniform sampler2D u_texture;
 
-    uniform float deltaTime;
-    uniform float gravity;
-    uniform float particleMass;
-    uniform float softening;
-    uniform float damping;
+    in vec2 v_texCoord;
 
-    uniform int particleCount;
+    out vec4 o_color;
 
     void main() {
-        vec2 texelSize = vec2(1.0 / float(particleCount), 1.0);
-
-        vec3 position = texture(texturePositionBuffer, gl_VertexID * texelSize).xyz;
-        vec3 velocity = texture(textureVelocityBuffer, gl_VertexID * texelSize).xyz;
-
-        vec3 acceleration = vec3(0.0);
-
-        for (int i = 0; i < particleCount; i++) {
-            vec3 otherPosition = texture(texturePositionBuffer, i * texelSize).xyz;
-            vec3 otherVelocity = texture(textureVelocityBuffer, i * texelSize).xyz;
-
-            vec3 difference = otherPosition - position;
-
-            float distance = length(difference);
-            float force = particleMass * particleMass / ((distance * distance) + softening);
-
-            acceleration += difference * force;
-        }
-
-        velocity += acceleration * deltaTime * gravity;
-        velocity *= damping;
-
-        position += velocity * deltaTime;
-
-        gl_FragColor[0] = position[0];
-        gl_FragColor[1] = position[1];
+        o_color = texture(u_texture, v_texCoord);
     }
 )";
 
-const char* const NBodySimulatorTexture::VertexShaderRenderSource =
-    R"(#version 300 es
+// const char* const NBodySimulatorTexture::VertexShaderRenderSource =
+//     R"(#version 300 es
+//
+//         precision highp float;
+//
+//         uniform sampler2D texturePositionBuffer;
+//         uniform sampler2D textureVelocityBuffer;
+//
+//         uniform mat4 u_mvp;
+//
+//         void main() {
+//             vec2 texelSize = vec2(1.0 / float(particleCount), 1.0);
+//
+//             vec3 position = texture(texturePositionBuffer, gl_VertexID * texelSize).xyz;
+//             vec3 velocity = texture(textureVelocityBuffer, gl_VertexID * texelSize).xyz;
+//
+//             gl_Position = u_mvp * vec4(position, 1.0);
+//         }
+//)";
+//
+// const char* const NBodySimulatorTexture::FragmentShaderRenderSource =
+//     R"(#version 300 es
+//
+//         precision highp float;
+//
+//         void main() {
+//             gl_FragColor = vec4(1.0);
+//         }
+//)";
 
-        precision highp float;
-
-        uniform sampler2D texturePositionBuffer;
-        uniform sampler2D textureVelocityBuffer;
-
-        uniform mat4 u_mvp;
-
-        void main() {
-            vec2 texelSize = vec2(1.0 / float(particleCount), 1.0);
-
-            vec3 position = texture(texturePositionBuffer, gl_VertexID * texelSize).xyz;
-            vec3 velocity = texture(textureVelocityBuffer, gl_VertexID * texelSize).xyz;
-
-            gl_Position = u_mvp * vec4(position, 1.0);
-        }
-)";
-
-const char* const NBodySimulatorTexture::FragmentShaderRenderSource =
-    R"(#version 300 es
-
-        precision highp float;
-
-        void main() {
-            gl_FragColor = vec4(1.0);
-        }
-)";
+constexpr float QuadVertices[18] = {
+    -1.0F,
+    -1.0F,
+    0.0F,
+    1.0F,
+    1.0F,
+    0.0F,
+    -1.0F,
+    1.0F,
+    0.0F,
+    -1.0F,
+    -1.0F,
+    0.0F,
+    1.0F,
+    -1.0F,
+    0.0F,
+    1.0F,
+    1.0F,
+    0.0F,
+};
 
 
-NBodySimulatorTexture::NBodySimulatorTexture(int particleCount) : physicShader(VertexShaderPhysicSource, FragmentShaderPhysicSource, false), renderShader(VertexShaderRenderSource, FragmentShaderRenderSource, false) {
+NBodySimulatorTexture::NBodySimulatorTexture(int particleCount) : shader(VertexShaderPhysicSource, FragmentShaderPhysicSource, false) /*, renderShader(VertexShaderRenderSource, FragmentShaderRenderSource, false)*/ {
 
     // Init the VAO
     glGenVertexArrays(1, &VAO);
@@ -106,8 +104,34 @@ NBodySimulatorTexture::NBodySimulatorTexture(int particleCount) : physicShader(V
     // Bind the VAO
     glBindVertexArray(VAO);
 
+    // Set the VBO data
+    glBufferData(GL_ARRAY_BUFFER, sizeof(QuadVertices), QuadVertices, GL_STATIC_DRAW);
 
+    // Set the VAO attributes
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+    glEnableVertexAttribArray(0);
 
+    // Load image, create texture and generate mipmaps
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    // set the texture wrapping/filtering options (on the currently bound texture object)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    // load and generate the texture
+    int width, height, nrChannels;
+    unsigned char* data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
+    if (data)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {
+        std::cout << "Failed to load texture" << std::endl;
+    }
+    stbi_image_free(data);
 
     // Unbind the VAO
     glBindVertexArray(0);
@@ -119,7 +143,6 @@ NBodySimulatorTexture::NBodySimulatorTexture(int particleCount) : physicShader(V
 NBodySimulatorTexture::~NBodySimulatorTexture() {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
-    glDeleteFramebuffers(1, &framebuffer);
 }
 
 void NBodySimulatorTexture::update(const float& deltaTime) {
@@ -135,17 +158,14 @@ void NBodySimulatorTexture::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraP
     // Bind the VBO
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+    // bind Texture
+    glBindTexture(GL_TEXTURE_2D, texture);
 
+    // Bind the shader
+    shader.use();
 
-    //    Bind the shader
-    //    shader.use();
-    //
-    //    // Set the uniform variables
-    //    shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix);
-
-    //    // Draw the particles
-    //    glDrawArrays(GL_POINTS, 0, static_cast<GLsizei>(particles.size()));
+    // Draw the quad
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 
     // Unbind the framebuffer
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -188,17 +208,18 @@ auto NBodySimulatorTexture::getParticlesCount() const -> size_t {
     //    return particles.size();
     return 0;
 }
-void NBodySimulatorTexture::initTexture(GLuint& texture, const size_t& count, const glm::vec4& color) {
-    // Init the texture
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, static_cast<GLsizei>(count), 1, 0, GL_RGBA, GL_FLOAT, nullptr);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-    //    // Init the texture data
-    //    std::vector<glm::vec4> textureData(count, color);
-    //    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, static_cast<GLsizei>(count), 1, GL_RGBA, GL_FLOAT, textureData.data());
-
-    // Unbind the texture
-    glBindTexture(GL_TEXTURE_2D, 0);
-}
+// void NBodySimulatorTexture::initTexture(GLuint& texture, const size_t& count, const glm::vec4& color) {
+//     // Init the texture
+//     glBindTexture(GL_TEXTURE_2D, texture);
+//     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, static_cast<GLsizei>(count), 1, 0, GL_RGBA, GL_FLOAT, nullptr);
+//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+//
+//     //    // Init the texture data
+//     //    std::vector<glm::vec4> textureData(count, color);
+//     //    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, static_cast<GLsizei>(count), 1, GL_RGBA, GL_FLOAT, textureData.data());
+//
+//     // Unbind the texture
+//     glBindTexture(GL_TEXTURE_2D, 0);
+// }

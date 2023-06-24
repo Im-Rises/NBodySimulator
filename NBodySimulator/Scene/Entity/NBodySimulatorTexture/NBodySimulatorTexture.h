@@ -11,19 +11,24 @@ private:
     static const char* const VertexShaderPhysicSource;
     static const char* const FragmentShaderPhysicSource;
 
-    static const char* const VertexShaderRenderSource;
-    static const char* const FragmentShaderRenderSource;
+    //    static const char* const VertexShaderRenderSource;
+    //    static const char* const FragmentShaderRenderSource;
+
+    //    static constexpr float const QuadVertices[18];
 
     GLuint VAO, VBO;
-    Shader physicShader;
-    Shader renderShader;
+    Shader shader;
 
-    GLuint texturePositionBuffer[2];
-    GLuint textureVelocityBuffer[2];
+    GLuint texture;
+    //    Shader physicShader;
+    //    Shader renderShader;
 
-    GLuint FBO;
-
-    GLuint pingPongIndex = 0;
+    //    GLuint texturePositionBuffer[2];
+    //    GLuint textureVelocityBuffer[2];
+    //
+    //    GLuint FBO;
+    //
+    //    GLuint pingPongIndex = 0;
 
     size_t particlesCount = 0;
 
@@ -60,7 +65,7 @@ public:
     [[nodiscard]] auto getParticlesCount() const -> size_t;
 
 private:
-    void initTexture(GLuint& texture, const size_t& count, const glm::vec4& color);
+    //    void initTexture(GLuint& texture, const size_t& count, const glm::vec4& color);
 };
 
 #endif // NBODY_SIMULATOR_TEXTURE_H
