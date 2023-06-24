@@ -137,8 +137,15 @@ void NBodySimulator::update(const float& deltaTime) {
     const size_t numThreads = 4; // Number of threads to use
     const size_t particlesPerThread = particles.size() / numThreads;
 
+    // Create threads
     pthread_t threads[numThreads];
     ThreadData threadData[numThreads];
+
+    // Create barrier
+    pthread_barrier_t barrier;
+
+    // Init barrier
+    pthread_barrier_init(&barrier, NULL, numThreads);
 
     // Create threads for update
     for (size_t i = 0; i < numThreads; ++i)
@@ -146,6 +153,7 @@ void NBodySimulator::update(const float& deltaTime) {
         threadData[i].simulator = this;
         threadData[i].start = i * particlesPerThread;
         threadData[i].end = (i == numThreads - 1) ? particles.size() : (i + 1) * particlesPerThread;
+        threadData[i].barrier = &barrier;
 
         pthread_create(&threads[i], NULL, calculateSumForces, &threadData[i]);
     }
@@ -155,6 +163,9 @@ void NBodySimulator::update(const float& deltaTime) {
     {
         pthread_join(threads[i], NULL);
     }
+
+    // Destroy barrier
+    pthread_barrier_destroy(&barrier);
 }
 #else
 void NBodySimulator::update(const float& deltaTime) {
