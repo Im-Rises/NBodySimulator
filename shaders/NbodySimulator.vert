@@ -16,6 +16,7 @@ layout (std430, binding = 0) buffer ParticlesSsbo {
 uniform mat4 u_mvp;
 uniform float u_deltaTime;
 uniform float u_damping;
+uniform float u_particleMass;
 uniform float u_gravity;
 uniform float u_softening;
 uniform float u_isRunning;
@@ -35,10 +36,10 @@ void main()
 
         vec3 r = otherParticle.position - particle.position;
         float rSquared = dot(r, r) + u_softening;
-        sumForces += normalize(r) * (u_gravity * particle.mass * otherParticle.mass) / rSquared;
+        sumForces += normalize(r) * (u_gravity * u_particleMass * u_particleMass) / rSquared;
     }
 
-    vec3 acceleration = sumForces / particle.mass;
+    vec3 acceleration = sumForces / u_particleMass;
     vec3 position = particle.position + (particle.velocity * u_deltaTime + 0.5 * acceleration * u_deltaTime * u_deltaTime) * u_isRunning;
     vec3 velocity = particle.velocity + acceleration * u_deltaTime;
 
@@ -46,7 +47,7 @@ void main()
 
     particle.position = position;
     particle.velocity = velocity;
-    
+
     memoryBarrierBuffer();
 
     particlesSsboData.particles[gl_VertexID] = particle;

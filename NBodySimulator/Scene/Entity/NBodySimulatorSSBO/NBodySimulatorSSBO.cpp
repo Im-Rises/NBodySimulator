@@ -87,7 +87,7 @@ void NBodySimulatorSSBO::randomizeParticles(std::vector<Particle>& particles) {
     std::mt19937 randomEngine;
     std::uniform_real_distribution<float> randomAngle(0.0F, static_cast<float>(2.0F * M_PI));
     std::uniform_real_distribution<float> randomColorValue(0.0F, 1.0F);
-    std::uniform_real_distribution<float> randomMass(1.0F, 1.0F);
+    //    std::uniform_real_distribution<float> randomMass(1.0F, 1.0F);
 
     // Init the particles as a sphere
     for (auto& particle : particles)
@@ -99,7 +99,7 @@ void NBodySimulatorSSBO::randomizeParticles(std::vector<Particle>& particles) {
         const float z = spawnRadius * std::cos(angle1);
         particle.position = glm::vec3(x, y, z) + position;
         particle.velocity = glm::vec3(0.0F, 0.0F, 0.0F);
-        particle.mass = randomMass(randomEngine);
+        //        particle.mass = randomMass(randomEngine);
         particle.color = glm::vec3(randomColorValue(randomEngine), randomColorValue(randomEngine), randomColorValue(randomEngine));
     }
 }

@@ -42,6 +42,7 @@ const char* const NBodySimulator::FragmentShaderSource =
 NBodySimulator::NBodySimulator(int particleCount) : shader(VertexShaderSource, FragmentShaderSource, false) {
     // Resize the particles vector
     particles.resize(particleCount);
+    sumForces.resize(particleCount);
 
     // Init the particles
     randomizeParticles();
@@ -83,9 +84,9 @@ void NBodySimulator::update(const float& deltaTime) {
     if (isPaused)
         return;
 
+    int index = 0;
     for (auto& particle : particles)
     {
-        glm::vec3 sumForces = glm::vec3(0.0F, 0.0F, 0.0F);
         for (auto& otherParticle : particles)
         {
             if (&particle == &otherParticle)
@@ -98,20 +99,24 @@ void NBodySimulator::update(const float& deltaTime) {
             const float rSquared = glm::dot(r, r) + softening;
 
             // Calculate the force
-            sumForces += ((gravity * particleMass * particleMass * glm::normalize(r)) / rSquared);
+            sumForces[index] += ((gravity * particleMass * particleMass * glm::normalize(r)) / rSquared);
         }
+        index++;
+    }
 
+    index = 0;
+    for (auto& particle : particles)
+    {
         // Calculate the acceleration
-        const glm::vec3 acceleration = sumForces / particleMass;
+        const glm::vec3 acceleration = sumForces[index] / particleMass;
 
-        // Calculate the velocity
+        // Calculate new position
+        particle.position += particle.velocity * deltaTime + 0.5F * acceleration * deltaTime * deltaTime;
+
+        // Calculate new velocity
         particle.velocity += acceleration * deltaTime;
 
-        // Damp the velocity
-        particle.velocity *= damping;
-
-        // Calculate the position
-        particle.position += particle.velocity * deltaTime + 0.5F * acceleration * deltaTime * deltaTime;
+        index++;
     }
 }
 

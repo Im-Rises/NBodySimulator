@@ -23,11 +23,12 @@ private:
     };
 
     std::vector<Particle> particles;
+    std::vector<glm::vec3> sumForces;
 
 public:
     float spawnRadius = 3.0F;
     float gravity = 1.0F;
-    float particleMass = 50.0F;
+    float particleMass = 1.0F;
     float softening = 10.0F;
     float damping = 0.99F;
 

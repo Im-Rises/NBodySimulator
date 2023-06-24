@@ -433,28 +433,28 @@ void NBodySimulatorLauncher::handleUi(float deltaTime) {
             ImGui::End();
         }
 
-        {
-            // #ifdef __EMSCRIPTEN__
-            //             static bool isCollapsed = true;
-            //             ImGui::SetNextWindowPos(ImVec2(5, 65), ImGuiCond_Once);
-            //             ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
-            // #endif
-            ImGui::Begin("Mouse controls");
+        //        {
+        // #ifdef __EMSCRIPTEN__
+        //             static bool isCollapsed = true;
+        //             ImGui::SetNextWindowPos(ImVec2(5, 65), ImGuiCond_Once);
+        //             ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+        // #endif
+        //            ImGui::Begin("Mouse controls");
 
-            //            ImGui::Text("Is attracting: %s", scene->nbodySimulator.getIsAttracting() ? "true" : "false");
-
-            ImGui::Text("Mouse position world:");
-            ImGui::Text("X: %f", mousePositionWorld.x);
-            ImGui::SameLine();
-            ImGui::Text("Y: %f", mousePositionWorld.y);
-            ImGui::SameLine();
-            ImGui::Text("Z: %f", mousePositionWorld.z);
-
-            ImGui::Text("Attractor distance from camera:");
-            ImGui::DragFloat("##attractorDistance", &attractorDistance, 0.1F, 0.0F, 100.0F);
-
-            ImGui::End();
-        }
+        //            ImGui::Text("Is attracting: %s", scene->nbodySimulator.getIsAttracting() ? "true" : "false");
+        //
+        //            ImGui::Text("Mouse position world:");
+        //            ImGui::Text("X: %f", mousePositionWorld.x);
+        //            ImGui::SameLine();
+        //            ImGui::Text("Y: %f", mousePositionWorld.y);
+        //            ImGui::SameLine();
+        //            ImGui::Text("Z: %f", mousePositionWorld.z);
+        //
+        //            ImGui::Text("Attractor distance from camera:");
+        //            ImGui::DragFloat("##attractorDistance", &attractorDistance, 0.1F, 0.0F, 100.0F);
+        //
+        //            ImGui::End();
+        //        }
     }
 
     ImGui::Render();
