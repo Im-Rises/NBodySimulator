@@ -36,7 +36,41 @@ const char* const NBodySimulatorTexture::FragmentShaderPhysicSource =
 
     void main()
     {
-        o_color = mix(texture(u_texture1, v_texCoord), texture(u_texture2, v_texCoord), 0.5);
+//        o_color = mix(texture(u_texture1, v_texCoord), texture(u_texture2, v_texCoord), 0.5);
+        o_color = vec4(0.2, 0.4, 0.6, 1.0);
+    }
+)";
+
+const char* const NBodySimulatorTexture::VertexShaderDrawSource =
+    R"(#version 300 es
+
+    precision highp float;
+
+    in vec3 a_position;
+
+    out vec2 v_texCoord;
+
+    void main() {
+        gl_Position = vec4(a_position, 1.0);
+        v_texCoord = a_position.xy * 0.5 + 0.5;
+    }
+)";
+
+const char* const NBodySimulatorTexture::FragmentShaderDrawSource =
+    R"(#version 300 es
+
+    precision highp float;
+
+    uniform sampler2D u_texture;
+
+    in vec2 v_texCoord;
+
+    out vec4 o_color;
+
+    void main()
+    {
+        o_color = texture(u_texture, v_texCoord);
+//        o_color = vec4(1.0, 0.0, 0.0, 1.0);
     }
 )";
 
@@ -62,7 +96,7 @@ constexpr float QuadVertices[18] = {
 };
 
 
-NBodySimulatorTexture::NBodySimulatorTexture(int particleCount) : shader(VertexShaderPhysicSource, FragmentShaderPhysicSource, false) /*, renderShader(VertexShaderRenderSource, FragmentShaderRenderSource, false)*/ {
+NBodySimulatorTexture::NBodySimulatorTexture(int particleCount) : shader(VertexShaderPhysicSource, FragmentShaderPhysicSource, false), shaderDraw(VertexShaderDrawSource, FragmentShaderDrawSource, false) {
 
     // Init the VAO
     glGenVertexArrays(1, &VAO);
@@ -145,6 +179,11 @@ NBodySimulatorTexture::NBodySimulatorTexture(int particleCount) : shader(VertexS
     // Unbind the FBO
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+    // Set up render shader to use the same vertices as the physics shader
+    // Set texture uniforms
+    shaderDraw.use();
+    shaderDraw.setInt("u_texture", 0);
+
     // Unbind the VAO
     glBindVertexArray(0);
 
@@ -188,6 +227,24 @@ void NBodySimulatorTexture::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraP
     // Unbind the FBO
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+    /* Use the FBo from the previous print in this second shader */
+    // Check render texture is filled
+    float* pixels = new float[1280 * 720 * 4];
+    glBindTexture(GL_TEXTURE_2D, renderTexture);
+    glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, pixels);
+    for (int i = 0; i < 1280 * 720 * 4; i++)
+    {
+        if (pixels[i] != 0.0F)
+        {
+            std::cout << "Pixel " << i << " is " << pixels[i] << std::endl;
+        }
+    }
+    shaderDraw.use();
+    shaderDraw.setInt("u_texture", 0);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, renderTexture);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
     // Unbind the VAO
     glBindVertexArray(0);
 
@@ -226,18 +283,3 @@ auto NBodySimulatorTexture::getParticlesCount() const -> size_t {
     //    return particles.size();
     return 0;
 }
-
-// void NBodySimulatorTexture::initTexture(GLuint& texture, const size_t& count, const glm::vec4& color) {
-//     // Init the texture
-//     glBindTexture(GL_TEXTURE_2D, texture);
-//     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, static_cast<GLsizei>(count), 1, 0, GL_RGBA, GL_FLOAT, nullptr);
-//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-//
-//     //    // Init the texture data
-//     //    std::vector<glm::vec4> textureData(count, color);
-//     //    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, static_cast<GLsizei>(count), 1, GL_RGBA, GL_FLOAT, textureData.data());
-//
-//     // Unbind the texture
-//     glBindTexture(GL_TEXTURE_2D, 0);
-// }

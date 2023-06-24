@@ -11,13 +11,12 @@ private:
     static const char* const VertexShaderPhysicSource;
     static const char* const FragmentShaderPhysicSource;
 
-    //    static const char* const VertexShaderRenderSource;
-    //    static const char* const FragmentShaderRenderSource;
-
-    //    static constexpr float const QuadVertices[18];
+    static const char* const VertexShaderDrawSource;
+    static const char* const FragmentShaderDrawSource;
 
     GLuint VAO, VBO;
     Shader shader;
+    Shader shaderDraw;
 
     GLuint texture1;
     GLuint texture2;
