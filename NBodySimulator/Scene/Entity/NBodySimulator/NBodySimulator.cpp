@@ -101,6 +101,7 @@ struct ThreadData {
     NBodySimulator* simulator;
     size_t start;
     size_t end;
+    pthread_barrier_t* barrier;
 };
 
 void* calculateSumForces(void* arg) {
@@ -122,12 +123,7 @@ void* calculateSumForces(void* arg) {
         }
     }
 
-    pthread_exit(NULL);
-}
-
-void* updateParticles(void* arg) {
-    ThreadData* data = static_cast<ThreadData*>(arg);
-    NBodySimulator* simulator = data->simulator;
+    pthread_barrier_wait(data->barrier);
 
     for (size_t i = data->start; i < data->end; ++i)
     {
@@ -151,7 +147,7 @@ void NBodySimulator::update(const float& deltaTime) {
     pthread_t threads[numThreads];
     ThreadData threadData[numThreads];
 
-    // Create threads for sum forces calculation
+    // Create threads for update
     for (size_t i = 0; i < numThreads; ++i)
     {
         threadData[i].simulator = this;
@@ -161,23 +157,7 @@ void NBodySimulator::update(const float& deltaTime) {
         pthread_create(&threads[i], NULL, calculateSumForces, &threadData[i]);
     }
 
-    // Wait for sum forces calculation threads to complete
-    for (size_t i = 0; i < numThreads; ++i)
-    {
-        pthread_join(threads[i], NULL);
-    }
-
-    // Create threads for position update and sum forces reset
-    for (size_t i = 0; i < numThreads; ++i)
-    {
-        threadData[i].simulator = this;
-        threadData[i].start = i * particlesPerThread;
-        threadData[i].end = (i == numThreads - 1) ? particles.size() : (i + 1) * particlesPerThread;
-
-        pthread_create(&threads[i], NULL, updateParticles, &threadData[i]);
-    }
-
-    // Wait for position update and sum forces reset threads to complete
+    // Wait for update threads to finish
     for (size_t i = 0; i < numThreads; ++i)
     {
         pthread_join(threads[i], NULL);
