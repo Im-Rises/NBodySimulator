@@ -3,7 +3,9 @@
 
 #include "Camera/Camera.h"
 
-#ifdef __EMSCRIPTEN__
+#ifdef __EMSCRIPTEN_PTHREADS__
+#include "Entity/NBodySimulatorPThreads/NBodySimulatorPThreads.h"
+#elif __EMSCRIPTEN__
 #include "Entity/NBodySimulator/NBodySimulator.h"
 #else
 #include "Entity/NBodySimulatorSSBO/NBodySimulatorSSBO.h"
@@ -16,7 +18,9 @@ private:
 public:
     Camera camera;
 
-#ifdef __EMSCRIPTEN__
+#ifdef __EMSCRIPTEN_PTHREADS__
+    NBodySimulatorPThreads nbodySimulator;
+#elif __EMSCRIPTEN__
     NBodySimulator nbodySimulator;
 #else
     NBodySimulatorSSBO nbodySimulator;
