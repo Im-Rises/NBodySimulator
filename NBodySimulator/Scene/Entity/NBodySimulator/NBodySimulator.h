@@ -18,8 +18,9 @@ private:
     struct Particle {
         glm::vec3 position;
         glm::vec3 velocity;
+        glm::vec3 color;
 
-        Particle() : position(glm::vec3(0.0F)), velocity(glm::vec3(1.0F, 1.0F, 1.0F)) {}
+        Particle() : position(glm::vec3(0.0F)), velocity(glm::vec3(0.0F)), color(glm::vec3(1.0F, 1.0F, 1.0F)) {}
     };
 
     std::vector<Particle> particles;
