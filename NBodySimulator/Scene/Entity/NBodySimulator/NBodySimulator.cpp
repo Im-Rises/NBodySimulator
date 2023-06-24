@@ -4,10 +4,6 @@
 
 #include "../../../Utility/piDeclaration.h"
 
-#ifdef __EMSCRIPTEN_PTHREADS__
-#include <pthread.h>
-#endif
-
 const char* const NBodySimulator::VertexShaderSource =
     R"(#version 300 es
 
@@ -88,13 +84,8 @@ NBodySimulator::~NBodySimulator() {
     glDeleteBuffers(1, &VBO);
 }
 
-struct ThreadData {
-    NBodySimulator* simulator;
-    size_t start;
-    size_t end;
-};
-
-#ifdef __EMSCRIPTEN_PTHREADS__
+// #ifdef __EMSCRIPTEN_PTHREADS__
+#ifdef __unix__
 #include <pthread.h>
 
 struct ThreadData {
@@ -140,6 +131,8 @@ void* calculateSumForces(void* arg) {
 void NBodySimulator::update(const float& deltaTime) {
     if (isPaused)
         return;
+
+    this->deltaTime = deltaTime;
 
     const size_t numThreads = 4; // Number of threads to use
     const size_t particlesPerThread = particles.size() / numThreads;
