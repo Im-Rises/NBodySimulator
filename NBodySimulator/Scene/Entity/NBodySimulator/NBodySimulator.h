@@ -23,6 +23,7 @@ private:
         Particle() : position(glm::vec3(0.0F)), velocity(glm::vec3(0.0F)), color(glm::vec3(1.0F, 1.0F, 1.0F)) {}
     };
 
+public:
     std::vector<Particle> particles;
     std::vector<glm::vec3> sumForces;
 

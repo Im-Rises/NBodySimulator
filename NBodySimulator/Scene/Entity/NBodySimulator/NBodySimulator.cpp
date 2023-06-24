@@ -4,6 +4,10 @@
 
 #include "../../../Utility/piDeclaration.h"
 
+#ifdef __EMSCRIPTEN_PTHREADS__
+#include <pthread.h>
+#endif
+
 const char* const NBodySimulator::VertexShaderSource =
     R"(#version 300 es
 
@@ -84,6 +88,73 @@ NBodySimulator::~NBodySimulator() {
     glDeleteBuffers(1, &VBO);
 }
 
+struct ThreadData {
+    NBodySimulator* simulator;
+    size_t start;
+    size_t end;
+};
+
+#ifdef __EMSCRIPTEN_PTHREADS__
+void* calculateSumForces(void* arg) {
+    ThreadData* data = static_cast<ThreadData*>(arg);
+    NBodySimulator* simulator = data->simulator;
+
+    for (size_t i = data->start; i < data->end; ++i)
+    {
+        for (size_t j = 0; j < simulator->particles.size(); ++j)
+        {
+            if (i == j)
+                continue;
+
+            glm::vec3 const direction = simulator->particles[j].position - simulator->particles[i].position;
+            float const distance = glm::length(direction);
+            float const magnitude = (simulator->gravity * simulator->particleMass * simulator->particleMass) /
+                                    ((distance * distance) + simulator->softening);
+            simulator->sumForces[i] += magnitude * glm::normalize(direction);
+        }
+    }
+
+    pthread_exit(NULL);
+}
+
+void NBodySimulator::update(const float& deltaTime) {
+    if (isPaused)
+        return;
+
+    const size_t numThreads = 4; // Number of threads to use
+    const size_t particlesPerThread = particles.size() / numThreads;
+
+    pthread_t threads[numThreads];
+    ThreadData threadData[numThreads];
+
+    // Create threads and distribute workload
+    for (size_t i = 0; i < numThreads; ++i)
+    {
+        threadData[i].simulator = this;
+        threadData[i].start = i * particlesPerThread;
+        threadData[i].end = (i == numThreads - 1) ? particles.size() : (i + 1) * particlesPerThread;
+
+        pthread_create(&threads[i], NULL, calculateSumForces, &threadData[i]);
+    }
+
+    // Wait for threads to complete
+    for (size_t i = 0; i < numThreads; ++i)
+    {
+        pthread_join(threads[i], NULL);
+    }
+
+    // Update the particles
+    for (size_t i = 0; i < particles.size(); ++i)
+    {
+        particles[i].position += deltaTime * particles[i].velocity + 0.5F * deltaTime * deltaTime * sumForces[i];
+        particles[i].velocity += deltaTime * sumForces[i];
+        particles[i].velocity *= damping;
+    }
+
+    // Reset the sum forces
+    std::fill(sumForces.begin(), sumForces.end(), glm::vec3(0.0F));
+}
+#else
 void NBodySimulator::update(const float& deltaTime) {
     if (isPaused)
         return;
@@ -116,6 +187,7 @@ void NBodySimulator::update(const float& deltaTime) {
     // Reset the sum forces
     std::fill(sumForces.begin(), sumForces.end(), glm::vec3(0.0F));
 }
+#endif
 
 void NBodySimulator::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) {
     // Bind the VAO
