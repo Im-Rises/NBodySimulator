@@ -1,6 +1,10 @@
 #include "Scene.h"
 
-Scene::Scene(int display_w, int display_h) : camera(display_w, display_h), nbodySimulator(1000) {
+// #ifdef __EMSCRIPTEN__
+Scene::Scene(int display_w, int display_h) : camera(display_w, display_h), nbodySimulator(500) {
+    // #else
+    // Scene::Scene(int display_w, int display_h) : camera(display_w, display_h), nbodySimulator(10000) {
+    // #endif
 }
 
 // void Scene::fixedUpdate(float deltaTime) {
@@ -32,6 +36,7 @@ void Scene::reset() {
     camera.reset();
     nbodySimulator.reset();
 }
+
 auto Scene::getIsPaused() const -> bool {
     return isPaused;
 }

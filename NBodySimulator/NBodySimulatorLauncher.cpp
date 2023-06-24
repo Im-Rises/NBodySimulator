@@ -565,28 +565,6 @@ void NBodySimulatorLauncher::calculateMouseMovement(const double& xMouse, const 
     lastMouseY = yMouse;
 }
 
-auto NBodySimulatorLauncher::projectMouse(const double& xMouse, const double& yMouse) -> glm::vec3 {
-    // Convert the mouse coordinates from screen space to NDC space
-    float const normalized_x = (2.0F * static_cast<float>(xMouse)) / static_cast<float>(displayWidth) - 1.0F;
-    float const normalized_y = 1.0F - (2.0F * static_cast<float>(yMouse)) / static_cast<float>(displayHeight);
-
-    // Create a vector representing the mouse coordinates in NDC space
-    glm::vec4 const mouse_ndc(normalized_x, normalized_y, -1.0F, 1.0F);
-
-    // Convert the mouse coordinates from NDC space to world space
-    glm::mat4 const inverse_projection = glm::inverse(scene->camera.getProjectionMatrix());
-    glm::mat4 const inverse_view = glm::inverse(scene->camera.getViewMatrix());
-    glm::vec4 mouse_world = inverse_projection * mouse_ndc;
-    mouse_world = mouse_world / mouse_world.w;
-    mouse_world = inverse_view * mouse_world;
-
-    // Calculate the direction from the camera position to the mouse position
-    glm::vec3 const camera_to_mouse = glm::normalize(glm::vec3(mouse_world) - scene->camera.position);
-
-    // Use the direction to update the position of an object in the 3D environment
-    return scene->camera.position + camera_to_mouse * attractorDistance;
-}
-
 auto NBodySimulatorLauncher::getOpenGLVendor() -> std::string_view {
     return reinterpret_cast<const char*>(glGetString(GL_RENDERER));
 }

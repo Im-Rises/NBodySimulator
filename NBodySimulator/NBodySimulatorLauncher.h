@@ -39,11 +39,10 @@ private:
     float attractorDistance = 10.0F;
     glm::vec3 mousePositionWorld;
 
-    static constexpr int MAX_PARTICLES_COUNT = 10000000;
-
+    static constexpr int MAX_PARTICLES_COUNT = 1000000;
 
 #ifndef __EMSCRIPTEN__
-    float pointSize = 1.0F;
+    float pointSize = 2.0F;
     bool isFullscreen = false;
 #endif
     bool isUiVisible = true;
@@ -92,8 +91,6 @@ public:
 
 private:
     static void calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement, double& yMovement);
-
-    auto projectMouse(const double& xMouse, const double& yMouse) -> glm::vec3;
 
 private:
     static auto getOpenGLVendor() -> std::string_view;

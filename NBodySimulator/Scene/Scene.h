@@ -4,9 +4,9 @@
 #include "Camera/Camera.h"
 
 // #ifdef __EMSCRIPTEN__
-// #include "Entity/NBodySimulator/NBodySimulator.h"
+#include "Entity/NBodySimulator/NBodySimulator.h"
 // #else
-#include "Entity/NBodySimulatorSSBO/NBodySimulatorSSBO.h"
+// #include "Entity/NBodySimulatorSSBO/NBodySimulatorSSBO.h"
 // #endif
 
 class Scene {
@@ -17,9 +17,9 @@ public:
     Camera camera;
 
     // #ifdef __EMSCRIPTEN__
-    //    NBodySimulator nbodySimulator;
+    NBodySimulator nbodySimulator;
     // #else
-    NBodySimulatorSSBO nbodySimulator;
+    //    NBodySimulatorSSBO nbodySimulator;
     // #endif
 
 public:

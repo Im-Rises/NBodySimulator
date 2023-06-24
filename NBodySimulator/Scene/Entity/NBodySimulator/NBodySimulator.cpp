@@ -84,40 +84,32 @@ void NBodySimulator::update(const float& deltaTime) {
     if (isPaused)
         return;
 
-    int index = 0;
-    for (auto& particle : particles)
+    // Calculate the sum forces
+    for (size_t i = 0; i < particles.size(); ++i)
     {
-        for (auto& otherParticle : particles)
+        for (size_t j = 0; j < particles.size(); ++j)
         {
-            if (&particle == &otherParticle)
-            {
+            if (i == j)
                 continue;
-            }
 
-            // Calculate the distance between the particle and the point of gravity
-            const glm::vec3 r = otherParticle.position - particle.position;
-            const float rSquared = glm::dot(r, r) + softening;
-
-            // Calculate the force
-            sumForces[index] += ((gravity * particleMass * particleMass * glm::normalize(r)) / rSquared);
+            glm::vec3 const direction = particles[j].position - particles[i].position;
+            float const distance = glm::length(direction);
+            float const magnitude = (gravity * particleMass * particleMass) / (distance * distance + softening * softening);
+            sumForces[i] += magnitude * glm::normalize(direction);
         }
-        index++;
     }
 
-    index = 0;
-    for (auto& particle : particles)
+    // Update the particles
+    for (size_t i = 0; i < particles.size(); ++i)
     {
-        // Calculate the acceleration
-        const glm::vec3 acceleration = sumForces[index] / particleMass;
-
-        // Calculate new position
-        particle.position += particle.velocity * deltaTime + 0.5F * acceleration * deltaTime * deltaTime;
-
-        // Calculate new velocity
-        particle.velocity += acceleration * deltaTime;
-
-        index++;
+        //        particles[i].velocity += deltaTime * sumForces[i];
+        //        particles[i].position += deltaTime * particles[i].velocity;
+        particles[i].position += deltaTime * particles[i].velocity + 0.5F * deltaTime * deltaTime * sumForces[i];
+        particles[i].velocity += deltaTime * sumForces[i];
     }
+
+    // Reset the sum forces
+    std::fill(sumForces.begin(), sumForces.end(), glm::vec3(0.0F));
 }
 
 void NBodySimulator::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) {

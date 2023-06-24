@@ -39,6 +39,8 @@ void main()
         sumForces += normalize(r) * (u_gravity * u_particleMass * u_particleMass) / rSquared;
     }
 
+    sumForces = mix(vec3(0.0, 0.0, 0.0), sumForces, u_isRunning);
+
     vec3 acceleration = sumForces / u_particleMass;
     vec3 position = particle.position + (particle.velocity * u_deltaTime + 0.5 * acceleration * u_deltaTime * u_deltaTime) * u_isRunning;
     vec3 velocity = particle.velocity + acceleration * u_deltaTime;
