@@ -3,11 +3,11 @@
 
 #include "Camera/Camera.h"
 
-// #ifdef __EMSCRIPTEN__
+#ifdef __EMSCRIPTEN__
 #include "Entity/NBodySimulator/NBodySimulator.h"
-// #else
-// #include "Entity/NBodySimulatorSSBO/NBodySimulatorSSBO.h"
-// #endif
+#else
+#include "Entity/NBodySimulatorSSBO/NBodySimulatorSSBO.h"
+#endif
 
 class Scene {
 private:
@@ -16,11 +16,11 @@ private:
 public:
     Camera camera;
 
-    // #ifdef __EMSCRIPTEN__
+#ifdef __EMSCRIPTEN__
     NBodySimulator nbodySimulator;
-    // #else
-    //    NBodySimulatorSSBO nbodySimulator;
-    // #endif
+#else
+    NBodySimulatorSSBO nbodySimulator;
+#endif
 
 public:
     Scene(int display_w, int display_h);
