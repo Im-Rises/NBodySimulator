@@ -12,18 +12,9 @@
 
 This is a simple nbody simulator made with OpenGL, OpenCL and C++ with the help of the ImGui library for the UI.
 
-## Todo
-
-- [ ] Add Texture NBody simulation
-- [ ] Add mass to the Particle Struct to use it in the shader
- 
-## Images
-
-PLACEHOLDER
-
 ## Videos
 
-PLACEHOLDER
+https://github.com/Im-Rises/nbody-simulator-docker/assets/59691442/59ef1c71-e2bb-4bd5-99f8-66eace4280b5
 
 ## Dependencies
 
@@ -262,7 +253,7 @@ OpenCL:
 <https://www.khronos.org/blog/your-opencl-developer-experience-just-got-upgraded>  
 <https://github.com/KhronosGroup/OpenCL-SDK>  
 <https://github.com/KhronosGroup/OpenCL-Guide>  
-<https://github.khronos.org/OpenCL-CLHPP/>  
+<https://github.khronos.org/OpenCL-CLHPP/>
 
 glm:  
 <https://glm.g-truc.net/0.9.9/index.html>

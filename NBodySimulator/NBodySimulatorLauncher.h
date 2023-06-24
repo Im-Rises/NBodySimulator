@@ -44,8 +44,10 @@ private:
 #ifndef __EMSCRIPTEN__
     float pointSize = 2.0F;
     bool isFullscreen = false;
-#endif
     bool isUiVisible = true;
+#else
+    bool isUiVisible = false;
+#endif
 
 public:
     NBodySimulatorLauncher();
