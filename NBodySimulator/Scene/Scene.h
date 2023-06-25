@@ -18,8 +18,8 @@ public:
     Camera camera;
 
 #if defined(__EMSCRIPTEN__) || defined(__unix__)
-    //    NBodySimulatorPThreads nbodySimulator;
-    NBodySimulator nbodySimulator;
+    NBodySimulatorPThreads nbodySimulator;
+//    NBodySimulator nbodySimulator;
 #else
     NBodySimulatorSSBO nbodySimulator;
 #endif
