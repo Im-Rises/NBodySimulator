@@ -87,8 +87,7 @@ const char* const NBodySimulatorUBO::FragmentShaderSource =
 
 NBodySimulatorUBO::NBodySimulatorUBO(int particleCount) : shader(VertexShaderSource, FragmentShaderSource, false) {
     // Resize the particles vector
-    particles.resize(particleCount);
-    sumForces.resize(particleCount);
+    colors.resize(particleCount);
 
     // Init the particles
     randomizeParticles();
@@ -105,16 +104,16 @@ NBodySimulatorUBO::NBodySimulatorUBO(int particleCount) : shader(VertexShaderSou
     // Bind the VAO
     glBindVertexArray(VAO);
 
-    // Set the VBO data
-    glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(particles.size() * sizeof(Particle)), particles.data(), GL_STATIC_DRAW);
-
-    // Set the VAO attributes
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Particle), (void*)offsetof(Particle, position));
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Particle), (void*)offsetof(Particle, velocity));
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Particle), (void*)offsetof(Particle, color));
-    glEnableVertexAttribArray(2);
+    //    // Set the VBO data
+    //    glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(particles.size() * sizeof(Particle)), particles.data(), GL_STATIC_DRAW);
+    //
+    //    // Set the VAO attributes
+    //    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Particle), (void*)offsetof(Particle, position));
+    //    glEnableVertexAttribArray(0);
+    //    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Particle), (void*)offsetof(Particle, velocity));
+    //    glEnableVertexAttribArray(1);
+    //    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Particle), (void*)offsetof(Particle, color));
+    //    glEnableVertexAttribArray(2);
 
     // Unbind the VAO
     glBindVertexArray(0);
@@ -137,34 +136,6 @@ struct ThreadData {
 void NBodySimulatorUBO::update(const float& deltaTime) {
     if (isPaused)
         return;
-
-    // Calculate the sum forces
-    for (size_t i = 0; i < particles.size(); ++i)
-    {
-        for (size_t j = 0; j < particles.size(); ++j)
-        {
-            if (i == j)
-                continue;
-
-            glm::vec3 const direction = particles[j].position - particles[i].position;
-            float const distance = glm::length(direction);
-            float const magnitude = (gravity * particleMass * particleMass) / ((distance * distance) + softening);
-            sumForces[i] += magnitude * glm::normalize(direction);
-        }
-    }
-
-    // Update the particles
-    for (size_t i = 0; i < particles.size(); ++i)
-    {
-        //        particles[i].velocity += deltaTime * sumForces[i];
-        //        particles[i].position += deltaTime * particles[i].velocity;
-        particles[i].position += deltaTime * particles[i].velocity + 0.5F * deltaTime * deltaTime * sumForces[i];
-        particles[i].velocity += deltaTime * sumForces[i];
-        particles[i].velocity *= damping;
-    }
-
-    // Reset the sum forces
-    std::fill(sumForces.begin(), sumForces.end(), glm::vec3(0.0F));
 }
 
 void NBodySimulatorUBO::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) {
@@ -174,17 +145,17 @@ void NBodySimulatorUBO::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
     // Bind the VBO
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-    // Set the VBO data
-    glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(particles.size() * sizeof(Particle)), particles.data(), GL_STATIC_DRAW);
-
-    // Bind the shader
-    shader.use();
-
-    // Set the uniform variables
-    shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix);
-
-    // Draw the particles
-    glDrawArrays(GL_POINTS, 0, static_cast<GLsizei>(particles.size()));
+    //    // Set the VBO data
+    //    glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(particles.size() * sizeof(Particle)), particles.data(), GL_STATIC_DRAW);
+    //
+    //    // Bind the shader
+    //    shader.use();
+    //
+    //    // Set the uniform variables
+    //    shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix);
+    //
+    //    // Draw the particles
+    //    glDrawArrays(GL_POINTS, 0, static_cast<GLsizei>(particles.size()));
 
     // Unbind the VAO
     glBindVertexArray(0);
@@ -204,21 +175,20 @@ void NBodySimulatorUBO::randomizeParticles() {
     std::uniform_real_distribution<float> randomColorValue(0.0F, 1.0F);
 
     // Init the particles as a sphere
-    for (auto& particle : particles)
+    for (int i = 0; i < particles.size(); i++)
     {
         const float angle1 = randomAngle(randomEngine);
         const float angle2 = randomAngle(randomEngine);
         const float x = spawnRadius * std::sin(angle1) * std::cos(angle2);
         const float y = spawnRadius * std::sin(angle1) * std::sin(angle2);
         const float z = spawnRadius * std::cos(angle1);
-        particle.position = glm::vec3(x, y, z) + position;
-        particle.velocity = glm::vec3(0.0F, 0.0F, 0.0F);
-        particle.color = glm::vec3(randomColorValue(randomEngine), randomColorValue(randomEngine), randomColorValue(randomEngine));
+        particles[i].position = glm::vec3(x, y, z) + position;
+        particles[i].velocity = glm::vec3(0.0F, 0.0F, 0.0F);
+        colors[i] = glm::vec3(randomColorValue(randomEngine), randomColorValue(randomEngine), randomColorValue(randomEngine));
     }
 }
 
 void NBodySimulatorUBO::setParticlesCount(const size_t& count) {
-    particles.resize(count);
     randomizeParticles();
 }
 

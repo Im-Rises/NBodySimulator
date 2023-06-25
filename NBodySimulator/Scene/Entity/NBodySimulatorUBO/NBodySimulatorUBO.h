@@ -17,15 +17,15 @@ private:
 
     struct Particle {
         glm::vec3 position;
+        float offset1;
         glm::vec3 velocity;
-        glm::vec3 color;
+        float offset2;
 
-        Particle() : position(glm::vec3(0.0F)), velocity(glm::vec3(0.0F)), color(glm::vec3(1.0F, 1.0F, 1.0F)) {}
+        Particle() : position(glm::vec3(0.0F)), velocity(glm::vec3(0.0F)) {}
     };
 
-public:
     std::vector<Particle> particles;
-    std::vector<glm::vec3> sumForces;
+    std::vector<glm::vec3> colors;
 
 public:
     float spawnRadius = 3.0F;
