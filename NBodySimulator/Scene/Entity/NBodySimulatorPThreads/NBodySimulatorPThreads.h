@@ -1,5 +1,5 @@
-#ifndef NBODY_SIMULATOR_H
-#define NBODY_SIMULATOR_H
+#ifndef NBODY_SIMULATOR_PTHREADS_H
+#define NBODY_SIMULATOR_PTHREADS_H
 
 #include <vector>
 #include <glm/glm.hpp>
@@ -63,4 +63,4 @@ public:
     [[nodiscard]] auto getParticlesCount() const -> size_t;
 };
 
-#endif // NBODY_SIMULATOR_H
+#endif // NBODY_SIMULATOR_PTHREADS_H
