@@ -211,6 +211,7 @@ The speed and some parameters can be modified directly in the ImGui windows.
 | Rotate camera       | Right Mouse Button + Mouse movement |
 | Fullscreen          | F11                                 |
 | Exit app            | ESC                                 |
+| Show/Hide UI        | U                                   |
 
 > **Note**
 > You can the inputs by changing their attribution in the `InputManager.cpp` file,
