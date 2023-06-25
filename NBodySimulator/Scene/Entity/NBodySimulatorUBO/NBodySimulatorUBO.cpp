@@ -13,19 +13,61 @@ const char* const NBodySimulatorUBO::VertexShaderSource =
 
         precision highp float;
 
-        layout(location = 0) in vec3 a_position;
-        layout(location = 1) in vec3 a_velocity;
-        layout(location = 2) in vec3 a_color;
+        #define MAX_PARTICLES 100
+
+        layout(location = 0) in vec3 a_color;
 
         uniform mat4 u_mvp;
+        uniform float u_deltaTime;
+        uniform float u_damping;
+        uniform float u_particleMass;
+        uniform float u_gravity;
+        uniform float u_softening;
+        uniform float u_isRunning;
+
+        layout(std140) uniform BodyData {
+            vec3 positions[MAX_PARTICLES];
+            float offsets1[MAX_PARTICLES];
+            vec3 velocities[MAX_PARTICLES];
+            float offsets2[MAX_PARTICLES];
+        };
 
         out vec3 v_color;
 
-        void main()
-        {
-            gl_Position = u_mvp * vec4(a_position, 1.0);
+        void main() {
+            int index = gl_VertexID;
+
+            vec4 position = positions[index];
+            vec4 velocity = velocities[index];
+
+            vec3 sumForces = vec3(0.0f);
+            for (int i = 0; i < MAX_PARTICLES; i++) {
+                if (i == index) continue;
+
+                vec4 otherPosition = positions[i];
+                vec4 otherVelocity = velocities[i];
+
+                vec4 r = otherPosition - position;
+                float rSquared = dot(r, r) + u_softening;
+
+                sumForces += normalize(r) * (u_gravity * u_particleMass * u_particleMass ) / (rSquared);
+            }
+
+            sumForces = mix(vec3(0.0, 0.0, 0.0), sumForces, u_isRunning);
+
+            vec3 acceleration = sumForces / u_particleMass;
+            vec3 position = particle.position + (particle.velocity * u_deltaTime + 0.5 * acceleration * u_deltaTime * u_deltaTime) * u_isRunning;
+            vec3 velocity = particle.velocity + acceleration * u_deltaTime;
+
+            velocity = mix(velocity, velocity * u_damping, u_isRunning);
+
+            memoryBarrier();
+
+            positions[index] = vec4(position, 1.0);
+            velocities[index] = vec4(velocity, 1.0);
+
+            gl_Position = u_mvp * vec4(position, 1.0);
             v_color = a_color;
-            gl_PointSize = 1.0f;
         }
 )";
 
@@ -39,8 +81,6 @@ const char* const NBodySimulatorUBO::FragmentShaderSource =
         out vec4 o_fragColor;
 
         void main() {
-//            vec3 v_color = vec3(min(v_velocity.y, 0.8f), max(v_velocity.x, 0.5f), min(v_velocity.z, 0.5f));
-//            o_fragColor = vec4(v_color, 1.0f);
             o_fragColor = vec4(v_color, 1.0f);
         }
 )";
