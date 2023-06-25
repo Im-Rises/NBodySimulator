@@ -132,7 +132,6 @@ void NBodySimulatorPThreads::update(const float& deltaTime) {
 
     this->deltaTime = deltaTime;
 
-    const size_t numThreads = 8; // Number of threads to use
     const size_t particlesPerThread = particles.size() / numThreads;
 
     // Create threads

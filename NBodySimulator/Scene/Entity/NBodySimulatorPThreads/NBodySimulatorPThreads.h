@@ -38,6 +38,10 @@ public:
     float damping = 0.99F;
 
 public:
+    const size_t numThreads = 8; // Number of threads to use
+
+
+public:
     explicit NBodySimulatorPThreads(int particleCount = 100000);
 
     NBodySimulatorPThreads(const NBodySimulatorPThreads&) = delete;
