@@ -12,6 +12,10 @@
 
 This is a simple nbody simulator made with OpenGL, OpenCL and C++ with the help of the ImGui library for the UI.
 
+You can also test the webgl version 🚀🚀 [here](https://im-rises.github.io/nbody-simulator-webgl/) 🚀🚀
+
+The source code of the webgl version is available [here](https://github.com/Im-Rises/nbody-simulator-webgl).
+
 ## Videos
 
 https://github.com/Im-Rises/nbody-simulator-docker/assets/59691442/59ef1c71-e2bb-4bd5-99f8-66eace4280b5
