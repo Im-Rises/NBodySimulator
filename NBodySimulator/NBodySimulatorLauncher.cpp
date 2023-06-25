@@ -44,7 +44,7 @@ NBodySimulatorLauncher::NBodySimulatorLauncher() {
         exit(1);
 
 // Decide GL+GLSL versions
-#if defined(__EMSCRIPTEN__) || defined(__unix__)
+#if defined(__EMSCRIPTEN__)
     const char* glsl_version = "#version 300 es";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);

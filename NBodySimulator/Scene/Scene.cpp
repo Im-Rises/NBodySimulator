@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-#if defined(__EMSCRIPTEN__) || defined(__unix__)
+#if defined(__EMSCRIPTEN__)
 Scene::Scene(int display_w, int display_h) : camera(display_w, display_h), nbodySimulator(1000) {
 #else
 Scene::Scene(int display_w, int display_h) : camera(display_w, display_h), nbodySimulator(10000) {
