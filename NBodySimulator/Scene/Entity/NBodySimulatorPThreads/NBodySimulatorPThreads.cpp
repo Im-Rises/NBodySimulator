@@ -3,6 +3,7 @@
 #include <random>
 
 #include <pthread.h>
+#include <iostream>
 
 #include "../../../Utility/piDeclaration.h"
 
@@ -130,8 +131,10 @@ void NBodySimulatorPThreads::update(const float& deltaTime) {
     if (isPaused)
         return;
 
+    // Update delta time
     this->deltaTime = deltaTime;
 
+    // Calculate the number of particles per thread
     const size_t particlesPerThread = particles.size() / numThreads;
 
     // Create threads
