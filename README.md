@@ -5,12 +5,11 @@
       <img src="https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="cppLogo" style="height:60px;"/>
       <img src="https://img.shields.io/badge/OpenGL-FFFFFF?style=for-the-badge&logo=opengl" alt="openglLogo" style="height:60px;"/>
       <img src="https://user-images.githubusercontent.com/59691442/190315147-ec9dc33f-0090-4f0d-98ab-514eb1463e01.png" alt="glfwLogo" style="height:60px;"/>
-      <img src="https://user-images.githubusercontent.com/59691442/206360390-76940955-0a28-43b5-83fb-46409c4324f7.png" alt="openclLogo" style="height:60px;"/>
 </p>
 
 ## Description
 
-This is a simple nbody simulator made with OpenGL, OpenCL and C++ with the help of the ImGui library for the UI.
+This is a simple nbody simulator made with OpenGL in C++ with the help of the ImGui library for the UI.
 
 You can also test the webgl version 🚀🚀 [here](https://im-rises.github.io/nbody-simulator-webgl/) 🚀🚀
 
@@ -18,7 +17,9 @@ The source code of the webgl version is available [here](https://github.com/Im-R
 
 ## Videos
 
-https://github.com/Im-Rises/nbody-simulator-docker/assets/59691442/59ef1c71-e2bb-4bd5-99f8-66eace4280b5
+https://github.com/Im-Rises/nbody-simulator-docker/assets/59691442/622717a8-b508-4221-a79e-f00c07475979
+
+Longer video 🚀🚀 [here](https://www.youtube.com/watch?v=OisxyKE_ioU) 🚀🚀
 
 ## Dependencies
 
@@ -124,15 +125,6 @@ then
 cmake --build . --config Release
 ```
 
-> **Note**  
-> If you're using Visual Studio, you can install CMake directly from the IDE (Visual Studio Installer).
-> Then you need to open the Project as a CMake Project, not a Visual Studio Project!
-
-> **Warning**  
-> The project is set up to be built using CMake and vc2019 for Windows. If you want to modify the
-> compiler for vc2022 or other you will need to change the CMakeLists.txt .lib linking file accordingly to your vc20**
-> version.
-
 ### Linux
 
 Linux's users need to install some libs before compiling the project:
@@ -147,12 +139,6 @@ You also need to install the GLFW lib. Type the following command at the project
 
 ```bash
 sudo apt-get install libglfw3-dev
-```
-
-and the OpenCL lib:
-
-```bash
-sudo apt-get install ocl-icd-opencl-dev
 ```
 
 You are now able to compile the project. Go to the project root and type the following command:
@@ -182,13 +168,6 @@ and this one to install GLFW
 
 ```bash
 brew install glfw
-```
-
-and the OpenCL lib:
-
-```bash
-brew install opencl
-brew install opencl-headers
 ```
 
 You are now able to compile the project. Go to the project root and type the following command:
@@ -253,12 +232,6 @@ Dear ImGui:
 
 OpenGL:  
 <https://www.opengl.org/>
-
-OpenCL:  
-<https://www.khronos.org/blog/your-opencl-developer-experience-just-got-upgraded>  
-<https://github.com/KhronosGroup/OpenCL-SDK>  
-<https://github.com/KhronosGroup/OpenCL-Guide>  
-<https://github.khronos.org/OpenCL-CLHPP/>
 
 glm:  
 <https://glm.g-truc.net/0.9.9/index.html>
