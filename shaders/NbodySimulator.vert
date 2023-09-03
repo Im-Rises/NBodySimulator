@@ -20,6 +20,7 @@ uniform float u_particleMass;
 uniform float u_gravity;
 uniform float u_softening;
 uniform float u_isRunning;
+uniform float u_interactionPercent;
 
 out vec3 v_color;
 
@@ -28,7 +29,8 @@ void main()
     Particle particle = particlesSsboData.particles[gl_VertexID];
 
     vec3 sumForces = vec3(0.0);
-    for (int i = 0; i < particlesSsboData.particles.length(); ++i) {
+    const int numParticles = int(particlesSsboData.particles.length() * u_interactionPercent);
+    for (int i = 0; i < numParticles; ++i) {
         if (i == gl_VertexID)
         continue;
 

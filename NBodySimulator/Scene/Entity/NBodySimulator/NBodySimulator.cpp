@@ -86,10 +86,12 @@ void NBodySimulator::update(const float& deltaTime) {
     if (isPaused)
         return;
 
+    const int particlesInteractionCount = particles.size() * particlesInteractionCount;
+
     // Calculate the sum forces
     for (size_t i = 0; i < particles.size(); ++i)
     {
-        for (size_t j = 0; j < particles.size(); ++j)
+        for (size_t j = 0; j < particlesInteractionCount; ++j)
         {
             if (i == j)
                 continue;
