@@ -9,7 +9,8 @@
 
 ## Description
 
-This is a simple nbody simulator made with OpenGL in C++ with the help of the ImGui library for the UI.
+This is a simple n-body simulator using bruteforce made with OpenGL in C++ with the help of the ImGui library for the
+UI.
 
 You can also test the webgl version 🚀🚀 [here](https://im-rises.github.io/nbody-simulator-webgl/) 🚀🚀
 
