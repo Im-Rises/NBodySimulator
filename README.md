@@ -21,6 +21,7 @@ The source code of the webgl version is available [here](https://github.com/Im-R
 - [ ] Add a way to change the n-body simulation used (bruteforce, Barnes-Hut, ...)
 - [ ] Finalize the Barnes-Hut algorithm
 - [ ] Test the Barnes-Hut algorithm
+- [ ] Optimise the Barnes-Hut algorithm
 
 ## Videos
 
