@@ -16,6 +16,12 @@ You can also test the webgl version 🚀🚀 [here](https://im-rises.github.io/n
 
 The source code of the webgl version is available [here](https://github.com/Im-Rises/nbody-simulator-webgl).
 
+## Todo
+
+- [ ] Add a way to change the n-body simulation used (bruteforce, Barnes-Hut, ...)
+- [ ] Finalize the Barnes-Hut algorithm
+- [ ] Test the Barnes-Hut algorithm
+
 ## Videos
 
 https://github.com/Im-Rises/nbody-simulator-docker/assets/59691442/622717a8-b508-4221-a79e-f00c07475979
