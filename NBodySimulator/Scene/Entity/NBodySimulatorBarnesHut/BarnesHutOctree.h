@@ -23,7 +23,7 @@ struct Bounds {
 
     Bounds(glm::vec3 center, glm::vec3 halfDimension) : center(center), halfDimension(halfDimension) {}
 
-    bool contains(const Particle& particle) const {
+    [[nodiscard]] auto contains(const Particle& particle) const -> bool {
         return particle.position.x >= center.x - halfDimension.x && particle.position.x <= center.x + halfDimension.x &&
                particle.position.y >= center.y - halfDimension.y && particle.position.y <= center.y + halfDimension.y &&
                particle.position.z >= center.z - halfDimension.z && particle.position.z <= center.z + halfDimension.z;
