@@ -52,9 +52,9 @@ public:
     ~NBodySimulatorPThreads() override;
 
 public:
-    void update(const float& deltaTime) override;
+    void update(const float& deltaTime) final;
 
-    void render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) override;
+    void render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) final;
 
     void reset();
 
