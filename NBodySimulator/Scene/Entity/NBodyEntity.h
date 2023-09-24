@@ -5,7 +5,7 @@
 #include "../../Shader/Shader.h"
 #include <glm/glm.hpp>
 
-class Entity {
+class NBodyEntity {
 public:
     glm::vec3 position = glm::vec3(0.0F, 0.0F, 0.0F);
     glm::vec3 rotation = glm::vec3(0.0F, 0.0F, 0.0F);
@@ -18,14 +18,14 @@ protected:
     bool isPaused = false;
 
 public:
-    Entity() = default;
+    NBodyEntity() = default;
 
-    Entity(const Entity&) = delete;
-    auto operator=(const Entity&) -> Entity& = delete;
-    Entity(Entity&&) = delete;
-    auto operator=(Entity&&) -> Entity& = delete;
+    NBodyEntity(const NBodyEntity&) = delete;
+    auto operator=(const NBodyEntity&) -> NBodyEntity& = delete;
+    NBodyEntity(NBodyEntity&&) = delete;
+    auto operator=(NBodyEntity&&) -> NBodyEntity& = delete;
 
-    virtual ~Entity() = default;
+    virtual ~NBodyEntity() = default;
 
 public:
     virtual void update(const float& deltaTime) = 0;

@@ -5,9 +5,9 @@
 
 #include <glad/glad.h>
 #include <vector>
-#include "../Entity.h"
+#include "../NBodyEntity.h"
 
-class NBodySimulatorSSBO : public Entity {
+class NBodySimulatorSSBO : public NBodyEntity {
 private:
     GLuint VAO;
     GLuint ssbo;

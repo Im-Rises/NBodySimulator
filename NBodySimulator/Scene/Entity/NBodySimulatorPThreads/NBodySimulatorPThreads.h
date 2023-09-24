@@ -4,7 +4,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include <glad/glad.h>
-#include "../Entity.h"
+#include "../NBodyEntity.h"
 
 class NBodySimulatorPThreads : public Entity {
 private:

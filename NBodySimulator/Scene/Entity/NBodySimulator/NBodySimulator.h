@@ -4,9 +4,9 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include <glad/glad.h>
-#include "../Entity.h"
+#include "../NBodyEntity.h"
 
-class NBodySimulator : public Entity {
+class NBodySimulator : public NBodyEntity {
 private:
     static const char* const VertexShaderSource;
     static const char* const FragmentShaderSource;
