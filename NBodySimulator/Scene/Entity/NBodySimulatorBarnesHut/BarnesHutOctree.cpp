@@ -87,19 +87,18 @@ void BarnesHutOctree::BarnesHutOctreeNode::computeMassDistribution() {
 
         this->bounds.center /= this->mass;
     }
-    else if (this->particles.size() > 0)
+    else if (!this->particles.empty())
     {
-        for (const auto* particles : particles)
+        for (const auto* p : particles)
         {
-            this->mass += particles->mass;
-            this->bounds.center += particles->position * particles->mass;
+            this->mass += p->mass;
+            this->bounds.center += p->position;
         }
 
-        this->bounds.center /= this->mass;
+        this->bounds.center /= this->particles.size();
     }
     else
     {
-        // This part is not necessary, but it is good to have it ?
         this->mass = 0;
         this->bounds.center = glm::vec3(0);
     }
@@ -111,10 +110,7 @@ void BarnesHutOctree::BarnesHutOctreeNode::computeSumOfForces(Particle& particle
 
     if (s / d < theta)
     {
-        const auto direction = bounds.center - particle.position;
-        const auto distance = glm::length(direction);
-        const auto magnitude = (gravity * particle.mass * mass) / ((distance * distance) + softening);
-        particle.sumOfForces += magnitude * glm::normalize(direction);
+        particle.appendForceFrom(this->bounds.center, this->mass, gravity, softening);
     }
     else
     {
@@ -131,38 +127,11 @@ void BarnesHutOctree::BarnesHutOctreeNode::computeSumOfForces(Particle& particle
             {
                 if (particle.id != other->id)
                 {
-                    const auto direction = other->position - particle.position;
-                    const auto distance = glm::length(direction);
-                    const auto magnitude = (gravity * particle.mass * other->mass) / ((distance * distance) + softening);
-                    particle.sumOfForces += magnitude * glm::normalize(direction);
+                    particle.appendForceFrom(other->position, other->mass, gravity, softening);
                 }
             }
         }
     }
-
-    //    if (isLeaf || s / d < theta)
-    //    {
-    //        if (!this->particles.empty())
-    //        {
-    //            for (const auto* other : this->particles)
-    //            {
-    //                if (particle.id != other->id)
-    //                {
-    //                    const auto direction = other->position - particle.position;
-    //                    const auto distance = glm::length(direction);
-    //                    const auto magnitude = (gravity * particle.mass * other->mass) / ((distance * distance) + softening);
-    //                    particle.sumOfForces += magnitude * glm::normalize(direction);
-    //                }
-    //            }
-    //        }
-    //    }
-    //    else
-    //    {
-    //        for (const auto* child : children)
-    //        {
-    //            child->computeSumOfForces(particle, theta, gravity, softening);
-    //        }
-    //    }
 }
 
 BarnesHutOctree::BarnesHutOctree(Bounds bounds)

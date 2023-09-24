@@ -18,6 +18,13 @@ struct Particle {
 
     explicit Particle(int id) : id(id), mass(1.0F), position(glm::vec3(0.0F)), velocity(glm::vec3(0.0F)), sumOfForces(glm::vec3(0.0F)), color(1.0F, 1.0F, 1.0F) {}
     Particle(int id, float mass, glm::vec3 position, glm::vec3 velocity, glm::vec3 color) : id(id), mass(mass), position(position), velocity(velocity), sumOfForces(glm::vec3(0.0F)), color(color) {}
+
+    void appendForceFrom(glm::vec3 otherPos, float otherMass, float gravity, float softening) {
+        const auto direction = otherPos - position;
+        const auto distance = glm::length(direction);
+        const auto magnitude = (gravity * mass * otherMass) / ((distance * distance) + softening);
+        sumOfForces += magnitude * glm::normalize(direction);
+    }
 };
 
 struct Bounds {
