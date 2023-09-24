@@ -31,7 +31,7 @@ auto BarnesHutOctree::BarnesHutOctreeNode::insert(Particle* particle) -> bool {
             return true;
         }
 
-        subdivide();
+        this->subdivide();
     }
     return (
         children[0]->insert(particle) ||
@@ -51,6 +51,7 @@ void BarnesHutOctree::BarnesHutOctreeNode::subdivide() {
     const auto z = bounds.center.z;
     const auto newHalfDimension = bounds.halfDimension * 0.5F;
     const int newDepth = depth + 1;
+
     children[0] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension.x, y - newHalfDimension.y, z - newHalfDimension.z), newHalfDimension), newDepth);
     children[1] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension.x, y - newHalfDimension.y, z - newHalfDimension.z), newHalfDimension), newDepth);
     children[2] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension.x, y + newHalfDimension.y, z - newHalfDimension.z), newHalfDimension), newDepth);
@@ -59,25 +60,24 @@ void BarnesHutOctree::BarnesHutOctreeNode::subdivide() {
     children[5] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension.x, y - newHalfDimension.y, z + newHalfDimension.z), newHalfDimension), newDepth);
     children[6] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension.x, y + newHalfDimension.y, z + newHalfDimension.z), newHalfDimension), newDepth);
     children[7] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension.x, y + newHalfDimension.y, z + newHalfDimension.z), newHalfDimension), newDepth);
+
     for (auto* particle : particles)
     {
-        children[0]->insert(particle);
-        children[1]->insert(particle);
-        children[2]->insert(particle);
-        children[3]->insert(particle);
-        children[4]->insert(particle);
-        children[5]->insert(particle);
-        children[6]->insert(particle);
-        children[7]->insert(particle);
+        for (auto* child : children)
+        {
+            child->insert(particle);
+        }
     }
 
     particles.clear();
+
     this->isLeaf = false;
 }
 
 void BarnesHutOctree::BarnesHutOctreeNode::computeMassDistribution() {
     if (!this->isLeaf)
     {
+        // Error here !!!
         for (auto* child : children)
         {
             child->computeMassDistribution();
