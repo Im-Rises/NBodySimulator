@@ -29,16 +29,16 @@ struct Particle {
 
 struct Bounds {
     glm::vec3 center;
-    glm::vec3 halfDimension;
+    float halfDimension;
 
 
-    Bounds(glm::vec3 center, glm::vec3 halfDimension) : center(center),
-                                                        halfDimension(halfDimension) {}
+    Bounds(glm::vec3 center, float halfDimension) : center(center),
+                                                    halfDimension(halfDimension) {}
 
     [[nodiscard]] auto contains(const Particle& particle) const -> bool {
-        return particle.position.x >= center.x - halfDimension.x && particle.position.x <= center.x + halfDimension.x &&
-               particle.position.y >= center.y - halfDimension.y && particle.position.y <= center.y + halfDimension.y &&
-               particle.position.z >= center.z - halfDimension.z && particle.position.z <= center.z + halfDimension.z;
+        return particle.position.x >= center.x - halfDimension && particle.position.x <= center.x + halfDimension &&
+               particle.position.y >= center.y - halfDimension && particle.position.y <= center.y + halfDimension &&
+               particle.position.z >= center.z - halfDimension && particle.position.z <= center.z + halfDimension;
     }
 };
 

@@ -52,14 +52,14 @@ void BarnesHutOctree::BarnesHutOctreeNode::subdivide() {
     const auto newHalfDimension = bounds.halfDimension * 0.5F;
     const int newDepth = depth + 1;
 
-    children[0] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension.x, y - newHalfDimension.y, z - newHalfDimension.z), newHalfDimension), newDepth);
-    children[1] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension.x, y - newHalfDimension.y, z - newHalfDimension.z), newHalfDimension), newDepth);
-    children[2] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension.x, y + newHalfDimension.y, z - newHalfDimension.z), newHalfDimension), newDepth);
-    children[3] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension.x, y + newHalfDimension.y, z - newHalfDimension.z), newHalfDimension), newDepth);
-    children[4] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension.x, y - newHalfDimension.y, z + newHalfDimension.z), newHalfDimension), newDepth);
-    children[5] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension.x, y - newHalfDimension.y, z + newHalfDimension.z), newHalfDimension), newDepth);
-    children[6] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension.x, y + newHalfDimension.y, z + newHalfDimension.z), newHalfDimension), newDepth);
-    children[7] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension.x, y + newHalfDimension.y, z + newHalfDimension.z), newHalfDimension), newDepth);
+    children[0] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension, y - newHalfDimension, z - newHalfDimension), newHalfDimension), newDepth);
+    children[1] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension, y - newHalfDimension, z - newHalfDimension), newHalfDimension), newDepth);
+    children[2] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension, y + newHalfDimension, z - newHalfDimension), newHalfDimension), newDepth);
+    children[3] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension, y + newHalfDimension, z - newHalfDimension), newHalfDimension), newDepth);
+    children[4] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension, y - newHalfDimension, z + newHalfDimension), newHalfDimension), newDepth);
+    children[5] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension, y - newHalfDimension, z + newHalfDimension), newHalfDimension), newDepth);
+    children[6] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension, y + newHalfDimension, z + newHalfDimension), newHalfDimension), newDepth);
+    children[7] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension, y + newHalfDimension, z + newHalfDimension), newHalfDimension), newDepth);
 
     for (auto* particle : particles)
     {
@@ -105,7 +105,7 @@ void BarnesHutOctree::BarnesHutOctreeNode::computeMassDistribution() {
 }
 
 void BarnesHutOctree::BarnesHutOctreeNode::computeSumOfForces(Particle& particle, float theta, float gravity, float softening) const {
-    const float s = bounds.halfDimension.x * 2;
+    const float s = bounds.halfDimension * 2;
     const float d = glm::distance(particle.position, bounds.center);
 
     if (s / d < theta)

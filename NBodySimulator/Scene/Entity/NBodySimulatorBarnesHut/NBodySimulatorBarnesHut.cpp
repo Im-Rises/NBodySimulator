@@ -80,7 +80,7 @@ NBodySimulatorBarnesHut::~NBodySimulatorBarnesHut() {
 }
 
 void NBodySimulatorBarnesHut::update(const float& deltaTime) {
-    BarnesHutOctree octree(Bounds(glm::vec3(0.0F), glm::vec3(10.0F, 10.0F, 10.0F)));
+    BarnesHutOctree octree(Bounds(glm::vec3(0.0F), 10.0F));
 
     for (auto& particle : particles)
     {
