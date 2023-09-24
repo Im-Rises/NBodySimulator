@@ -9,8 +9,10 @@ file(GLOB_RECURSE SRCS_HEADERS_GLAD "${CMAKE_SOURCE_DIR}/dependencies/glad/*.c" 
 file(GLOB_RECURSE SRCS "${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/*.cpp")
 file(GLOB_RECURSE HEADERS "${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/*.h")
 
-list(REMOVE_ITEM SRCS ${CMAKE_CURRENT_SOURCE_DIR}/Scene/Entity/NBodySimulatorPThreads/NBodySimulatorPThreads.cpp)
-list(REMOVE_ITEM HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/Scene/Entity/NBodySimulatorPThreads/NBodySimulatorPThreads.h)
+if (NOT UNIX)
+    list(REMOVE_ITEM SRCS ${CMAKE_CURRENT_SOURCE_DIR}/Scene/Entity/NBodySimulatorPThreads/NBodySimulatorPThreads.cpp)
+    list(REMOVE_ITEM HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/Scene/Entity/NBodySimulatorPThreads/NBodySimulatorPThreads.h)
+endif ()
 
 set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL 4.3 REQUIRED)
