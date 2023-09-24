@@ -4,10 +4,11 @@
 #include "Camera/Camera.h"
 
 #if defined(__EMSCRIPTEN__)
-//#include "Entity/NBodySimulatorPThreads/NBodySimulatorPThreads.h"
+// #include "Entity/NBodySimulatorPThreads/NBodySimulatorPThreads.h"
 #include "Entity/NBodySimulator/NBodySimulator.h"
 #else
 #include "Entity/NBodySimulatorSSBO/NBodySimulatorSSBO.h"
+#include "Entity/NBodySimulatorBarnesHut/NBodySimulatorBarnesHut.h"
 #endif
 
 class Scene {
@@ -18,10 +19,11 @@ public:
     Camera camera;
 
 #if defined(__EMSCRIPTEN__)
-//    NBodySimulatorPThreads nbodySimulator;
+    //    NBodySimulatorPThreads nbodySimulator;
     NBodySimulator nbodySimulator;
 #else
-    NBodySimulatorSSBO nbodySimulator;
+    //    NBodySimulatorSSBO nbodySimulator;
+    NBodySimulatorBarnesHut nbodySimulator;
 #endif
 
 public:

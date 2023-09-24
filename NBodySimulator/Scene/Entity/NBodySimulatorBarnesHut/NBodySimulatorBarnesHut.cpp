@@ -79,23 +79,23 @@ NBodySimulatorBarnesHut::~NBodySimulatorBarnesHut() {
 }
 
 void NBodySimulatorBarnesHut::update(const float& deltaTime) {
-    BarnesHutOctree octree(Bounds(glm::vec3(0.0F), glm::vec3(20.0F, 20.0F, 20.0F)));
-
-    for (auto& particle : particles)
-    {
-        octree.insert(&particle);
-    }
-
-    octree.computeMassDistribution();
-
-    for (auto& particle : particles)
-    {
-        octree.computeSumOfForces(particle, theta, gravity, softening);
-        const glm::vec3 acceleration = particle.sumOfForces / particle.mass;
-        particle.velocity += acceleration * deltaTime;
-        particle.position += particle.velocity * deltaTime;
-        particle.sumOfForces = glm::vec3(0.0F);
-    }
+    //    BarnesHutOctree octree(Bounds(glm::vec3(0.0F), glm::vec3(20.0F, 20.0F, 20.0F)));
+    //
+    //    for (auto& particle : particles)
+    //    {
+    //        octree.insert(&particle);
+    //    }
+    //
+    //    octree.computeMassDistribution();
+    //
+    //    for (auto& particle : particles)
+    //    {
+    //        octree.computeSumOfForces(particle, theta, gravity, softening);
+    //        const glm::vec3 acceleration = particle.sumOfForces / particle.mass;
+    //        particle.velocity += acceleration * deltaTime;
+    //        particle.position += particle.velocity * deltaTime;
+    //        particle.sumOfForces = glm::vec3(0.0F);
+    //    }
 }
 
 void NBodySimulatorBarnesHut::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) {
