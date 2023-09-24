@@ -405,10 +405,8 @@ void NBodySimulatorLauncher::handleUi(float deltaTime) {
             ImGui::DragFloat("##damping", &scene->nbodySimulator.damping, 0.0F, 0.0F, 1.0F);
             ImGui::NewLine();
 
-#ifndef NBODY_SIMULATOR_BARNES_HUT_H
             ImGui::Text("Interaction percentage:");
             ImGui::DragFloat("##interactionPercent", &scene->nbodySimulator.interactionPercent, 0.0F, 0.0F, 1.0F);
-#endif
 
             ImGui::End();
         }
