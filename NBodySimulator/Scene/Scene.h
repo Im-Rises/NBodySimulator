@@ -7,6 +7,7 @@
 // #include "Entity/NBodySimulatorPThreads/NBodySimulatorPThreads.h"
 #include "Entity/NBodySimulator/NBodySimulator.h"
 #else
+#include "Entity/NBodySimulator/NBodySimulator.h"
 #include "Entity/NBodySimulatorSSBO/NBodySimulatorSSBO.h"
 #include "Entity/NBodySimulatorBarnesHut/NBodySimulatorBarnesHut.h"
 #endif
@@ -23,7 +24,8 @@ public:
     NBodySimulator nbodySimulator;
 #else
     //    NBodySimulatorSSBO nbodySimulator;
-    NBodySimulatorBarnesHut nbodySimulator;
+    NBodySimulator nbodySimulator;
+//    NBodySimulatorBarnesHut nbodySimulator;
 #endif
 
 public:

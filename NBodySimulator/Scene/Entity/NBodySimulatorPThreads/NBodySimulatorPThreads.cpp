@@ -201,7 +201,8 @@ void NBodySimulatorPThreads::reset() {
 
 void NBodySimulatorPThreads::randomizeParticles() {
     // Init the random engine
-    std::mt19937 randomEngine;
+    std::random_device rd;
+    std::mt19937 randomEngine(rd());
     std::uniform_real_distribution<float> randomAngle(0.0F, static_cast<float>(2.0F * M_PI));
     std::uniform_real_distribution<float> randomColorValue(0.0F, 1.0F);
 
