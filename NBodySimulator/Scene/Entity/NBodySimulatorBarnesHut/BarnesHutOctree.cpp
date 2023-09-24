@@ -1,8 +1,8 @@
 #include "BarnesHutOctree.h"
 
 BarnesHutOctree::BarnesHutOctreeNode::BarnesHutOctreeNode(Bounds bounds, int depth)
-    : children({ nullptr }),
-      particles({ nullptr }),
+    : children({}),
+      particles({}),
       bounds(bounds),
       isLeaf(true),
       depth(depth),

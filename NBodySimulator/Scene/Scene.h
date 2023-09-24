@@ -24,8 +24,8 @@ public:
     NBodySimulator nbodySimulator;
 #else
     //    NBodySimulatorSSBO nbodySimulator;
-    NBodySimulator nbodySimulator;
-//    NBodySimulatorBarnesHut nbodySimulator;
+    //    NBodySimulator nbodySimulator;
+    NBodySimulatorBarnesHut nbodySimulator;
 #endif
 
 public:
