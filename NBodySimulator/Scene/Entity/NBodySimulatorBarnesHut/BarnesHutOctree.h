@@ -55,7 +55,7 @@ private:
 
         void computeMassDistribution();
 
-        void computeSumOfForces(Particle& particle, float theta, float G, float softening) const;
+        void computeSumOfForces(Particle& particle, float theta, float gravity, float softening) const;
 
     private:
         std::array<BarnesHutOctreeNode*, 8> children;
@@ -74,7 +74,7 @@ public:
 public:
     void insert(Particle* particle);
     void computeMassDistribution();
-    void computeSumOfForces(Particle& particle, float theta, float G, float softening) const;
+    void computeSumOfForces(Particle& particle, float theta, float gravity, float softening) const;
 
 private:
     BarnesHutOctreeNode root;

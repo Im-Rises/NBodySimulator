@@ -106,10 +106,9 @@ void NBodySimulator::update(const float& deltaTime) {
     // Update the particles
     for (size_t i = 0; i < particles.size(); ++i)
     {
-        //        particles[i].velocity += deltaTime * sumForces[i];
-        //        particles[i].position += deltaTime * particles[i].velocity;
-        particles[i].position += deltaTime * particles[i].velocity + 0.5F * deltaTime * deltaTime * sumForces[i];
-        particles[i].velocity += deltaTime * sumForces[i];
+        const auto acceleration = sumForces[i] / particleMass;
+        particles[i].position += deltaTime * particles[i].velocity + 0.5F * deltaTime * deltaTime * acceleration;
+        particles[i].velocity += deltaTime * acceleration;
         particles[i].velocity *= damping;
 
         // Reset the sum forces

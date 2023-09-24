@@ -104,7 +104,7 @@ void BarnesHutOctree::BarnesHutOctreeNode::computeMassDistribution() {
     }
 }
 
-void BarnesHutOctree::BarnesHutOctreeNode::computeSumOfForces(Particle& particle, float theta, float G, float softening) const {
+void BarnesHutOctree::BarnesHutOctreeNode::computeSumOfForces(Particle& particle, float theta, float gravity, float softening) const {
     // Check this method (thanks copilot for auto generating it)
     const float s = bounds.halfDimension.x * 2;
     const float d = glm::distance(particle.position, bounds.center);
@@ -117,10 +117,10 @@ void BarnesHutOctree::BarnesHutOctreeNode::computeSumOfForces(Particle& particle
             {
                 if (particle.id != other->id)
                 {
-                    const auto r = glm::distance(particle.position, other->position);
-                    const auto f = G * particle.mass * other->mass / (r * r + softening);
-                    const auto direction = glm::normalize(other->position - particle.position);
-                    particle.sumOfForces += direction * f;
+                    const auto direction = other->position - particle.position;
+                    const auto distance = glm::length(direction);
+                    const auto magnitude = (gravity * particle.mass * other->mass) / ((distance * distance) + softening);
+                    particle.sumOfForces += magnitude * glm::normalize(direction);
                 }
             }
         }
@@ -129,7 +129,7 @@ void BarnesHutOctree::BarnesHutOctreeNode::computeSumOfForces(Particle& particle
     {
         for (const auto* child : children)
         {
-            child->computeSumOfForces(particle, theta, G, softening);
+            child->computeSumOfForces(particle, theta, gravity, softening);
         }
     }
 }
@@ -145,6 +145,6 @@ void BarnesHutOctree::computeMassDistribution() {
     root.computeMassDistribution();
 }
 
-void BarnesHutOctree::computeSumOfForces(Particle& particle, float theta, float G, float softening) const {
-    root.computeSumOfForces(particle, theta, G, softening);
+void BarnesHutOctree::computeSumOfForces(Particle& particle, float theta, float gravity, float softening) const {
+    root.computeSumOfForces(particle, theta, gravity, softening);
 }
