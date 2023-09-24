@@ -28,14 +28,6 @@ public:
     std::vector<glm::vec3> sumForces;
 
 public:
-    float spawnRadius = 3.0F;
-    float gravity = 1.0F;
-    float particleMass = 1.0F;
-    float softening = 10.0F;
-    float damping = 0.99F;
-    float interactionPercent = 1.0F;
-
-public:
     const size_t numThreads = 4;
 
 public:
@@ -59,9 +51,9 @@ private:
     void randomizeParticles();
 
 public:
-    void setParticlesCount(const size_t& count);
+    void setParticlesCount(const size_t& count) final;
 
-    [[nodiscard]] auto getParticlesCount() const -> size_t;
+    [[nodiscard]] auto getParticlesCount() const -> size_t final;
 };
 
 #endif // NBODY_SIMULATOR_PTHREADS_H

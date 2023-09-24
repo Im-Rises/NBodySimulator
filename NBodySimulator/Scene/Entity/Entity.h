@@ -39,6 +39,19 @@ public:
     void setIsPaused(bool isPaused);
 
     [[nodiscard]] auto getIsPaused() const -> bool;
+
+public:
+    float spawnRadius = 3.0F;
+    float gravity = 1.0F;
+    float particleMass = 1.0F;
+    float softening = 10.0F;
+    float damping = 0.99F;
+    float interactionPercent = 1.0F;
+    float theta = 1.0F;
+
+public:
+    [[nodiscard]] virtual auto getParticlesCount() const -> size_t = 0;
+    virtual void setParticlesCount(const size_t& count) = 0;
 };
 
 

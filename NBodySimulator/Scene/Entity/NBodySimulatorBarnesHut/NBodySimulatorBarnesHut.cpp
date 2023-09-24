@@ -154,6 +154,15 @@ void NBodySimulatorBarnesHut::randomizeParticles() {
     }
 }
 
+void NBodySimulatorBarnesHut::clearParticles() {
+    // Clear the particles vector
+    particles.clear();
+}
+
+auto NBodySimulatorBarnesHut::getParticlesCount() const -> size_t {
+    return particles.size();
+}
+
 void NBodySimulatorBarnesHut::setParticlesCount(const size_t& count) {
     // Clear particles
     clearParticles();
@@ -164,13 +173,4 @@ void NBodySimulatorBarnesHut::setParticlesCount(const size_t& count) {
 
     // Init the particles
     randomizeParticles();
-}
-
-void NBodySimulatorBarnesHut::clearParticles() {
-    // Clear the particles vector
-    particles.clear();
-}
-
-auto NBodySimulatorBarnesHut::getParticlesCount() const -> size_t {
-    return particles.size();
 }

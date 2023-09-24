@@ -106,8 +106,8 @@ void NBodySimulatorSSBO::randomizeParticles(std::vector<Particle>& particles) {
     }
 }
 
-void NBodySimulatorSSBO::setParticlesCount(const int& value) {
-    particlesCount = value;
+void NBodySimulatorSSBO::setParticlesCount(const size_t& count) {
+    particlesCount = count;
     reset();
 }
 

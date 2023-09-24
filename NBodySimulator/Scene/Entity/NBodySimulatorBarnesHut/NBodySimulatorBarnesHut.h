@@ -20,15 +20,6 @@ public:
     std::vector<Particle> particles;
 
 public:
-    float spawnRadius = 3.0F;
-    float gravity = 1.0F;
-    float particleMass = 1.0F;
-    float softening = 10.0F;
-    float damping = 0.99F;
-
-    float theta = 1.0F;
-
-public:
     explicit NBodySimulatorBarnesHut(int particleCount = 100000);
 
     NBodySimulatorBarnesHut(const NBodySimulatorBarnesHut&) = delete;
@@ -49,11 +40,11 @@ private:
     void randomizeParticles();
 
 public:
-    void setParticlesCount(const size_t& count);
-
     void clearParticles();
 
-    [[nodiscard]] auto getParticlesCount() const -> size_t;
+    [[nodiscard]] auto getParticlesCount() const -> size_t final;
+
+    void setParticlesCount(const size_t& count) final;
 };
 
 
