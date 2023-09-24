@@ -109,9 +109,23 @@ void BarnesHutOctree::BarnesHutOctreeNode::computeSumOfForces(Particle& particle
     const float s = bounds.halfDimension.x * 2;
     const float d = glm::distance(particle.position, bounds.center);
 
-    if (isLeaf || s / d < theta)
+    if (s / d < theta)
     {
-        if (!this->particles.empty())
+        const auto direction = bounds.center - particle.position;
+        const auto distance = glm::length(direction);
+        const auto magnitude = (gravity * particle.mass * mass) / ((distance * distance) + softening);
+        particle.sumOfForces += magnitude * glm::normalize(direction);
+    }
+    else
+    {
+        if (!this->isLeaf)
+        {
+            for (const auto* child : children)
+            {
+                child->computeSumOfForces(particle, theta, gravity, softening);
+            }
+        }
+        else
         {
             for (const auto* other : this->particles)
             {
@@ -125,13 +139,30 @@ void BarnesHutOctree::BarnesHutOctreeNode::computeSumOfForces(Particle& particle
             }
         }
     }
-    else
-    {
-        for (const auto* child : children)
-        {
-            child->computeSumOfForces(particle, theta, gravity, softening);
-        }
-    }
+
+    //    if (isLeaf || s / d < theta)
+    //    {
+    //        if (!this->particles.empty())
+    //        {
+    //            for (const auto* other : this->particles)
+    //            {
+    //                if (particle.id != other->id)
+    //                {
+    //                    const auto direction = other->position - particle.position;
+    //                    const auto distance = glm::length(direction);
+    //                    const auto magnitude = (gravity * particle.mass * other->mass) / ((distance * distance) + softening);
+    //                    particle.sumOfForces += magnitude * glm::normalize(direction);
+    //                }
+    //            }
+    //        }
+    //    }
+    //    else
+    //    {
+    //        for (const auto* child : children)
+    //        {
+    //            child->computeSumOfForces(particle, theta, gravity, softening);
+    //        }
+    //    }
 }
 
 BarnesHutOctree::BarnesHutOctree(Bounds bounds)
