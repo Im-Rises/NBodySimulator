@@ -41,7 +41,7 @@ public:
     [[nodiscard]] auto getIsPaused() const -> bool;
 
 public:
-    float spawnRadius = 3.0F;
+    float spawnRadius = 1.0F;
     float gravity = 1.0F;
     float particleMass = 1.0F;
     float softening = 10.0F;

@@ -46,10 +46,10 @@ auto BarnesHutOctree::BarnesHutOctreeNode::insert(Particle* particle) -> bool {
 
 void BarnesHutOctree::BarnesHutOctreeNode::subdivide() {
     isLeaf = false;
-    const auto newHalfDimension = bounds.halfDimension * 0.5F;
     const auto x = bounds.center.x;
     const auto y = bounds.center.y;
     const auto z = bounds.center.z;
+    const auto newHalfDimension = bounds.halfDimension * 0.5F;
     const int newDepth = depth + 1;
     children[0] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension.x, y - newHalfDimension.y, z - newHalfDimension.z), newHalfDimension), newDepth);
     children[1] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension.x, y - newHalfDimension.y, z - newHalfDimension.z), newHalfDimension), newDepth);
@@ -74,6 +74,7 @@ void BarnesHutOctree::BarnesHutOctreeNode::subdivide() {
     particles.clear();
     this->isLeaf = false;
 }
+
 void BarnesHutOctree::BarnesHutOctreeNode::computeMassDistribution() {
     if (!this->isLeaf)
     {
@@ -105,13 +106,12 @@ void BarnesHutOctree::BarnesHutOctreeNode::computeMassDistribution() {
 }
 
 void BarnesHutOctree::BarnesHutOctreeNode::computeSumOfForces(Particle& particle, float theta, float gravity, float softening) const {
-    // Check this method (thanks copilot for auto generating it)
     const float s = bounds.halfDimension.x * 2;
     const float d = glm::distance(particle.position, bounds.center);
 
     if (isLeaf || s / d < theta)
     {
-        if (this->particles.size() > 0)
+        if (!this->particles.empty())
         {
             for (const auto* other : this->particles)
             {
@@ -143,13 +143,6 @@ void BarnesHutOctree::insert(Particle* particle) {
 
 void BarnesHutOctree::computeMassDistribution() {
     root.computeMassDistribution();
-    // Print all the mass distribution
-    for (auto* child : root.children)
-    {
-        std::cout << "Mass: " << child->mass << std::endl;
-        std::cout << "Center: " << child->bounds.center.x << " " << child->bounds.center.y << " " << child->bounds.center.z << std::endl;
-    }
-    exit(0);
 }
 
 void BarnesHutOctree::computeSumOfForces(Particle& particle, float theta, float gravity, float softening) const {
