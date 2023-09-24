@@ -9,7 +9,7 @@ file(GLOB_RECURSE SRCS_HEADERS_GLAD "${CMAKE_SOURCE_DIR}/dependencies/glad/*.c" 
 file(GLOB_RECURSE SRCS "${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/*.cpp")
 file(GLOB_RECURSE HEADERS "${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/*.h")
 
-if (NOT LINUX)
+if (NOT UNIX AND NOT APPLE)
     list(REMOVE_ITEM SRCS ${CMAKE_CURRENT_SOURCE_DIR}/Scene/Entity/NBodySimulatorPThreads/NBodySimulatorPThreads.cpp)
     list(REMOVE_ITEM HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/Scene/Entity/NBodySimulatorPThreads/NBodySimulatorPThreads.h)
 endif ()
