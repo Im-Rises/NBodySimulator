@@ -174,7 +174,6 @@ void BarnesHutOctree::insert(Particle* particle) {
 
 void BarnesHutOctree::computeMassDistribution() {
     root.computeMassDistribution();
-    std::cout << "Center of mass: " << root.bounds.center.x << ", " << root.bounds.center.y << ", " << root.bounds.center.z << std::endl;
 }
 
 void BarnesHutOctree::computeSumOfForces(Particle& particle, float theta, float gravity, float softening) const {
