@@ -6,7 +6,7 @@
 #include <array>
 
 constexpr int MAX_DEPTH = 100;
-constexpr int CAPACITY = 10;
+constexpr int CAPACITY = 4;
 
 struct Particle {
     float mass;
@@ -16,7 +16,7 @@ struct Particle {
     glm::vec3 color;
     int id;
 
-    Particle(int id) : id(id), mass(1.0F), position(glm::vec3(0.0F)), velocity(glm::vec3(0.0F)), sumOfForces(glm::vec3(0.0F)), color(1.0F, 1.0F, 1.0F) {}
+    explicit Particle(int id) : id(id), mass(1.0F), position(glm::vec3(0.0F)), velocity(glm::vec3(0.0F)), sumOfForces(glm::vec3(0.0F)), color(1.0F, 1.0F, 1.0F) {}
     Particle(int id, float mass, glm::vec3 position, glm::vec3 velocity, glm::vec3 color) : id(id), mass(mass), position(position), velocity(velocity), sumOfForces(glm::vec3(0.0F)), color(color) {}
 };
 
@@ -66,6 +66,7 @@ private:
 
         glm::vec3 centerOfMass;
         float mass;
+        friend class BarnesHutOctree;
     };
 
 public:

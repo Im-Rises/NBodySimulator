@@ -94,8 +94,8 @@ void NBodySimulatorBarnesHut::update(const float& deltaTime) {
         octree.computeSumOfForces(particle, theta, gravity, softening);
         const glm::vec3 acceleration = particle.sumOfForces / particle.mass;
 
-        particle.velocity += deltaTime * particle.velocity + 0.5F * deltaTime * deltaTime * acceleration;
-        particle.position += deltaTime * particle.velocity;
+        particle.position += particle.velocity * deltaTime + 0.5F * acceleration * deltaTime * deltaTime;
+        particle.velocity += acceleration * deltaTime;
         particle.velocity *= damping;
 
         particle.sumOfForces = glm::vec3(0.0F);

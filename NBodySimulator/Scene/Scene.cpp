@@ -69,7 +69,7 @@ void Scene::useBarnesHutNbodySimulator() {
     {
         delete nbodySimulator;
     }
-    nbodySimulator = new NBodySimulatorBarnesHut(5000);
+    nbodySimulator = new NBodySimulatorBarnesHut(1000);
     nbodySimulatorType = NBodySimulatorType::BARNES_HUT;
 }
 
