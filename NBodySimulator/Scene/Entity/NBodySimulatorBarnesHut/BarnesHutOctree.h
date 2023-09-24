@@ -5,8 +5,8 @@
 #include <list>
 #include <array>
 
-constexpr int MAX_DEPTH = 100;
-constexpr int CAPACITY = 4;
+constexpr int MAX_DEPTH = 1000;
+constexpr int CAPACITY = 1;
 
 struct Particle {
     float mass;
