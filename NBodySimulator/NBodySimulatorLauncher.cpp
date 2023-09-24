@@ -242,10 +242,10 @@ void NBodySimulatorLauncher::handleInputs() {
     if (InputManager::isBackwardKeyPressed(window))
         scene->camera.moveBackward();
 
-    if (InputManager::isUpKeyPressed(window))
+    if (InputManager::isUpKeyPressed(window) || InputManager::isShiftKeyPressed(window))
         scene->camera.moveUp();
 
-    if (InputManager::isDownKeyPressed(window))
+    if (InputManager::isDownKeyPressed(window) || InputManager::isControlKeyPressed(window))
         scene->camera.moveDown();
 
     /* Read and update mouse controls */
