@@ -18,10 +18,6 @@ private:
 
 public:
     std::vector<Particle> particles;
-    std::vector<glm::vec3> sumForces;
-#ifdef __unix__
-    float deltaTime = 0.0F;
-#endif
 
 public:
     float spawnRadius = 3.0F;
@@ -29,7 +25,8 @@ public:
     float particleMass = 1.0F;
     float softening = 10.0F;
     float damping = 0.99F;
-    float interactionPercent = 1.0F;
+
+    float theta = 1.0F;
 
 public:
     explicit NBodySimulatorBarnesHut(int particleCount = 100000);
@@ -53,6 +50,8 @@ private:
 
 public:
     void setParticlesCount(const size_t& count);
+
+    void clearParticles();
 
     [[nodiscard]] auto getParticlesCount() const -> size_t;
 };

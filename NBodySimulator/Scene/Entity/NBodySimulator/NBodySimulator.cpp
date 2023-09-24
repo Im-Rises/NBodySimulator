@@ -111,10 +111,10 @@ void NBodySimulator::update(const float& deltaTime) {
         particles[i].position += deltaTime * particles[i].velocity + 0.5F * deltaTime * deltaTime * sumForces[i];
         particles[i].velocity += deltaTime * sumForces[i];
         particles[i].velocity *= damping;
-    }
 
-    // Reset the sum forces
-    std::fill(sumForces.begin(), sumForces.end(), glm::vec3(0.0F));
+        // Reset the sum forces
+        sumForces[i] = glm::vec3(0.0F);
+    }
 }
 
 void NBodySimulator::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) {

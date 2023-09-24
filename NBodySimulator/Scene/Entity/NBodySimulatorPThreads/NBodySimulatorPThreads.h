@@ -26,9 +26,6 @@ private:
 public:
     std::vector<Particle> particles;
     std::vector<glm::vec3> sumForces;
-#ifdef __unix__
-    float deltaTime = 0.0F;
-#endif
 
 public:
     float spawnRadius = 3.0F;

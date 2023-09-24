@@ -5,8 +5,6 @@
 #include <list>
 #include <array>
 
-constexpr float GRAVITATIONAL_CONSTANT = 1;
-constexpr float SOFTENING = 0.1F;
 constexpr int MAX_DEPTH = 100;
 constexpr int CAPACITY = 10;
 
@@ -15,18 +13,20 @@ struct Particle {
     glm::vec3 position;
     glm::vec3 velocity;
     glm::vec3 sumOfForces;
+    glm::vec3 color;
+    int id;
 
-    Particle() : mass(1.0F), position(glm::vec3(0.0F)), velocity(glm::vec3(0.0F)), sumOfForces(glm::vec3(0.0F)) {}
-    Particle(float mass, glm::vec3 position, glm::vec3 velocity) : mass(mass), position(position), velocity(velocity), sumOfForces(glm::vec3(0.0F)) {}
+    Particle(int id) : id(id), mass(1.0F), position(glm::vec3(0.0F)), velocity(glm::vec3(0.0F)), sumOfForces(glm::vec3(0.0F)), color(1.0F, 1.0F, 1.0F) {}
+    Particle(int id, float mass, glm::vec3 position, glm::vec3 velocity, glm::vec3 color) : id(id), mass(mass), position(position), velocity(velocity), sumOfForces(glm::vec3(0.0F)), color(color) {}
 };
 
 struct Bounds {
     glm::vec3 center;
     glm::vec3 halfDimension;
 
-    Bounds() : center(glm::vec3(0.0F)), halfDimension(glm::vec3(0.0F)) {}
 
-    Bounds(glm::vec3 center, glm::vec3 halfDimension) : center(center), halfDimension(halfDimension) {}
+    Bounds(glm::vec3 center, glm::vec3 halfDimension) : center(center),
+                                                        halfDimension(halfDimension) {}
 
     [[nodiscard]] auto contains(const Particle& particle) const -> bool {
         return particle.position.x >= center.x - halfDimension.x && particle.position.x <= center.x + halfDimension.x &&
@@ -55,8 +55,7 @@ private:
 
         void computeMassDistribution();
 
-        // Check this method (thanks copilot for auto generating it)
-        void computeSumOfForces(Particle& particle, float theta) const;
+        void computeSumOfForces(Particle& particle, float theta, float G, float softening) const;
 
     private:
         std::array<BarnesHutOctreeNode*, 8> children;
@@ -75,7 +74,7 @@ public:
 public:
     void insert(Particle* particle);
     void computeMassDistribution();
-    void computeSumOfForces(Particle& particle, float theta) const;
+    void computeSumOfForces(Particle& particle, float theta, float G, float softening) const;
 
 private:
     BarnesHutOctreeNode root;
