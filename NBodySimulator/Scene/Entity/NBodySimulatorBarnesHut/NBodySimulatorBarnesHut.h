@@ -43,7 +43,7 @@ public:
 
     void render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) final;
 
-    void reset();
+    void reset() final;
 
 private:
     void randomizeParticles();

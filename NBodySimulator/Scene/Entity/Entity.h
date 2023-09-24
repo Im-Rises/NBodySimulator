@@ -32,6 +32,8 @@ public:
 
     virtual void render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) = 0;
 
+    virtual void reset() = 0;
+
     void updateModelMatrix();
 
     void setIsPaused(bool isPaused);
