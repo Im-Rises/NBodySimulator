@@ -6,10 +6,9 @@
 #if defined(__EMSCRIPTEN__)
 // #include "Entity/NBodySimulatorPThreads/NBodySimulatorPThreads.h"
 #include "Entity/NBodySimulator/NBodySimulator.h"
-#else
-#include "Entity/NBodySimulator/NBodySimulator.h"
-#include "Entity/NBodySimulatorSSBO/NBodySimulatorSSBO.h"
 #include "Entity/NBodySimulatorBarnesHut/NBodySimulatorBarnesHut.h"
+#else
+#include "Entity/NBodySimulatorSSBO/NBodySimulatorSSBO.h"
 #endif
 
 class Scene {
@@ -21,11 +20,10 @@ public:
 
 #if defined(__EMSCRIPTEN__)
     //    NBodySimulatorPThreads nbodySimulator;
-    NBodySimulator nbodySimulator;
-#else
-    //    NBodySimulatorSSBO nbodySimulator;
     //    NBodySimulator nbodySimulator;
     NBodySimulatorBarnesHut nbodySimulator;
+#else
+    NBodySimulatorSSBO nbodySimulator;
 #endif
 
 public:

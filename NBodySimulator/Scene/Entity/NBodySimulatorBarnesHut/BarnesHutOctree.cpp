@@ -1,3 +1,4 @@
+#include <iostream>
 #include "BarnesHutOctree.h"
 
 BarnesHutOctree::BarnesHutOctreeNode::BarnesHutOctreeNode(Bounds bounds, int depth)
@@ -49,14 +50,15 @@ void BarnesHutOctree::BarnesHutOctreeNode::subdivide() {
     const auto x = bounds.center.x;
     const auto y = bounds.center.y;
     const auto z = bounds.center.z;
-    children[0] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension.x, y - newHalfDimension.y, z - newHalfDimension.z), newHalfDimension), depth + 1);
-    children[1] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension.x, y - newHalfDimension.y, z - newHalfDimension.z), newHalfDimension), depth + 1);
-    children[2] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension.x, y + newHalfDimension.y, z - newHalfDimension.z), newHalfDimension), depth + 1);
-    children[3] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension.x, y + newHalfDimension.y, z - newHalfDimension.z), newHalfDimension), depth + 1);
-    children[4] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension.x, y - newHalfDimension.y, z + newHalfDimension.z), newHalfDimension), depth + 1);
-    children[5] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension.x, y - newHalfDimension.y, z + newHalfDimension.z), newHalfDimension), depth + 1);
-    children[6] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension.x, y + newHalfDimension.y, z + newHalfDimension.z), newHalfDimension), depth + 1);
-    children[7] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension.x, y + newHalfDimension.y, z + newHalfDimension.z), newHalfDimension), depth + 1);
+    const int newDepth = depth + 1;
+    children[0] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension.x, y - newHalfDimension.y, z - newHalfDimension.z), newHalfDimension), newDepth);
+    children[1] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension.x, y - newHalfDimension.y, z - newHalfDimension.z), newHalfDimension), newDepth);
+    children[2] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension.x, y + newHalfDimension.y, z - newHalfDimension.z), newHalfDimension), newDepth);
+    children[3] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension.x, y + newHalfDimension.y, z - newHalfDimension.z), newHalfDimension), newDepth);
+    children[4] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension.x, y - newHalfDimension.y, z + newHalfDimension.z), newHalfDimension), newDepth);
+    children[5] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension.x, y - newHalfDimension.y, z + newHalfDimension.z), newHalfDimension), newDepth);
+    children[6] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension.x, y + newHalfDimension.y, z + newHalfDimension.z), newHalfDimension), newDepth);
+    children[7] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension.x, y + newHalfDimension.y, z + newHalfDimension.z), newHalfDimension), newDepth);
     for (auto* particle : particles)
     {
         children[0]->insert(particle);
@@ -125,6 +127,10 @@ void BarnesHutOctree::BarnesHutOctreeNode::computeSumOfForces(Particle& particle
     }
     else
     {
+        for (const auto* child : children)
+        {
+            child->computeSumOfForces(particle, theta, G, softening);
+        }
     }
 }
 
