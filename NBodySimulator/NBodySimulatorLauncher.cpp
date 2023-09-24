@@ -1,5 +1,5 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "cppcoreguidelines-pro-type-vararg"
+#ifndef NBODY_SIMULATOR_LAUNCHER_H
+#define NBODY_SIMULATOR_LAUNCHER_H
 
 #include "NBodySimulatorLauncher.h"
 
@@ -581,4 +581,4 @@ auto NBodySimulatorLauncher::getGLMVersion() -> std::string {
            std::to_string(GLM_VERSION_PATCH);
 }
 
-#pragma clang diagnostic pop
+#endif
