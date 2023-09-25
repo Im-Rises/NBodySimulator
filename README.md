@@ -12,6 +12,14 @@
 This is a simple n-body simulator using bruteforce made with OpenGL in C++ with the help of the ImGui library for the
 UI.
 
+You can choose between different types of simulation:
+
+- CPU
+- GPU
+- Barnes-Hut algorithm
+
+The different algorithm still need some work to be optimized, but they are currently working.
+
 You can also test the webgl version 🚀🚀 [here](https://im-rises.github.io/nbody-simulator-webgl/) 🚀🚀
 
 The source code of the webgl version is available [here](https://github.com/Im-Rises/nbody-simulator-webgl).
