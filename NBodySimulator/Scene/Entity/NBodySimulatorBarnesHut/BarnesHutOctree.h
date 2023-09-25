@@ -14,7 +14,7 @@ struct Particle {
     glm::vec3 velocity;
     glm::vec3 sumOfForces;
     glm::vec3 color;
-    int id;
+    const int id;
 
     explicit Particle(int id) : id(id), mass(1.0F), position(glm::vec3(0.0F)), velocity(glm::vec3(0.0F)), sumOfForces(glm::vec3(0.0F)), color(1.0F, 1.0F, 1.0F) {}
     Particle(int id, float mass, glm::vec3 position, glm::vec3 velocity, glm::vec3 color) : id(id), mass(mass), position(position), velocity(velocity), sumOfForces(glm::vec3(0.0F)), color(color) {}
@@ -28,8 +28,8 @@ struct Particle {
 };
 
 struct Bounds {
-    glm::vec3 center;
-    float halfDimension;
+    const glm::vec3 center;
+    const float halfDimension;
 
 
     Bounds(glm::vec3 center, float halfDimension) : center(center),
@@ -67,12 +67,13 @@ private:
     private:
         std::array<BarnesHutOctreeNode*, 8> children;
         std::list<Particle*> particles;
-        Bounds bounds;
+        const Bounds bounds;
         bool isLeaf;
         int depth;
 
         glm::vec3 centerOfMass;
         float mass;
+
         friend class BarnesHutOctree;
     };
 

@@ -77,30 +77,29 @@ void BarnesHutOctree::BarnesHutOctreeNode::subdivide() {
 void BarnesHutOctree::BarnesHutOctreeNode::computeMassDistribution() {
     if (!this->isLeaf)
     {
-        // Error here !!!
         for (auto* child : children)
         {
             child->computeMassDistribution();
             this->mass += child->mass;
-            this->bounds.center += child->bounds.center * child->mass;
+            this->centerOfMass += child->centerOfMass * child->mass;
         }
 
-        this->bounds.center /= this->mass;
+        this->centerOfMass /= this->mass;
     }
     else if (!this->particles.empty())
     {
         for (const auto* p : particles)
         {
             this->mass += p->mass;
-            this->bounds.center += p->position;
+            this->centerOfMass += p->position;
         }
 
-        this->bounds.center /= this->particles.size();
+        this->centerOfMass /= this->particles.size();
     }
     else
     {
         this->mass = 0;
-        this->bounds.center = glm::vec3(0);
+        this->centerOfMass = glm::vec3(0);
     }
 }
 
