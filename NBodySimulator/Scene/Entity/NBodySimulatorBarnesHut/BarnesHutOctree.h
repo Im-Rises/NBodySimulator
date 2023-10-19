@@ -67,6 +67,7 @@ private:
         std::list<Particle*> particles;
         const Bounds bounds;
         bool isLeaf;
+        //        bool childrenCreated = false;
         int depth;
 
         glm::vec3 centerOfMass;

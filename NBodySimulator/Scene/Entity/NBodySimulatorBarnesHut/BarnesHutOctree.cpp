@@ -30,6 +30,8 @@ void BarnesHutOctree::BarnesHutOctreeNode::clear() {
     {
         this->particles.clear();
     }
+
+    mass = 0;
 }
 
 auto BarnesHutOctree::BarnesHutOctreeNode::insert(Particle* particle) -> bool {
@@ -67,9 +69,11 @@ void BarnesHutOctree::BarnesHutOctreeNode::subdivide() {
     const auto newHalfDimension = bounds.halfDimension * 0.5F;
     const int newDepth = depth + 1;
 
-    // Check if the children are already initialized (previous octree creation doesn't destroy the nodes, just clears them)
+    //    if (!childrenCreated)
     if (children[0] == nullptr)
     {
+        // Check if the children are already initialized (previous octree creation doesn't destroy the nodes, just clears them)
+        //        childrenCreated = true;
         children[0] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension, y - newHalfDimension, z - newHalfDimension), newHalfDimension), newDepth);
         children[1] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension, y - newHalfDimension, z - newHalfDimension), newHalfDimension), newDepth);
         children[2] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension, y + newHalfDimension, z - newHalfDimension), newHalfDimension), newDepth);
