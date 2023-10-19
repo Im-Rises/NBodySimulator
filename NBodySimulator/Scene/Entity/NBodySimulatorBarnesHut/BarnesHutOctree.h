@@ -56,12 +56,10 @@ private:
         ~BarnesHutOctreeNode();
 
     public:
+        void clear();
         auto insert(Particle* particle) -> bool;
-
         void subdivide();
-
         void computeMassDistribution();
-
         void computeSumOfForces(Particle& particle, float theta, float gravity, float softening) const;
 
     private:
@@ -81,6 +79,7 @@ public:
     explicit BarnesHutOctree(Bounds bounds);
 
 public:
+    void clear();
     void insert(Particle* particle);
     void computeMassDistribution();
     void computeSumOfForces(Particle& particle, float theta, float gravity, float softening) const;

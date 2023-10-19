@@ -45,6 +45,9 @@ public:
     [[nodiscard]] auto getParticlesCount() const -> size_t final;
 
     void setParticlesCount(const size_t& count) final;
+
+private:
+    BarnesHutOctree octree;
 };
 
 

@@ -10,10 +10,25 @@ BarnesHutOctree::BarnesHutOctreeNode::BarnesHutOctreeNode(Bounds bounds, int dep
       centerOfMass(),
       mass(0) {
 }
+
 BarnesHutOctree::BarnesHutOctreeNode::~BarnesHutOctreeNode() {
     for (auto* child : children)
     {
         delete child;
+    }
+}
+
+void BarnesHutOctree::BarnesHutOctreeNode::clear() {
+    if (!this->isLeaf)
+    {
+        for (auto* child : children)
+        {
+            child->clear();
+        }
+    }
+    else
+    {
+        this->particles.clear();
     }
 }
 
@@ -52,14 +67,18 @@ void BarnesHutOctree::BarnesHutOctreeNode::subdivide() {
     const auto newHalfDimension = bounds.halfDimension * 0.5F;
     const int newDepth = depth + 1;
 
-    children[0] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension, y - newHalfDimension, z - newHalfDimension), newHalfDimension), newDepth);
-    children[1] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension, y - newHalfDimension, z - newHalfDimension), newHalfDimension), newDepth);
-    children[2] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension, y + newHalfDimension, z - newHalfDimension), newHalfDimension), newDepth);
-    children[3] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension, y + newHalfDimension, z - newHalfDimension), newHalfDimension), newDepth);
-    children[4] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension, y - newHalfDimension, z + newHalfDimension), newHalfDimension), newDepth);
-    children[5] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension, y - newHalfDimension, z + newHalfDimension), newHalfDimension), newDepth);
-    children[6] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension, y + newHalfDimension, z + newHalfDimension), newHalfDimension), newDepth);
-    children[7] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension, y + newHalfDimension, z + newHalfDimension), newHalfDimension), newDepth);
+    // Check if the children are already initialized (previous octree creation doesn't destroy the nodes, just clears them)
+    if (children[0] == nullptr)
+    {
+        children[0] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension, y - newHalfDimension, z - newHalfDimension), newHalfDimension), newDepth);
+        children[1] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension, y - newHalfDimension, z - newHalfDimension), newHalfDimension), newDepth);
+        children[2] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension, y + newHalfDimension, z - newHalfDimension), newHalfDimension), newDepth);
+        children[3] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension, y + newHalfDimension, z - newHalfDimension), newHalfDimension), newDepth);
+        children[4] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension, y - newHalfDimension, z + newHalfDimension), newHalfDimension), newDepth);
+        children[5] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension, y - newHalfDimension, z + newHalfDimension), newHalfDimension), newDepth);
+        children[6] = new BarnesHutOctreeNode(Bounds(glm::vec3(x - newHalfDimension, y + newHalfDimension, z + newHalfDimension), newHalfDimension), newDepth);
+        children[7] = new BarnesHutOctreeNode(Bounds(glm::vec3(x + newHalfDimension, y + newHalfDimension, z + newHalfDimension), newHalfDimension), newDepth);
+    }
 
     for (auto* particle : particles)
     {
@@ -135,6 +154,10 @@ void BarnesHutOctree::BarnesHutOctreeNode::computeSumOfForces(Particle& particle
 
 BarnesHutOctree::BarnesHutOctree(Bounds bounds)
     : root(bounds, 0) {}
+
+void BarnesHutOctree::clear() {
+    root.clear();
+}
 
 void BarnesHutOctree::insert(Particle* particle) {
     root.insert(particle);

@@ -40,7 +40,7 @@ const char* const NBodySimulatorBarnesHut::FragmentShaderSource =
         }
 )";
 
-NBodySimulatorBarnesHut::NBodySimulatorBarnesHut(int particleCount) : shader(VertexShaderSource, FragmentShaderSource, false) {
+NBodySimulatorBarnesHut::NBodySimulatorBarnesHut(int particleCount) : octree(Bounds(glm::vec3(0.0F), 10.0F)), shader(VertexShaderSource, FragmentShaderSource, false) {
     // Resize the particles vector
     setParticlesCount(particleCount);
 
@@ -80,8 +80,6 @@ NBodySimulatorBarnesHut::~NBodySimulatorBarnesHut() {
 }
 
 void NBodySimulatorBarnesHut::update(const float& deltaTime) {
-    BarnesHutOctree octree(Bounds(glm::vec3(0.0F), 10.0F));
-
     for (auto& particle : particles)
     {
         octree.insert(&particle);
@@ -102,6 +100,8 @@ void NBodySimulatorBarnesHut::update(const float& deltaTime) {
 
         particle.sumOfForces = glm::vec3(0.0F);
     }
+
+    octree.clear();
 }
 
 void NBodySimulatorBarnesHut::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) {
