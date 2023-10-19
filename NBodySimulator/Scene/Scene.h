@@ -28,6 +28,7 @@ public:
 
 public:
     Scene(int display_w, int display_h);
+    ~Scene();
 
     void update(float deltaTime);
 

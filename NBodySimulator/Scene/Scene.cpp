@@ -9,6 +9,10 @@ Scene::Scene(int display_w, int display_h)
 #endif
 }
 
+Scene::~Scene() {
+    delete nbodySimulator;
+}
+
 void Scene::update(float deltaTime) {
     camera.update(deltaTime);
     if (isPaused)
@@ -56,19 +60,15 @@ void Scene::usePThreadsNbodySimulator() {
 #endif
 
 void Scene::useCPUNbodySimulator() {
-    if (nbodySimulator != nullptr)
-    {
-        delete nbodySimulator;
-    }
+    delete nbodySimulator;
+
     nbodySimulator = new NBodySimulator(1000);
     nbodySimulatorType = NBodySimulatorType::CPU;
 }
 
 void Scene::useBarnesHutNbodySimulator() {
-    if (nbodySimulator != nullptr)
-    {
-        delete nbodySimulator;
-    }
+    delete nbodySimulator;
+
     nbodySimulator = new NBodySimulatorBarnesHut(1000);
     nbodySimulatorType = NBodySimulatorType::BARNES_HUT;
 }
@@ -82,4 +82,5 @@ void Scene::useGPUNbodySimulator() {
     nbodySimulator = new NBodySimulatorSSBO(10000);
     nbodySimulatorType = NBodySimulatorType::GPU;
 }
+
 #endif
